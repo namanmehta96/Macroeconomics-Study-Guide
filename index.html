@@ -2,573 +2,1263 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Macro Made Simple · EDHEC MBA</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Macro · EDHEC MBA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&family=DM+Mono&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f0f13;--s1:#1a1a22;--s2:#22222e;--bd:#2e2e3e;--tx:#e8e8f0;--mu:#7a7a9a;--ac:#7c6af7;--o:#f7a26a;--g:#4ecb8d;--r:#f76a6a;--y:#f7d76a;--b:#6aaaf7;}
+:root{--bg:#0f0f13;--s1:#1a1a22;--s2:#22222e;--bd:#2e2e3e;--tx:#e8e8f0;--mu:#7a7a9a;--ac:#7c6af7;--or:#f7a26a;--gr:#4ecb8d;--re:#f76a6a;--ye:#f7d76a;--bl:#6aaaf7;}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;}
-.page{display:none;padding:20px 16px 110px;max-width:660px;margin:0 auto;}
-.page.active{display:block;}
-/* NAV */
-.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(20,20,28,.97);backdrop-filter:blur(10px);border-top:1px solid var(--bd);display:flex;z-index:99;padding-bottom:env(safe-area-inset-bottom);}
-.ni{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 2px 7px;cursor:pointer;font-size:.57rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--mu);gap:3px;border:none;background:none;}
-.ni.on{color:var(--ac);}
-.ni span:first-child{font-size:1.2rem;line-height:1;}
-/* PILLS */
-.pills{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;margin-bottom:18px;scrollbar-width:none;}
-.pills::-webkit-scrollbar{display:none;}
-.pill{flex-shrink:0;padding:6px 15px;border-radius:99px;font-size:.8rem;font-weight:600;cursor:pointer;border:1px solid var(--bd);background:var(--s1);color:var(--mu);}
-.pill.on{background:var(--ac);border-color:var(--ac);color:#fff;}
-.sub{display:none;}.sub.on{display:block;}
-/* CARDS */
-.card{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:12px;}
-.card p,.card li{font-size:.88rem;color:#c0c0d8;line-height:1.65;}
-.card ul{padding-left:1.1rem;margin-top:5px;}
+html,body{height:100%;}
+body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65;overflow-x:hidden;}
+.page{display:none;padding:16px 14px 100px;max-width:640px;margin:0 auto;min-height:100vh;}
+.page.on{display:block;}
+nav{position:fixed;bottom:0;left:0;right:0;background:#12121a;border-top:1px solid #2a2a3a;display:flex;z-index:1000;}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 2px 10px;cursor:pointer;font-size:.58rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mu);gap:3px;background:none;border:none;outline:none;}
+.nb .ic{font-size:1.3rem;line-height:1;}
+.nb.on{color:var(--ac);}
+.tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;margin-bottom:16px;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{flex-shrink:0;padding:6px 14px;border-radius:99px;font-size:.8rem;font-weight:600;cursor:pointer;border:1px solid var(--bd);background:var(--s1);color:var(--mu);white-space:nowrap;}
+.tab.on{background:var(--ac);border-color:var(--ac);color:#fff;}
+.pane{display:none;}.pane.on{display:block;}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:15px;margin-bottom:11px;}
+.card p,.card li{font-size:.87rem;color:#c0c0d8;line-height:1.65;}
+.card ul,.card ol{padding-left:1.1rem;margin-top:5px;}
 .card li{margin-bottom:3px;}
-.ct{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;margin-bottom:7px;}
-.ac{border-color:rgba(124,106,247,.4);background:rgba(124,106,247,.07);}
-.gc{border-color:rgba(78,203,141,.4);background:rgba(78,203,141,.06);}
-.rc{border-color:rgba(247,106,106,.4);background:rgba(247,106,106,.06);}
-.yc{border-color:rgba(247,215,106,.4);background:rgba(247,215,106,.06);}
-.bc{border-color:rgba(106,170,247,.4);background:rgba(106,170,247,.06);}
-/* FORMULA */
-.fb{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:10px 0;}
-.fm{font-family:'DM Mono',monospace;font-size:clamp(.82rem,3.5vw,1.05rem);color:var(--y);text-align:center;padding:6px 4px;line-height:1.6;word-break:break-word;}
-.fp{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px;}
-.fpi{background:var(--s2);border-radius:7px;padding:7px 9px;}
-.fpi .s{font-family:'DM Mono',monospace;color:var(--ac);font-size:.82rem;}
-.fpi .d{color:var(--mu);font-size:.76rem;margin-top:1px;}
-/* SECTION HEAD */
-.sh{display:flex;align-items:center;gap:11px;margin:26px 0 13px;}
-.sn{width:32px;height:32px;background:var(--ac);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0;}
-.sh h2{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;}
-/* SVG GRAPH BOX */
-.gb{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:14px;margin:12px 0;}
-.gt{font-size:.74rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;text-align:center;}
-/* key: svg uses viewBox so it ALWAYS scales to container width, never distorts */
-.gb svg{width:100%;height:auto;display:block;}
-.gc2{font-size:.78rem;color:var(--mu);text-align:center;margin-top:8px;line-height:1.5;}
+.ct{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:6px;}
+.card.ac{border-color:rgba(124,106,247,.4);background:rgba(124,106,247,.07);}
+.card.gc{border-color:rgba(78,203,141,.4);background:rgba(78,203,141,.06);}
+.card.rc{border-color:rgba(247,106,106,.4);background:rgba(247,106,106,.06);}
+.card.yc{border-color:rgba(247,215,106,.4);background:rgba(247,215,106,.06);}
+.card.bc{border-color:rgba(106,170,247,.4);background:rgba(106,170,247,.06);}
+.card.oc{border-color:rgba(247,162,106,.3);background:rgba(247,162,106,.07);}
+.fb{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:13px;margin:9px 0;}
+.fm{font-family:'DM Mono',monospace;font-size:clamp(.8rem,3.2vw,1rem);color:var(--ye);text-align:center;padding:5px 2px;line-height:1.6;}
+.fp{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;}
+.fpi{background:var(--s2);border-radius:7px;padding:7px 8px;}
+.fpi .s{font-family:'DM Mono',monospace;color:var(--ac);font-size:.8rem;}
+.fpi .d{color:var(--mu);font-size:.74rem;margin-top:1px;}
+.sh{display:flex;align-items:center;gap:10px;margin:22px 0 11px;}
+.sn{width:30px;height:30px;background:var(--ac);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.88rem;flex-shrink:0;}
+.sh h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;}
+/* GRAPH BOXES */
+.gb{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:13px;margin:11px 0;}
+.gt{font-size:.72rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:9px;text-align:center;}
+.gb svg{width:100%;height:auto;display:block;overflow:visible;}
+.gc2{font-size:.77rem;color:var(--mu);text-align:center;margin-top:7px;line-height:1.5;}
+/* INLINE GRAPH (in learn tab) */
+.ig{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:10px;margin:10px 0;}
+.ig .gt{margin-bottom:7px;}
+.ig svg{width:100%;height:auto;display:block;}
+.ig-cap{font-size:.75rem;color:var(--mu);text-align:center;margin-top:7px;line-height:1.5;}
+/* DEFINITION CALLOUT */
+.def{background:rgba(124,106,247,.08);border-left:3px solid var(--ac);border-radius:0 10px 10px 0;padding:10px 13px;margin:9px 0;}
+.def .dl{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);margin-bottom:3px;}
+.def .dt{font-size:.88rem;color:var(--tx);font-weight:600;}
+.def .dd{font-size:.83rem;color:#c0c0d8;margin-top:3px;line-height:1.55;}
 /* ACCORDION */
-.ah{background:var(--s1);border:1px solid var(--bd);border-radius:11px;padding:13px 15px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;margin-bottom:7px;user-select:none;}
-.ah.op{border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent;margin-bottom:0;}
-.arr{color:var(--ac);transition:transform .22s;}
-.ah.op .arr{transform:rotate(180deg);}
-.ab{display:none;background:var(--s1);border:1px solid var(--bd);border-top:none;border-radius:0 0 11px 11px;padding:13px 15px;font-size:.85rem;color:#b0b0cc;line-height:1.7;margin-bottom:7px;}
+.ah{background:var(--s1);border:1px solid var(--bd);border-radius:11px;padding:12px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:'Syne',sans-serif;font-size:.87rem;font-weight:700;margin-bottom:6px;user-select:none;}
+.ah.op{border-radius:11px 11px 0 0;border-bottom-color:transparent;margin-bottom:0;}
+.ah .ar{color:var(--ac);transition:transform .2s;}
+.ah.op .ar{transform:rotate(180deg);}
+.ab{display:none;background:var(--s1);border:1px solid var(--bd);border-top:none;border-radius:0 0 11px 11px;padding:12px 14px;font-size:.84rem;color:#b0b0cc;line-height:1.7;margin-bottom:6px;}
 .ab.op{display:block;}
-.ab ul{padding-left:1.1rem;}
+.ab ul{padding-left:1rem;margin-top:4px;}
 .ab li{margin-bottom:4px;}
-/* FLOW */
-.flow{display:flex;flex-direction:column;margin:12px 0;}
-.fs{background:var(--s2);border:1px solid var(--bd);border-radius:11px;padding:11px 13px;}
-.fs .fn{font-size:.64rem;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;}
-.fs .ft{color:var(--tx);font-weight:500;font-size:.87rem;}
-.fs .fd{color:var(--mu);font-size:.79rem;margin-top:2px;}
+/* FLOW STEPS */
+.flow{margin:11px 0;}
+.fs{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin-bottom:0;}
+.fs .fn{font-size:.63rem;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px;}
+.fs .ft{color:var(--tx);font-weight:500;font-size:.85rem;}
+.fs .fd{color:var(--mu);font-size:.77rem;margin-top:2px;}
 .fs.ok{border-color:rgba(78,203,141,.5);background:rgba(78,203,141,.07);}
-.fs.ok .fn{color:var(--g);}
-.fa{text-align:center;color:var(--ac);padding:3px 0;font-size:1rem;}
-/* EXAM */
-.ec{background:linear-gradient(135deg,rgba(247,162,106,.12),rgba(247,107,107,.08));border:1px solid rgba(247,162,106,.3);border-radius:14px;padding:18px;margin-bottom:18px;}
-.eql{list-style:none;}
-.eql li{display:flex;gap:9px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.87rem;}
-.eql li:last-child{border-bottom:none;}
-.qn{background:var(--o);color:#000;width:21px;height:21px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;flex-shrink:0;margin-top:2px;}
-/* ANSWER */
-.an{background:var(--s1);border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin-bottom:11px;}
-.anh{padding:13px 15px;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:9px;}
-.anq{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:600;line-height:1.4;}
-.anp{background:rgba(247,162,106,.2);color:var(--o);font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap;flex-shrink:0;}
-.anb{display:none;padding:13px 15px;border-top:1px solid var(--bd);}
+.fs.ok .fn{color:var(--gr);}
+.fa{text-align:center;color:var(--ac);padding:2px 0;font-size:.95rem;}
+/* TABLE */
+.tw{overflow-x:auto;margin:9px 0;border-radius:10px;border:1px solid var(--bd);}
+table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:280px;}
+th{background:var(--s2);color:var(--mu);padding:8px 10px;text-align:left;font-weight:600;font-size:.72rem;text-transform:uppercase;}
+td{padding:8px 10px;border-top:1px solid var(--bd);color:#c0c0d8;}
+/* EXAM ANSWERS */
+.an{background:var(--s1);border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin-bottom:10px;}
+.anh{padding:12px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.anq{font-family:'Syne',sans-serif;font-size:.87rem;font-weight:600;line-height:1.4;}
+.anp{background:rgba(247,162,106,.2);color:var(--or);font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.anb{display:none;padding:12px 14px;border-top:1px solid var(--bd);}
 .anb.op{display:block;}
-.anb p{font-size:.86rem;color:#b0b0cc;line-height:1.7;margin-bottom:9px;}
+.anb p{font-size:.85rem;color:#b0b0cc;line-height:1.7;margin-bottom:8px;}
 .anb strong{color:var(--tx);}
-.anb ol,.anb ul{padding-left:1.2rem;}
-.anb li{font-size:.86rem;color:#b0b0cc;line-height:1.7;margin-bottom:5px;}
+.anb ol,.anb ul{padding-left:1.1rem;}
+.anb li{font-size:.85rem;color:#b0b0cc;line-height:1.7;margin-bottom:4px;}
 /* QUIZ */
-.qc{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:12px;}
-.qt{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:600;margin-bottom:12px;line-height:1.5;}
-.qos{display:flex;flex-direction:column;gap:7px;}
-.qo{padding:11px 13px;background:var(--s2);border:1px solid var(--bd);border-radius:9px;font-size:.86rem;cursor:pointer;text-align:left;color:var(--tx);width:100%;}
+.qc{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:11px;}
+.qt{font-family:'Syne',sans-serif;font-size:.87rem;font-weight:600;margin-bottom:11px;line-height:1.5;}
+.qos{display:flex;flex-direction:column;gap:6px;}
+.qo{padding:10px 12px;background:var(--s2);border:1px solid var(--bd);border-radius:8px;font-size:.84rem;cursor:pointer;text-align:left;color:var(--tx);width:100%;transition:border-color .15s;}
 .qo:hover{border-color:var(--ac);}
-.qo.ok{background:rgba(78,203,141,.15);border-color:var(--g);color:var(--g);}
-.qo.no{background:rgba(247,106,106,.12);border-color:var(--r);color:var(--r);}
-.qe{display:none;margin-top:10px;padding:10px 12px;background:rgba(124,106,247,.1);border-left:3px solid var(--ac);border-radius:0 7px 7px 0;font-size:.81rem;color:#b0b0d0;line-height:1.6;}
+.qo.ok{background:rgba(78,203,141,.15);border-color:var(--gr);color:var(--gr);}
+.qo.no{background:rgba(247,106,106,.12);border-color:var(--re);color:var(--re);}
+.qe{display:none;margin-top:9px;padding:9px 11px;background:rgba(124,106,247,.1);border-left:3px solid var(--ac);border-radius:0 7px 7px 0;font-size:.8rem;color:#b0b0d0;line-height:1.6;}
 .qe.op{display:block;}
-.qpb{background:var(--s1);border-radius:99px;height:5px;margin-bottom:16px;overflow:hidden;}
-.qpbi{height:100%;background:linear-gradient(90deg,var(--ac),var(--o));border-radius:99px;transition:width .3s;width:0%;}
-.sc{text-align:center;padding:28px 18px;background:var(--s1);border-radius:18px;border:1px solid var(--bd);margin-bottom:18px;}
-.sb{font-family:'Syne',sans-serif;font-size:3.6rem;font-weight:800;background:linear-gradient(135deg,var(--g),var(--ac));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:6px;}
-/* BTN */
-.btn{display:block;width:100%;padding:13px;background:linear-gradient(135deg,var(--ac),#9b8df0);color:#fff;border:none;border-radius:11px;font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer;text-align:center;margin-top:13px;}
+.qpb{background:var(--s2);border-radius:99px;height:5px;margin-bottom:14px;overflow:hidden;}
+.qpbi{height:100%;background:linear-gradient(90deg,var(--ac),var(--or));border-radius:99px;transition:width .3s;width:0%;}
+.sc{text-align:center;padding:26px 16px;background:var(--s1);border-radius:16px;border:1px solid var(--bd);margin-bottom:16px;}
+.sb{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--gr),var(--ac));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:5px;}
 /* MISC */
-.badge{display:inline-block;background:rgba(124,106,247,.15);border:1px solid rgba(124,106,247,.4);color:var(--ac);padding:3px 13px;border-radius:99px;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
-.kc{background:linear-gradient(135deg,rgba(124,106,247,.15),rgba(247,162,106,.1));border:1px solid rgba(124,106,247,.35);border-radius:14px;padding:16px;margin:14px 0;}
-.kcl{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ac);margin-bottom:5px;}
-.kc h3{font-family:'Syne',sans-serif;font-size:.98rem;font-weight:700;margin-bottom:7px;}
-.kc p{font-size:.86rem;color:#c0c0d8;line-height:1.65;}
-h1{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,8vw,2.9rem);font-weight:800;line-height:1.1;background:linear-gradient(135deg,#fff,#a89ff0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.tw{overflow-x:auto;margin:10px 0;border-radius:11px;border:1px solid var(--bd);}
-table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:300px;}
-th{background:var(--s2);color:var(--mu);padding:9px 11px;text-align:left;font-weight:600;font-size:.74rem;text-transform:uppercase;}
-td{padding:9px 11px;border-top:1px solid var(--bd);color:#c0c0d8;vertical-align:top;}
-.hl{color:var(--y);font-weight:600;}.hlg{color:var(--g);font-weight:600;}.hlr{color:var(--r);font-weight:600;}.hlb{color:var(--b);font-weight:600;}.hla{color:var(--ac);font-weight:600;}
+.btn{display:block;width:100%;padding:12px;background:linear-gradient(135deg,var(--ac),#9b8df0);color:#fff;border:none;border-radius:11px;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;text-align:center;margin-top:12px;}
+.dl-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;background:linear-gradient(135deg,#1a3a5c,#1a5c3a);color:#fff;border:none;border-radius:11px;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;margin-top:8px;}
+.badge{display:inline-block;background:rgba(124,106,247,.15);border:1px solid rgba(124,106,247,.4);color:var(--ac);padding:3px 12px;border-radius:99px;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,7vw,2.8rem);font-weight:800;line-height:1.1;background:linear-gradient(135deg,#fff,#a89ff0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.kc{background:linear-gradient(135deg,rgba(124,106,247,.15),rgba(247,162,106,.1));border:1px solid rgba(124,106,247,.35);border-radius:14px;padding:14px;margin:12px 0;}
+.kc h3{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:6px;}
+.kc p{font-size:.85rem;color:#c0c0d8;line-height:1.65;}
+.hl{color:var(--ye);font-weight:600;}.hlg{color:var(--gr);font-weight:600;}.hlr{color:var(--re);font-weight:600;}.hlb{color:var(--bl);font-weight:600;}.hla{color:var(--ac);font-weight:600;}
+.eql{list-style:none;}
+.eql li{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.86rem;}
+.eql li:last-child{border-bottom:none;}
+.qnum{background:var(--or);color:#000;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.67rem;font-weight:700;flex-shrink:0;margin-top:2px;}
+.warn{background:rgba(247,106,106,.08);border:1px solid rgba(247,106,106,.35);border-radius:10px;padding:10px 12px;margin:9px 0;font-size:.83rem;color:#f0a0a0;}
+.tip{background:rgba(78,203,141,.08);border:1px solid rgba(78,203,141,.35);border-radius:10px;padding:10px 12px;margin:9px 0;font-size:.83rem;color:#90d8b8;}
 @media(max-width:360px){.fp{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
-<!-- ═══ HOME ═══ -->
-<div class="page active" id="pg-home">
-  <div style="padding:32px 0 18px">
-    <div class="badge">EDHEC MBA · Macro Final</div>
+<!-- ══════════ HOME ══════════ -->
+<div class="page on" id="pg-home">
+  <div style="padding:28px 0 16px">
+    <div class="badge">EDHEC MBA · Macro Final · Friday March 6</div>
     <h1>Macro<br>Made Simple</h1>
-    <p style="color:var(--mu);font-size:.9rem;margin-top:10px">Everything for Friday — concepts, graphs, model answers, quiz.</p>
+    <p style="color:var(--mu);font-size:.88rem;margin-top:8px">Start from zero. Learn everything. Pass Friday.</p>
   </div>
-  <div class="ec">
-    <div style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--o);margin-bottom:8px">🎯 Your Exam — 5 Questions × 5pts</div>
-    <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:11px">Topic: Stagflation &amp; Monetary Policy</div>
-    <ul class="eql">
-      <li><div class="qn">1</div><span>What is stagflation? What shock causes it?</span></li>
-      <li><div class="qn">2</div><span>CB response to reduce inflation to 2% — explain the transmission mechanism</span></li>
-      <li><div class="qn">3</div><span>What does "behind the curve" mean?</span></li>
-      <li><div class="qn">4</div><span>Why do rate hikes cause economic AND financial crash?</span></li>
-      <li><div class="qn">5</div><span>Why does NOT hiking lead to permanently higher inflation?</span></li>
-    </ul>
+
+  <div class="card oc">
+    <div style="font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--or);margin-bottom:7px">🎯 YOUR EXAM — Friday March 6, 9:30–11:30am</div>
+    <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:8px">Format: 1 open-ended question (article-based) + 25 MCQs</div>
+    <p style="font-size:.82rem;color:#c0c0d8;margin-bottom:10px">The article question will be about a real economic situation — you analyze it using concepts from class. The 25 MCQs test all 3 days. Open book. Bring a calculator.</p>
+    <div style="font-size:.78rem;color:var(--mu);background:rgba(247,162,106,.08);border:1px solid rgba(247,162,106,.3);border-radius:8px;padding:8px">
+      <strong style="color:var(--or)">Based on 2024 exam pattern, likely topics:</strong><br>
+      Stagflation &amp; supply shocks · Monetary policy transmission · AD/AS analysis · Multiplier calculations · Output gaps · Money creation · Fiscal policy trade-offs · "Behind the curve" dilemma
+    </div>
   </div>
+
   <div class="card">
-    <div class="ct">📚 What's inside</div>
+    <div class="ct">📚 How to use this guide</div>
     <ul>
-      <li><strong>Learn</strong> — all concepts from your 3 lecture days</li>
-      <li><strong>Graphs</strong> — every graph explained for beginners</li>
-      <li><strong>Exam</strong> — full model answers to all 5 questions</li>
-      <li><strong>Quiz</strong> — 15 questions to test yourself</li>
+      <li><strong>Learn</strong> — 3 days of concepts, explained from scratch with examples</li>
+      <li><strong>Graphs</strong> — every diagram explained interactively</li>
+      <li><strong>Exam</strong> — full model answers for likely questions</li>
+      <li><strong>Quiz</strong> — 15 practice questions to test yourself</li>
     </ul>
   </div>
-  <button class="btn" onclick="go('pg-learn')">Start Learning →</button>
+
+  <button class="btn" onclick="goPage('pg-learn')">Start Learning →</button>
+  <button class="dl-btn" onclick="dlPDF()">📄 Download &amp; Print Cheat Sheet</button>
 </div>
 
-<!-- ═══ LEARN ═══ -->
+<!-- ══════════ LEARN ══════════ -->
 <div class="page" id="pg-learn">
-  <div class="pills">
-    <div class="pill on" onclick="tab('learn','d1',this)">Day 1</div>
-    <div class="pill" onclick="tab('learn','d2',this)">Day 2</div>
-    <div class="pill" onclick="tab('learn','d3',this)">Day 3</div>
+  <div class="tabs" id="learn-tabs">
+    <div class="tab on" onclick="goTab('learn',0)">Day 1: Basics</div>
+    <div class="tab" onclick="goTab('learn',1)">Day 2: Models</div>
+    <div class="tab" onclick="goTab('learn',2)">Day 3: Money</div>
   </div>
 
-  <div class="sub on" id="learn-d1">
-    <div class="sh"><div class="sn">1</div><h2>GDP — Measuring the Economy</h2></div>
-    <div class="card">
-      <div class="ct">🌍 What is GDP?</div>
-      <p>GDP = total value of all goods &amp; services produced inside a country in one year. We count only <span class="hl">value added</span> at each stage to avoid double-counting.</p>
+  <!-- ── DAY 1 ── -->
+  <div class="pane on" id="learn-0">
+
+    <div class="sh"><div class="sn">1</div><h2>GDP — What Is the Economy?</h2></div>
+
+    <div class="def">
+      <div class="dl">Definition</div>
+      <div class="dt">GDP (Gross Domestic Product)</div>
+      <div class="dd">The total value of everything produced in a country in one year. Think of it as the economy's "score" — a single number that tells you how big and active the economy is. Higher GDP = more stuff produced = more jobs = more income.</div>
     </div>
+
+    <div class="card ac">
+      <div class="ct">🧱 Why does GDP = Income?</div>
+      <p>Every time something is produced, that production <strong>creates income</strong> for someone. A bakery makes $100 worth of bread → $100 becomes wages for the baker, profit for the owner, payment to the flour supplier. So: <span class="hlg">National Product = National Income</span>. Always. By definition.</p>
+    </div>
+
     <div class="fb">
       <div class="fm">GDP = C + I + G + NX</div>
       <div class="fp">
-        <div class="fpi"><div class="s">C</div><div class="d">Consumption — household spending</div></div>
-        <div class="fpi"><div class="s">I</div><div class="d">Investment — business equipment, buildings</div></div>
-        <div class="fpi"><div class="s">G</div><div class="d">Gov't purchases (NOT pensions/welfare)</div></div>
-        <div class="fpi"><div class="s">NX = X−IM</div><div class="d">Exports minus Imports</div></div>
+        <div class="fpi"><div class="s">C — Consumption</div><div class="d">Households buying things: food, rent, phones, cars. ~60% of GDP. The biggest piece.</div></div>
+        <div class="fpi"><div class="s">I — Investment</div><div class="d">Businesses buying machines, buildings, equipment to produce more. NOT stocks or bonds.</div></div>
+        <div class="fpi"><div class="s">G — Gov't Spending</div><div class="d">Government buying goods/services: roads, hospitals, defence. NOT pensions or welfare.</div></div>
+        <div class="fpi"><div class="s">NX = Exports − Imports</div><div class="d">Foreigners buying our stuff (exports) minus us buying their stuff (imports).</div></div>
       </div>
     </div>
-    <div class="card rc"><div class="ct">⚠️ Common Exam Mistake</div><p><strong>G does NOT include transfer payments</strong> (pensions, unemployment benefits). No new production = not in GDP.</p></div>
-    <div class="sh"><div class="sn">2</div><h2>Business Cycle &amp; Output Gaps</h2></div>
-    <div class="card"><p><strong>Potential output (Y*)</strong> = what the economy produces at full employment. Actual GDP fluctuates around Y* — that's the business cycle.</p><ul style="margin-top:8px"><li><span class="hlr">Y &lt; Y*</span> → Recessionary gap → high unemployment → downward wage pressure</li><li><span class="hla">Y &gt; Y*</span> → Inflationary gap → overheating → inflation risk</li></ul></div>
-    <div class="sh"><div class="sn">3</div><h2>Unemployment</h2></div>
-    <div class="fb"><div class="fm">Unemployment Rate = Unemployed ÷ Labour Force × 100</div></div>
-    <div class="tw"><table>
-      <tr><th>Type</th><th>Cause</th><th>Example</th></tr>
-      <tr><td><span class="hla">Frictional</span></td><td>Job search</td><td>Grad job hunting</td></tr>
-      <tr><td><span class="hla">Structural</span></td><td>Skill mismatch</td><td>Coal miner in green economy</td></tr>
-      <tr><td><span class="hlr">Cyclical</span></td><td>Recession</td><td>Factory layoffs</td></tr>
-    </table></div>
-    <div class="card gc" style="margin-top:8px"><p><strong>NAIRU</strong> = unemployment when Y=Y* (frictional + structural only, zero cyclical). Lowest sustainable rate without causing inflation.</p></div>
-    <div class="sh"><div class="sn">4</div><h2>Inflation &amp; Interest Rates</h2></div>
-    <div class="fb">
-      <div class="fm">Real Rate ≈ Nominal Rate − Inflation</div>
+
+    <div class="warn">⚠️ <strong>Exam Trap #1 — Transfer Payments are NOT in GDP.</strong> Pensions, welfare, unemployment benefits, student grants — these are just the government moving money from taxpayers to someone else. No new good or service is created. So they're NOT in G and NOT in GDP. Only actual purchases count.</div>
+
+    <div class="card yc">
+      <div class="ct">💡 Nominal vs Real GDP — The Key Difference</div>
+      <p><strong>Nominal GDP</strong> = output measured at today's prices. Goes up even if you just had inflation — no extra stuff produced.</p>
+      <p style="margin-top:6px"><strong>Real GDP</strong> = output measured at constant (base year) prices. Strips out inflation. <span class="hlg">This is the one that actually matters.</span></p>
+      <p style="margin-top:6px"><strong>Example:</strong> Economy produces 100 apples. Last year they cost $1 each (GDP=$100). This year they cost $2 each. Nominal GDP = $200. Real GDP = still $100. Nothing extra was produced.</p>
     </div>
-    <div class="card bc"><div class="ct">💡 Why it matters</div><p>Borrow at 8%, inflation 6% → real cost = 2%. Investment decisions depend on the <span class="hlb">real</span> rate. CB targets inflation to keep real rates stable and predictable.</p></div>
-    <button class="btn" onclick="tab('learn','d2',document.querySelectorAll(\'#pg-learn .pill\')[1])">Next: Day 2 →</button>
+
+    <div class="sh"><div class="sn">2</div><h2>The Business Cycle — Why the Economy Goes Up and Down</h2></div>
+
+    <div class="card">
+      <div class="ct">📈 The core idea</div>
+      <p>The economy never grows in a straight line. It expands, overheats, contracts, and recovers in waves. This is normal. The key concept is comparing <strong>actual output (Y)</strong> to <strong>potential output (Y*)</strong>.</p>
+    </div>
+
+    <div class="def">
+      <div class="dl">Definition</div>
+      <div class="dt">Y = Actual GDP (what we actually produce)</div>
+      <div class="dd">The real GDP right now. Changes constantly with the business cycle — goes up in booms, falls in recessions.</div>
+    </div>
+
+    <div class="def">
+      <div class="dl">Definition</div>
+      <div class="dt">Y* = Potential Output (what we COULD produce)</div>
+      <div class="dd">What the economy would produce if every worker who wants a job has one, and every factory runs at normal capacity. It grows slowly over time as technology improves and population grows. Y* is the economy's "speed limit."</div>
+    </div>
+
+    <div class="card gc">
+      <div class="ct">The Two Output Gaps</div>
+      <ul>
+        <li><span class="hlr">Recessionary Gap: Y &lt; Y*</span> — Economy below potential. Unemployment HIGH, wages weak, inflation LOW. Policy response: CB cuts rates OR government increases spending to boost demand.</li>
+        <li style="margin-top:8px"><span class="hla">Inflationary Gap: Y &gt; Y*</span> — Economy above potential. Overheating. Unemployment very LOW, wages rising fast, inflation building. Policy response: CB raises rates to cool things down.</li>
+      </ul>
+    </div>
+
+    <div class="ig">
+      <div class="gt">📊 The Business Cycle</div>
+      <svg viewBox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
+        <line x1="28" y1="148" x2="328" y2="148" stroke="#2e2e3e" stroke-width="1.5"/>
+        <line x1="28" y1="10" x2="28" y2="148" stroke="#2e2e3e" stroke-width="1.5"/>
+        <text x="178" y="163" font-size="9" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">Time →</text>
+        <text x="12" y="80" font-size="8" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,12,80)" font-family="DM Sans,sans-serif">Real GDP</text>
+        <!-- Y* potential (gently rising dashed) -->
+        <line x1="28" y1="112" x2="328" y2="68" stroke="#f76a6a" stroke-width="1.8" stroke-dasharray="6,4"/>
+        <text x="314" y="63" font-size="9" fill="#f76a6a" font-family="DM Sans,sans-serif" font-weight="700">Y*</text>
+        <!-- Actual GDP wave -->
+        <path d="M28,112 C55,100 75,60 105,48 C132,37 148,65 168,85 C188,105 202,138 230,132 C255,126 278,82 303,72 C315,68 324,66 328,65"
+              fill="none" stroke="#7c6af7" stroke-width="2.2" stroke-linecap="round"/>
+        <!-- Peak dot -->
+        <circle cx="105" cy="48" r="5" fill="#f7d76a"/>
+        <text x="105" y="38" font-size="9" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">PEAK</text>
+        <text x="105" y="28" font-size="8" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">Y &gt; Y* → inflation↑</text>
+        <!-- Trough dot -->
+        <circle cx="230" cy="132" r="5" fill="#6aaaf7"/>
+        <text x="230" y="146" font-size="9" fill="#6aaaf7" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">TROUGH</text>
+        <text x="230" y="157" font-size="8" fill="#6aaaf7" text-anchor="middle" font-family="DM Sans,sans-serif">Y &lt; Y* → unemploy↑</text>
+        <!-- Inflationary gap arrow -->
+        <line x1="105" y1="50" x2="105" y2="72" stroke="#f7a26a" stroke-width="1.2" stroke-dasharray="2,2"/>
+        <text x="113" y="64" font-size="7.5" fill="#f7a26a" font-family="DM Sans,sans-serif">Inflationary gap</text>
+        <!-- Recessionary gap arrow -->
+        <line x1="230" y1="130" x2="230" y2="112" stroke="#6aaaf7" stroke-width="1.2" stroke-dasharray="2,2"/>
+        <text x="238" y="118" font-size="7.5" fill="#6aaaf7" font-family="DM Sans,sans-serif">Recessionary gap</text>
+        <!-- Legend -->
+        <line x1="32" y1="18" x2="50" y2="18" stroke="#7c6af7" stroke-width="2"/>
+        <text x="54" y="22" font-size="8" fill="#7c6af7" font-family="DM Sans,sans-serif">Actual GDP</text>
+        <line x1="120" y1="18" x2="138" y2="18" stroke="#f76a6a" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="142" y="22" font-size="8" fill="#f76a6a" font-family="DM Sans,sans-serif">Potential Y*</text>
+      </svg>
+      <div class="ig-cap">The economy always oscillates around Y*. At the peak (Y&gt;Y*) inflation is the risk. At the trough (Y&lt;Y*) unemployment is the problem. Policy tries to smooth these swings.</div>
+    </div>
+
+    <div class="sh"><div class="sn">3</div><h2>Unemployment</h2></div>
+
+    <div class="fb"><div class="fm">Unemployment Rate = (Unemployed ÷ Labour Force) × 100</div></div>
+
+    <div class="card">
+      <p><strong>Labour Force</strong> = employed + unemployed people actively looking for work. Does NOT include: retired people, students, or "discouraged workers" (people who gave up looking).</p>
+      <p style="margin-top:6px"><strong>Example:</strong> Country has 1000 workers. 940 have jobs. 60 are looking for work. Labour Force = 1000. Unemployment Rate = 60/1000 × 100 = <span class="hlg">6%</span>.</p>
+    </div>
+
+    <div class="tw"><table>
+      <tr><th>Type</th><th>What it is</th><th>Example</th><th>Fix?</th></tr>
+      <tr><td><span class="hla">Frictional</span></td><td>Normal job searching between jobs</td><td>MBA grad applying for roles</td><td>No — healthy &amp; normal</td></tr>
+      <tr><td><span class="hla">Structural</span></td><td>Skills don't match available jobs</td><td>Coal miner in a green economy</td><td>Retraining programs</td></tr>
+      <tr><td><span class="hlr">Cyclical</span></td><td>Not enough demand in recession</td><td>Factory worker laid off in crisis</td><td>Yes — stimulus needed</td></tr>
+    </table></div>
+
+    <div class="def">
+      <div class="dl">Definition</div>
+      <div class="dt">NAIRU — Natural Rate of Unemployment</div>
+      <div class="dd">The unemployment rate when Y = Y*. Only frictional + structural unemployment exist. Zero cyclical unemployment. Typically ~4–6% in developed economies. This is the <strong>lowest sustainable rate</strong> — going below it means the economy is overheating and inflation will accelerate.</div>
+    </div>
+
+    <div class="sh"><div class="sn">4</div><h2>Inflation</h2></div>
+
+    <div class="def">
+      <div class="dl">Definition</div>
+      <div class="dt">Inflation</div>
+      <div class="dd">A sustained rise in the general price level. Measured by the CPI (Consumer Price Index) — the cost of a typical basket of goods and services compared to a base year.</div>
+    </div>
+
+    <div class="fb">
+      <div class="fm">CPI = (Cost of basket today ÷ Cost in base year) × 100</div>
+      <div style="border-top:1px solid var(--bd);margin-top:8px;padding-top:8px"><div class="fm">Real Interest Rate ≈ Nominal Rate − Inflation</div></div>
+    </div>
+
+    <div class="card bc">
+      <div class="ct">💡 Why real rate matters more than nominal</div>
+      <p>You borrow at <strong>8% nominal</strong>. Inflation is <strong>6%</strong>. Real cost = only <strong>2%</strong>. The bank gets back less purchasing power than it lent out — debt erodes in real terms. All investment decisions are made on the <span class="hlb">real rate</span>. CBs raise nominal rates precisely to raise the real cost of borrowing.</p>
+    </div>
+
+    <div class="card rc">
+      <div class="ct">Demand-Pull vs Cost-Push Inflation</div>
+      <ul>
+        <li><strong>Demand-pull:</strong> Too much spending (AD shifts right). Economy overheating, Y &gt; Y*. Classic "too much money chasing too few goods."</li>
+        <li style="margin-top:5px"><strong>Cost-push:</strong> Production costs rise (oil price spike, wages surge), forcing firms to raise prices even as output falls. <span class="hlr">This is stagflation territory — AS shifts left.</span></li>
+      </ul>
+    </div>
+
+    <button class="btn" onclick="goTab('learn',1)">Next: Day 2 — The Models →</button>
   </div>
 
-  <div class="sub" id="learn-d2">
-    <div class="sh"><div class="sn">1</div><h2>The AE Model (Keynesian Cross)</h2></div>
-    <div class="card"><div class="ct">🧠 Core Idea</div><p>In the short run, output is <strong>demand-determined</strong>. The economy produces whatever people plan to spend. Equilibrium = planned spending equals actual output (Y = AE).</p></div>
+  <!-- ── DAY 2 ── -->
+  <div class="pane" id="learn-1">
+
+    <div class="sh"><div class="sn">1</div><h2>The AE Model — How GDP Is Determined</h2></div>
+
+    <div class="def">
+      <div class="dl">What is AE?</div>
+      <div class="dt">AE = Aggregate Expenditure (Total Planned Spending)</div>
+      <div class="dd">The total amount everyone in the economy plans to spend. AE = C + I + G + NX. This is the demand side. The key insight: in the short run, <strong>the economy produces whatever is demanded</strong>. So AE determines Y.</div>
+    </div>
+
+    <div class="card ac">
+      <div class="ct">🧠 The Big Idea — Demand Drives Output (Short Run)</div>
+      <p>Imagine a bakery. If more customers walk in (more demand), the baker bakes more bread (more output). If fewer customers come, less is baked. The whole economy works the same way in the short run: <strong>more spending → more production → higher GDP</strong>.</p>
+      <p style="margin-top:7px">This is the <strong>Keynesian view</strong> — named after John Maynard Keynes who argued governments should spend during recessions to boost demand and pull the economy out.</p>
+    </div>
+
     <div class="fb">
-      <div class="fm">AE = C + I + G + NX</div>
-      <div style="border-top:1px solid var(--bd);margin-top:10px;padding-top:10px"><div class="fm">C = a + MPC × (Y − T)</div></div>
-      <div class="fp" style="margin-top:9px">
-        <div class="fpi"><div class="s">a</div><div class="d">Autonomous consumption (spend even with zero income)</div></div>
-        <div class="fpi"><div class="s">MPC</div><div class="d">Fraction of each extra $1 income that gets spent</div></div>
+      <div class="fm">Equilibrium: Y = AE</div>
+      <div style="border-top:1px solid var(--bd);margin-top:8px;padding-top:8px"><div class="fm">AE = C + I + G + NX</div></div>
+      <div style="border-top:1px solid var(--bd);margin-top:8px;padding-top:8px"><div class="fm">C = a + MPC × (1−t) × Y</div></div>
+      <div class="fp">
+        <div class="fpi"><div class="s">MPC</div><div class="d">Marginal Propensity to Consume. How much of each extra $1 of income you spend. e.g. MPC=0.8 means you spend 80 cents.</div></div>
+        <div class="fpi"><div class="s">t</div><div class="d">Tax rate. Reduces disposable income. If t=0.2, you keep 80% of income to spend.</div></div>
+        <div class="fpi"><div class="s">a</div><div class="d">Autonomous consumption. What you spend even if income = 0 (dipping into savings).</div></div>
+        <div class="fpi"><div class="s">z = MPC(1−t) − m</div><div class="d">The slope of the AE line. m = marginal propensity to import.</div></div>
       </div>
     </div>
-    <div class="sh"><div class="sn">2</div><h2>The Multiplier</h2></div>
-    <div class="card"><div class="ct">🔄 Why $1 creates more than $1 of GDP</div><p>Gov spends $100 → someone's income → they spend $80 → that's income for others → they spend $64... Each round creates less until the ripple fades. Total GDP rise = much more than $100.</p></div>
+
+    <div class="ig">
+      <div class="gt">📊 Keynesian Cross — Equilibrium</div>
+      <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+        <line x1="28" y1="178" x2="292" y2="178" stroke="#2e2e3e" stroke-width="1.5"/>
+        <line x1="28" y1="10" x2="28" y2="178" stroke="#2e2e3e" stroke-width="1.5"/>
+        <text x="160" y="193" font-size="9" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">National Income Y →</text>
+        <text x="10" y="95" font-size="8" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,10,95)" font-family="DM Sans,sans-serif">AE →</text>
+        <!-- 45-degree line: Y=AE. Passes through origin (28,178) to (260,178-(260-28))=(260,-54) clip at top -->
+        <!-- At x=28, y=178. Slope = -1 in SVG. At x=196, y=178-168=10 -->
+        <line x1="28" y1="178" x2="196" y2="10" stroke="#4ecb8d" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="190" y="8" font-size="9" fill="#4ecb8d" font-family="DM Sans,sans-serif">45°(Y=AE)</text>
+        <!-- AE₀ line: starts at y=130 (autonomous spending a), slope ~0.55 (z=0.55) -->
+        <!-- At x=28, y=130. At x=268, y=130-240*0.55=130-132=-2 → clip. Find where it meets 45°: -->
+        <!-- 45°: y=178-(x-28). AE0: y=130-(x-28)*0.55. Equal: 178-(x-28)=130-(x-28)*0.55. 48=0.45(x-28). x-28=107. x=135, y=178-107=71 -->
+        <line x1="28" y1="130" x2="240" y2="18" stroke="#7c6af7" stroke-width="2.2"/>
+        <text x="234" y="15" font-size="10" fill="#7c6af7" font-family="DM Sans,sans-serif" font-weight="700">AE₀</text>
+        <!-- AE₁ shifted up 20px: starts at y=110 -->
+        <!-- 45°: y=178-(x-28). AE1: y=110-(x-28)*0.55. Equal: 178-(x-28)=110-(x-28)*0.55. 68=0.45(x-28). x-28=151. x=179, y=178-151=27 -->
+        <line x1="28" y1="110" x2="240" y2="2" stroke="#f7a26a" stroke-width="2" stroke-dasharray="6,3"/>
+        <text x="236" y="0" font-size="10" fill="#f7a26a" font-family="DM Sans,sans-serif" font-weight="700">AE₁</text>
+        <!-- E₀ at (135, 71) -->
+        <circle cx="135" cy="71" r="5" fill="#f7d76a"/>
+        <text x="143" y="67" font-size="10" fill="#f7d76a" font-family="DM Sans,sans-serif" font-weight="700">E₀</text>
+        <line x1="28" y1="71" x2="135" y2="71" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,3" opacity=".6"/>
+        <line x1="135" y1="71" x2="135" y2="178" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,3" opacity=".6"/>
+        <text x="135" y="190" font-size="9" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₀</text>
+        <!-- E₁ at (179, 27) -->
+        <circle cx="179" cy="27" r="5" fill="#f7a26a"/>
+        <text x="187" y="23" font-size="10" fill="#f7a26a" font-family="DM Sans,sans-serif" font-weight="700">E₁</text>
+        <line x1="28" y1="27" x2="179" y2="27" stroke="#f7a26a" stroke-width="1" stroke-dasharray="3,3" opacity=".6"/>
+        <line x1="179" y1="27" x2="179" y2="178" stroke="#f7a26a" stroke-width="1" stroke-dasharray="3,3" opacity=".6"/>
+        <text x="179" y="190" font-size="9" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₁</text>
+        <!-- ΔA bracket -->
+        <line x1="20" y1="110" x2="20" y2="130" stroke="#f7d76a" stroke-width="1.5"/>
+        <line x1="17" y1="110" x2="23" y2="110" stroke="#f7d76a" stroke-width="1.5"/>
+        <line x1="17" y1="130" x2="23" y2="130" stroke="#f7d76a" stroke-width="1.5"/>
+        <text x="8" y="121" font-size="8" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif">ΔA</text>
+        <!-- ΔY bracket -->
+        <line x1="135" y1="185" x2="179" y2="185" stroke="#f7a26a" stroke-width="1.5"/>
+        <line x1="135" y1="182" x2="135" y2="188" stroke="#f7a26a" stroke-width="1.5"/>
+        <line x1="179" y1="182" x2="179" y2="188" stroke="#f7a26a" stroke-width="1.5"/>
+        <text x="157" y="197" font-size="8" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">ΔY (much bigger!)</text>
+      </svg>
+      <div class="ig-cap">Small ΔA (e.g. gov spends $100 more) → AE line shifts UP → new equilibrium Y₁ is much further right. That's the multiplier — each $1 of spending creates more than $1 of GDP.</div>
+    </div>
+
+    <div class="sh"><div class="sn">2</div><h2>The Multiplier — Why $1 of Gov Spending Creates More Than $1</h2></div>
+
+    <div class="card ac">
+      <div class="ct">🔄 The Chain Reaction</div>
+      <p>Government spends $100 building a road. The construction worker earns $100. She spends $80 at a restaurant (MPC=0.8). The waiter earns $80, spends $64... and so on. The initial $100 ripples through the economy and creates <strong>much more than $100</strong> of total GDP.</p>
+    </div>
+
     <div class="fb">
       <div class="fm">Multiplier = 1 ÷ (1 − z)</div>
-      <div class="fp" style="margin-top:9px">
-        <div class="fpi"><div class="s">z = 0.62</div><div class="d">→ Multiplier = 1/0.38 = 2.63</div></div>
-        <div class="fpi"><div class="s">Meaning</div><div class="d">$1 gov spending → $2.63 extra GDP</div></div>
-      </div>
+      <div style="border-top:1px solid var(--bd);margin-top:8px;padding-top:8px"><div class="fm">z = MPC × (1 − tax rate) − import rate</div></div>
     </div>
-    <div class="sh"><div class="sn">3</div><h2>The AD/AS Model</h2></div>
-    <div class="card"><p><span class="hlr">AS slopes up</span>: firms need higher prices to justify producing more.<br><span class="hlb">AD slopes down</span>: higher prices reduce real wealth, less demanded.<br><span class="hlg">Y* vertical</span>: long-run output — economy always returns here.</p></div>
-    <div class="kc"><div class="kcl">⭐ Exam Critical — Stagflation</div><h3>What Causes Stagflation?</h3><p>A <strong>negative supply shock</strong> shifts AS <span class="hlr">left/upward</span> — simultaneously raising prices AND cutting output. Normal demand-side policy cannot fix both at once. This is the central bank's impossible dilemma.</p></div>
+
+    <div class="card">
+      <div class="ct">Example calculation</div>
+      <p>MPC = 0.8, tax rate = 0.1, import rate = 0.1<br>
+      z = 0.8 × (1 − 0.1) − 0.1 = 0.8 × 0.9 − 0.1 = 0.72 − 0.1 = <strong>0.62</strong><br>
+      Multiplier = 1 ÷ (1 − 0.62) = 1 ÷ 0.38 = <strong class="hlg">2.63</strong><br>
+      So $100 of gov spending → $263 of GDP.</p>
+    </div>
+
+    <div class="warn">⚠️ <strong>What reduces the multiplier (leakages):</strong> Saving (MPS = 1−MPC), Taxes (t), Imports (m). Each is money that "leaks" out of the spending cycle instead of recycling back into the domestic economy. Higher leakages = smaller multiplier.</div>
+
+    <div class="card rc">
+      <div class="ct">⚠️ Paradox of Thrift</div>
+      <p>If every individual saves more (which seems wise), total spending in the economy falls → firms produce less → GDP falls → everyone's income falls. Individual prudence becomes collective harm. This is why government MUST spend during recessions even if households are saving.</p>
+    </div>
+
+    <div class="sh"><div class="sn">3</div><h2>AD/AS — The Big Picture Model</h2></div>
+
+    <div class="def">
+      <div class="dl">What is AD/AS?</div>
+      <div class="dt">AD/AS = Aggregate Demand / Aggregate Supply Model</div>
+      <div class="dd">This model shows the whole economy on one graph. The Y-axis is the price level (P) — like a "general inflation measure." The X-axis is real output (Y) — the GDP. Where AD meets AS = equilibrium: the price and output the economy settles at.</div>
+    </div>
+
+    <div class="card">
+      <div class="ct">The Three Curves — What They Mean</div>
+      <ul>
+        <li><strong style="color:var(--bl)">AD (Aggregate Demand):</strong> Slopes DOWN. Higher prices → people are poorer in real terms → spend less. Lower prices → spend more. Simple.</li>
+        <li style="margin-top:5px"><strong style="color:var(--re)">AS (Aggregate Supply):</strong> Slopes UP. Higher prices → firms want to produce more (more profitable). Lower prices → produce less.</li>
+        <li style="margin-top:5px"><strong style="color:var(--gr)">Y* (Long-run AS):</strong> Vertical line. In the long run, real output is fixed at potential — it doesn't depend on the price level. The economy always returns here eventually.</li>
+      </ul>
+    </div>
+
     <div class="tw"><table>
-      <tr><th>Shock</th><th>Shifts</th><th>P</th><th>Y</th></tr>
-      <tr><td>↑ Gov spending</td><td>AD right</td><td style="color:var(--r)">↑</td><td style="color:var(--g)">↑</td></tr>
-      <tr><td>↓ Consumer confidence</td><td>AD left</td><td style="color:var(--g)">↓</td><td style="color:var(--r)">↓</td></tr>
-      <tr><td>↑ Oil prices</td><td>AS left</td><td style="color:var(--r)">↑</td><td style="color:var(--r)">↓ STAGFLATION</td></tr>
-      <tr><td>Better technology</td><td>AS right</td><td style="color:var(--g)">↓</td><td style="color:var(--g)">↑</td></tr>
+      <tr><th>Shock</th><th>Curve shifts</th><th>Price (P)</th><th>Output (Y)</th></tr>
+      <tr><td>↑ Gov spending / ↓ rates / ↑ confidence</td><td>AD → right</td><td>↑</td><td>↑</td></tr>
+      <tr><td>↓ Consumer confidence / ↑ rates</td><td>AD → left</td><td>↓</td><td>↓</td></tr>
+      <tr><td><strong style="color:var(--re)">↑ Oil prices / supply shock</strong></td><td><strong style="color:var(--re)">AS → left</strong></td><td><strong style="color:var(--re)">↑</strong></td><td><strong style="color:var(--re)">↓ STAGFLATION</strong></td></tr>
+      <tr><td>Better technology / ↓ wages</td><td>AS → right</td><td>↓</td><td>↑</td></tr>
     </table></div>
-    <button class="btn" onclick="tab('learn','d3',document.querySelectorAll(\'#pg-learn .pill\')[2])">Next: Day 3 →</button>
+
+    <div class="ig">
+      <div class="gt">📊 AD/AS — Normal Equilibrium (start here)</div>
+      <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+        <line x1="32" y1="182" x2="308" y2="182" stroke="#2e2e3e" stroke-width="1.5"/>
+        <line x1="32" y1="12" x2="32" y2="182" stroke="#2e2e3e" stroke-width="1.5"/>
+        <text x="170" y="196" font-size="9" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">Real Output (Y) →</text>
+        <text x="12" y="97" font-size="8" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,12,97)" font-family="DM Sans,sans-serif">Price Level (P)</text>
+        <!-- AD: straight line top-left to bottom-right for clarity -->
+        <!-- From (50,22) to (295,172) -->
+        <line x1="50" y1="22" x2="295" y2="172" stroke="#6aaaf7" stroke-width="2.2"/>
+        <text x="290" y="180" font-size="11" fill="#6aaaf7" font-family="DM Sans,sans-serif" font-weight="700">AD</text>
+        <!-- AS: straight line bottom-left to top-right -->
+        <!-- From (70,172) to (280,32) -->
+        <line x1="70" y1="172" x2="280" y2="32" stroke="#f76a6a" stroke-width="2.2"/>
+        <text x="276" y="28" font-size="11" fill="#f76a6a" font-family="DM Sans,sans-serif" font-weight="700">AS</text>
+        <!-- Y* vertical -->
+        <line x1="210" y1="12" x2="210" y2="182" stroke="#4ecb8d" stroke-width="2" stroke-dasharray="6,4"/>
+        <text x="210" y="10" font-size="10" fill="#4ecb8d" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">Y*</text>
+        <!-- Intersection: AD line: y=22+150/245*(x-50)=22+0.612(x-50). AS line: y=172-140/210*(x-70)=172-0.667(x-70). Equal: 22+0.612(x-50)=172-0.667(x-70). 22+0.612x-30.6=172-0.667x+46.69. 0.612x-8.6=218.69-0.667x. 1.279x=227.29. x=177.7. y=22+0.612*(177.7-50)=22+78.1=100.1 -->
+        <circle cx="178" cy="100" r="6" fill="#f7d76a"/>
+        <text x="188" y="96" font-size="11" fill="#f7d76a" font-family="DM Sans,sans-serif" font-weight="700">E₀</text>
+        <line x1="32" y1="100" x2="178" y2="100" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,3" opacity=".7"/>
+        <line x1="178" y1="100" x2="178" y2="182" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,3" opacity=".7"/>
+        <text x="26" y="104" font-size="9" fill="#f7d76a" text-anchor="end" font-family="DM Sans,sans-serif">P₀</text>
+        <text x="178" y="193" font-size="9" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₀</text>
+      </svg>
+      <div class="ig-cap">AD slopes down (higher P = less demand). AS slopes up (higher P = more supply). They cross at E₀ — the economy's equilibrium price and output. Y* is where the economy should be in the long run.</div>
+    </div>
+
+    <div class="ig">
+      <div class="gt">📊 AD/AS — Stagflation (AS shifts LEFT)</div>
+      <svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg">
+        <line x1="32" y1="188" x2="308" y2="188" stroke="#2e2e3e" stroke-width="1.5"/>
+        <line x1="32" y1="12" x2="32" y2="188" stroke="#2e2e3e" stroke-width="1.5"/>
+        <text x="170" y="202" font-size="9" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">Real Output (Y) →</text>
+        <text x="12" y="100" font-size="8" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,12,100)" font-family="DM Sans,sans-serif">Price Level (P)</text>
+        <!-- AD unchanged: (50,22) to (295,178) -->
+        <line x1="50" y1="22" x2="295" y2="178" stroke="#6aaaf7" stroke-width="2.2"/>
+        <text x="290" y="187" font-size="11" fill="#6aaaf7" font-family="DM Sans,sans-serif" font-weight="700">AD</text>
+        <!-- AS₀ original: (100,178) to (290,28) — solid red -->
+        <!-- slope: (28-178)/(290-100) = -150/190 = -0.789 -->
+        <line x1="100" y1="178" x2="290" y2="28" stroke="#f76a6a" stroke-width="2.2"/>
+        <text x="286" y="24" font-size="11" fill="#f76a6a" font-family="DM Sans,sans-serif" font-weight="700">AS₀</text>
+        <!-- AS₁ shifted LEFT 80px: (20,178) to (210,28) — dashed orange -->
+        <line x1="20" y1="178" x2="210" y2="28" stroke="#f7a26a" stroke-width="2.2" stroke-dasharray="8,4"/>
+        <text x="206" y="24" font-size="11" fill="#f7a26a" font-family="DM Sans,sans-serif" font-weight="700">AS₁</text>
+        <!-- Arrow showing shift -->
+        <defs><marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#f7a26a"/></marker></defs>
+        <line x1="260" y1="52" x2="200" y2="52" stroke="#f7a26a" stroke-width="1.5" marker-end="url(#arr)"/>
+        <text x="265" y="48" font-size="8" fill="#f7a26a" font-family="DM Sans,sans-serif">shift left</text>
+        <!-- E₀: AD ∩ AS₀
+             AD: y=22 + (178-22)/(295-50) * (x-50) = 22 + 156/245*(x-50) = 22 + 0.6367(x-50)
+             AS₀: y=178 + (28-178)/(290-100) * (x-100) = 178 - 0.7895(x-100)
+             Equal: 22+0.6367(x-50) = 178-0.7895(x-100)
+             22+0.6367x-31.8 = 178-0.7895x+78.95
+             0.6367x-9.8 = 256.95-0.7895x
+             1.4262x = 266.75 → x=186.9
+             y=22+0.6367*(186.9-50)=22+87.1=109.1 -->
+        <circle cx="187" cy="109" r="6" fill="#f7d76a"/>
+        <text x="196" y="105" font-size="11" fill="#f7d76a" font-family="DM Sans,sans-serif" font-weight="700">E₀</text>
+        <line x1="32" y1="109" x2="187" y2="109" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,3" opacity=".6"/>
+        <line x1="187" y1="109" x2="187" y2="188" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,3" opacity=".6"/>
+        <text x="26" y="113" font-size="9" fill="#f7d76a" text-anchor="end" font-family="DM Sans,sans-serif">P₀</text>
+        <text x="187" y="199" font-size="9" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₀</text>
+        <!-- E₁: AD ∩ AS₁
+             AS₁: y=178 - 0.7895*(x-20) [shifted left 80px, same slope]
+             AD: y=22+0.6367*(x-50)
+             22+0.6367x-31.8 = 178-0.7895x+15.79
+             0.6367x-9.8 = 193.79-0.7895x
+             1.4262x = 203.59 → x=142.7
+             y=22+0.6367*(142.7-50)=22+59.0=81 -->
+        <circle cx="143" cy="81" r="6" fill="#f7a26a"/>
+        <text x="122" y="75" font-size="11" fill="#f7a26a" font-family="DM Sans,sans-serif" font-weight="700">E₁</text>
+        <line x1="32" y1="81" x2="143" y2="81" stroke="#f7a26a" stroke-width="1" stroke-dasharray="3,3" opacity=".6"/>
+        <line x1="143" y1="81" x2="143" y2="188" stroke="#f7a26a" stroke-width="1" stroke-dasharray="3,3" opacity=".6"/>
+        <text x="26" y="85" font-size="9" fill="#f7a26a" text-anchor="end" font-family="DM Sans,sans-serif">P₁↑</text>
+        <text x="143" y="199" font-size="9" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₁↓</text>
+        <!-- Stagflation label -->
+        <rect x="42" y="158" width="155" height="20" rx="5" fill="rgba(247,106,106,0.15)" stroke="#f76a6a" stroke-width="1"/>
+        <text x="120" y="172" font-size="9" fill="#f76a6a" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">↑P + ↓Y = STAGFLATION</text>
+      </svg>
+      <div class="ig-cap">AS₀ → AS₁ (left shift) = negative supply shock. New equilibrium E₁: HIGHER price P₁ AND LOWER output Y₁. This is stagflation — the worst of both worlds. Notice E₁ is up and left of E₀.</div>
+    </div>
+
+    <div class="card gc">
+      <div class="ct">Fiscal Policy — Using G and T to Stabilise</div>
+      <ul>
+        <li><strong>Recession (Y &lt; Y*):</strong> Raise G (build roads) or cut T (tax cuts) → AD shifts right → Y rises</li>
+        <li style="margin-top:5px"><strong>Overheating (Y &gt; Y*):</strong> Cut G or raise T → AD shifts left → Y falls</li>
+      </ul>
+      <p style="margin-top:8px;font-size:.83rem;color:#c0c0d8"><strong>Why fiscal policy is slow:</strong> (1) Decision lag — parliament debates for months. (2) Execution lag — actually spending takes time. (3) Effect lag — multiplier takes quarters to work. By the time it kicks in, the recession may already be over.</p>
+    </div>
+
+    <button class="btn" onclick="goTab('learn',2)">Next: Day 3 — Money &amp; CB Policy →</button>
   </div>
 
-  <div class="sub" id="learn-d3">
-    <div class="sh"><div class="sn">1</div><h2>How Banks Create Money</h2></div>
-    <div class="card"><div class="ct">🏦 Fractional Reserve Banking</div><p>Banks keep a reserve ratio (v) and lend the rest. That loan becomes a deposit, which is lent again... money multiplies!</p></div>
-    <div class="fb"><div class="fm">Money Multiplier = 1 ÷ v</div><div class="fp" style="margin-top:9px"><div class="fpi"><div class="s">v = 10%</div><div class="d">$100 → $1,000 total deposits created</div></div><div class="fpi"><div class="s">v = 20%</div><div class="d">$100 → $500 total deposits created</div></div></div></div>
-    <div class="sh"><div class="sn">2</div><h2>Monetary Transmission Mechanism</h2></div>
-    <div class="kc"><div class="kcl">⭐ Exam Critical — Q2 is about this</div><h3>How a rate hike reaches inflation</h3><p>Know every step in this chain — it's the core of Question 2.</p></div>
-    <div class="flow">
-      <div class="fs"><div class="fn">Step 1</div><div class="ft">🏛️ CB raises overnight rate</div><div class="fd">Makes bank-to-bank borrowing more expensive</div></div>
-      <div class="fa">↓</div>
-      <div class="fs"><div class="fn">Step 2</div><div class="ft">📈 All interest rates follow</div><div class="fd">Mortgages, business loans, credit — all rise within days</div></div>
-      <div class="fa">↓</div>
-      <div class="fs"><div class="fn">Step 3</div><div class="ft">💸 Borrowing becomes expensive</div><div class="fd">Firms cancel investments. Households cut mortgage and credit spending.</div></div>
-      <div class="fa">↓</div>
-      <div class="fs"><div class="fn">Step 4 — Open Economy</div><div class="ft">💱 Currency appreciates</div><div class="fd">Higher rates attract foreign capital → stronger currency → exports fall → NX↓</div></div>
-      <div class="fa">↓</div>
-      <div class="fs"><div class="fn">Step 5</div><div class="ft">📉 AD shifts LEFT</div><div class="fd">↓I + ↓C + ↓NX = less aggregate demand</div></div>
-      <div class="fa">↓</div>
-      <div class="fs"><div class="fn">Step 6</div><div class="ft">👷 Output falls, unemployment rises</div><div class="fd">Firms produce less, lay off workers</div></div>
-      <div class="fa">↓</div>
-      <div class="fs ok"><div class="fn">Step 7 — Goal achieved</div><div class="ft">✅ Inflation falls toward 2%</div><div class="fd">Labour slack → lower wage demands → lower costs → lower prices</div></div>
+  <!-- ── DAY 3 ── -->
+  <div class="pane" id="learn-2">
+
+    <div class="sh"><div class="sn">1</div><h2>Money, Banks &amp; Money Creation</h2></div>
+
+    <div class="def">
+      <div class="dl">What is money?</div>
+      <div class="dt">Money = Anything widely accepted as payment</div>
+      <div class="dd">In modern economies, most "money" isn't physical cash — it's deposits in bank accounts created when banks make loans. The Central Bank (CB) controls the base, but commercial banks multiply it.</div>
     </div>
-    <div class="sh"><div class="sn">3</div><h2>Inflation Targeting</h2></div>
-    <div class="card"><div class="ct">🎯 The 2% Target</div><ul><li>Y &gt; Y* → CB <strong>raises</strong> rates (fight inflation)</li><li>Y &lt; Y* → CB <strong>cuts</strong> rates (boost growth)</li><li>Output gap = early warning signal for future inflation</li></ul></div>
-    <div class="card bc"><div class="ct">Long-Run Money Neutrality</div><p>In the long run, printing more money only raises prices — real output always returns to Y*. CBs focus on inflation targets, not money supply growth.</p></div>
+
+    <div class="card">
+      <div class="ct">How banks create money — fractional reserve banking</div>
+      <p>You deposit $1000. The bank is required to keep only a fraction (say 20%) as reserves. It lends out $800. That $800 gets deposited in another bank, which keeps $160 and lends $640. And so on.</p>
+      <p style="margin-top:6px">The total money created from your $1000 deposit:</p>
+    </div>
+
+    <div class="fb">
+      <div class="fm">Money Multiplier = 1 ÷ reserve ratio (v)</div>
+      <div style="border-top:1px solid var(--bd);margin-top:8px;padding-top:8px"><div class="fm">v = 20% → Multiplier = 1÷0.2 = 5 → $1000 creates $5000</div></div>
+    </div>
+
+    <div class="sh"><div class="sn">2</div><h2>Monetary Policy — How the Central Bank Controls the Economy</h2></div>
+
+    <div class="card ac">
+      <div class="ct">🏛️ The Central Bank's One Lever: The Overnight Interest Rate</div>
+      <p>The CB (Bank of Canada, ECB, Fed) sets the overnight rate — the rate banks charge each other for very short-term loans. This one rate sets the "floor" for all other rates in the economy. Within days, mortgage rates, business loan rates, and credit card rates all follow.</p>
+    </div>
+
+    <div class="def">
+      <div class="dl">The Monetary Transmission Mechanism</div>
+      <div class="dt">How CB rate changes flow through the whole economy</div>
+      <div class="dd">This is the chain of events from a CB decision to the final effect on inflation. Memorise every step — this is exam Q2.</div>
+    </div>
+
+    <div class="flow">
+      <div class="fs"><div class="fn">Step 1</div><div class="ft">CB raises overnight rate</div><div class="fd">Decision announced. Target rate goes up immediately.</div></div>
+      <div class="fa">↓</div>
+      <div class="fs"><div class="fn">Step 2</div><div class="ft">ALL market rates rise</div><div class="fd">Mortgages, business loans, car loans, credit cards — all follow within days.</div></div>
+      <div class="fa">↓</div>
+      <div class="fs"><div class="fn">Step 3</div><div class="ft">Investment (I) falls</div><div class="fd">Firms cancel/postpone capital projects — too expensive to finance at higher rates.</div></div>
+      <div class="fa">↓</div>
+      <div class="fs"><div class="fn">Step 4</div><div class="ft">Consumption (C) falls</div><div class="fd">Households face higher mortgage payments. Borrowing to buy becomes more expensive.</div></div>
+      <div class="fa">↓</div>
+      <div class="fs"><div class="fn">Step 5 (Open Economy)</div><div class="ft">Currency appreciates, NX falls</div><div class="fd">Higher rates attract foreign capital → demand for our currency rises → currency strengthens → our exports become expensive abroad → exports fall → NX↓.</div></div>
+      <div class="fa">↓</div>
+      <div class="fs"><div class="fn">Step 6</div><div class="ft">AD shifts LEFT</div><div class="fd">↓I + ↓C + ↓NX = less total spending in the economy. Aggregate Demand curve shifts left.</div></div>
+      <div class="fa">↓</div>
+      <div class="fs"><div class="fn">Step 7</div><div class="ft">Y falls below Y*, unemployment rises</div><div class="fd">Recessionary gap opens. Firms cut production, lay off workers.</div></div>
+      <div class="fa">↓</div>
+      <div class="fs ok"><div class="fn">Step 8 — Result</div><div class="ft">Wages fall → costs fall → prices fall</div><div class="fd">Labour surplus drives wages down. Lower costs let firms lower prices. Inflation falls back toward 2% target.</div></div>
+    </div>
+
+    <div class="ig">
+      <div class="gt">🏛️ Monetary Transmission — CB Rate Hike Flow</div>
+      <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="5" width="284" height="26" rx="6" fill="#1a1a22" stroke="#7c6af7" stroke-width="1.5"/>
+        <text x="150" y="22" text-anchor="middle" font-size="10" fill="#7c6af7" font-family="DM Sans,sans-serif" font-weight="700">1. CB ↑ Overnight Rate</text>
+        <line x1="150" y1="31" x2="150" y2="40" stroke="#2e2e3e" stroke-width="1.5"/>
+        <rect x="8" y="40" width="284" height="26" rx="6" fill="#1a1a22" stroke="#6aaaf7" stroke-width="1"/>
+        <text x="150" y="57" text-anchor="middle" font-size="10" fill="#6aaaf7" font-family="DM Sans,sans-serif">2. All market rates rise</text>
+        <line x1="150" y1="66" x2="150" y2="75" stroke="#2e2e3e" stroke-width="1.5"/>
+        <!-- Split 3 ways -->
+        <line x1="150" y1="75" x2="55" y2="85" stroke="#2e2e3e" stroke-width="1"/>
+        <line x1="150" y1="75" x2="150" y2="85" stroke="#2e2e3e" stroke-width="1"/>
+        <line x1="150" y1="75" x2="245" y2="85" stroke="#2e2e3e" stroke-width="1"/>
+        <rect x="8" y="85" width="90" height="28" rx="5" fill="#1a1a22" stroke="#f7a26a" stroke-width="1"/>
+        <text x="53" y="99" text-anchor="middle" font-size="9" fill="#f7a26a" font-family="DM Sans,sans-serif">3. ↓ Investment</text>
+        <text x="53" y="109" text-anchor="middle" font-size="9" fill="#f7a26a" font-family="DM Sans,sans-serif">(firms cancel plans)</text>
+        <rect x="105" y="85" width="90" height="28" rx="5" fill="#1a1a22" stroke="#f7a26a" stroke-width="1"/>
+        <text x="150" y="99" text-anchor="middle" font-size="9" fill="#f7a26a" font-family="DM Sans,sans-serif">4. ↓ Consumption</text>
+        <text x="150" y="109" text-anchor="middle" font-size="9" fill="#f7a26a" font-family="DM Sans,sans-serif">(mortgages cost more)</text>
+        <rect x="202" y="85" width="90" height="28" rx="5" fill="#1a1a22" stroke="#f7a26a" stroke-width="1"/>
+        <text x="247" y="99" text-anchor="middle" font-size="9" fill="#f7a26a" font-family="DM Sans,sans-serif">5. ↑ Currency</text>
+        <text x="247" y="109" text-anchor="middle" font-size="9" fill="#f7a26a" font-family="DM Sans,sans-serif">→ ↓ NX (exports)</text>
+        <!-- Merge -->
+        <line x1="53" y1="113" x2="53" y2="125" stroke="#2e2e3e" stroke-width="1"/>
+        <line x1="150" y1="113" x2="150" y2="125" stroke="#2e2e3e" stroke-width="1"/>
+        <line x1="247" y1="113" x2="247" y2="125" stroke="#2e2e3e" stroke-width="1"/>
+        <line x1="53" y1="125" x2="247" y2="125" stroke="#2e2e3e" stroke-width="1"/>
+        <line x1="150" y1="125" x2="150" y2="135" stroke="#2e2e3e" stroke-width="1.5"/>
+        <rect x="8" y="135" width="284" height="26" rx="6" fill="#1a1a22" stroke="#f76a6a" stroke-width="1.5"/>
+        <text x="150" y="152" text-anchor="middle" font-size="10" fill="#f76a6a" font-family="DM Sans,sans-serif" font-weight="700">6. AD shifts LEFT</text>
+        <line x1="150" y1="161" x2="150" y2="170" stroke="#2e2e3e" stroke-width="1.5"/>
+        <rect x="8" y="170" width="284" height="26" rx="6" fill="#1a1a22" stroke="#f76a6a" stroke-width="1"/>
+        <text x="150" y="187" text-anchor="middle" font-size="10" fill="#f76a6a" font-family="DM Sans,sans-serif">7. Y falls, unemployment rises (Y &lt; Y*)</text>
+        <line x1="150" y1="196" x2="150" y2="205" stroke="#2e2e3e" stroke-width="1.5"/>
+        <rect x="8" y="205" width="284" height="26" rx="6" fill="#1a1a22" stroke="#4ecb8d" stroke-width="1.5"/>
+        <text x="150" y="222" text-anchor="middle" font-size="10" fill="#4ecb8d" font-family="DM Sans,sans-serif">8. Wages↓ → costs↓ → prices↓</text>
+        <line x1="150" y1="231" x2="150" y2="240" stroke="#2e2e3e" stroke-width="1.5"/>
+        <rect x="8" y="240" width="284" height="30" rx="6" fill="rgba(78,203,141,0.12)" stroke="#4ecb8d" stroke-width="2"/>
+        <text x="150" y="259" text-anchor="middle" font-size="11" fill="#4ecb8d" font-family="DM Sans,sans-serif" font-weight="700">✅ Inflation falls to 2% target</text>
+      </svg>
+      <div class="ig-cap">This is the full chain from CB decision to inflation target. Each step takes time — which is why monetary policy effects are felt 12–18 months later.</div>
+    </div>
+
+    <div class="sh"><div class="sn">3</div><h2>Stagflation — The Impossible Dilemma</h2></div>
+
+    <div class="def">
+      <div class="dl">Definition</div>
+      <div class="dt">Stagflation</div>
+      <div class="dd">Simultaneous high inflation + falling output + rising unemployment. Caused by a negative supply shock (oil spike, supply chain crisis, war) that raises firms' costs — AS shifts LEFT. Price goes UP while output goes DOWN. The worst of both worlds.</div>
+    </div>
+
+    <div class="card rc">
+      <div class="ct">⚡ Roubini's Dilemma — Why CBs Are Stuck</div>
+      <p>Normal recession: cut rates → demand recovers → problem solved.<br>Normal inflation: raise rates → demand falls → inflation cools → problem solved.<br><strong>Stagflation: both at once.</strong> Whatever you do, you make one problem worse.</p>
+    </div>
+
+    <div class="tw"><table>
+      <tr><th>CB Decision</th><th>What happens</th><th>Verdict</th></tr>
+      <tr><td><strong style="color:var(--re)">Raise rates</strong></td><td>Inflation cools ✓ BUT: demand falls further, recession deepens, debt servicing explodes, financial crash risk</td><td><span class="hlr">Economic + financial crash</span></td></tr>
+      <tr><td><strong style="color:var(--or)">Don't raise</strong></td><td>Recession softens ✓ BUT: inflation keeps rising, expectations de-anchor, wage-price spiral, permanently higher inflation</td><td><span style="color:var(--or);font-weight:600">Permanent inflation</span></td></tr>
+    </table></div>
+
+    <div class="card gc">
+      <div class="ct">Long-Run Money Neutrality</div>
+      <p>In the long run, printing more money only raises prices — it does NOT increase real output. Real output always returns to Y* regardless of how much money is printed. This is why CBs don't just print their way out of every problem.</p>
+    </div>
+
+    <button class="btn" onclick="goPage('pg-exam')">Go to Exam Answers →</button>
   </div>
 </div>
 
-<!-- ═══ GRAPHS ═══ -->
+<!-- ══════════ GRAPHS ══════════ -->
 <div class="page" id="pg-graphs">
-  <div class="pills">
-    <div class="pill on" onclick="tab('graphs','g1',this)">Business Cycle</div>
-    <div class="pill" onclick="tab('graphs','g2',this)">AD/AS</div>
-    <div class="pill" onclick="tab('graphs','g3',this)">Stagflation</div>
-    <div class="pill" onclick="tab('graphs','g4',this)">Multiplier</div>
+  <div class="tabs" id="graphs-tabs">
+    <div class="tab on" onclick="goTab('graphs',0)">Business Cycle</div>
+    <div class="tab" onclick="goTab('graphs',1)">AD / AS</div>
+    <div class="tab" onclick="goTab('graphs',2)">Stagflation</div>
+    <div class="tab" onclick="goTab('graphs',3)">Multiplier</div>
   </div>
 
-  <!-- BUSINESS CYCLE -->
-  <div class="sub on" id="graphs-g1">
-    <div class="card"><div class="ct">How to read this graph</div><p><strong>X = Time. Y = Real GDP.</strong> The purple curve is actual output. The dashed red line is potential output (Y*). When actual is above Y* → inflationary gap. When below → recessionary gap.</p></div>
+  <!-- Business Cycle graph pane -->
+  <div class="pane on" id="graphs-0">
+    <div class="card"><div class="ct">The Business Cycle</div><p><strong>X = Time. Y-axis = Real GDP.</strong><br><br>The purple curve = actual GDP. The dashed red line = potential Y* (growing slowly). The economy oscillates around Y*. Policy tries to close the gap.</p></div>
     <div class="gb">
-      <div class="gt">Business Cycle</div>
-      <!-- viewBox="0 0 W H" — browser scales this to fit container. No JS needed. -->
-      <svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
-        <!-- axes -->
-        <line x1="35" y1="155" x2="350" y2="155" stroke="#3a3a50" stroke-width="1.5"/>
-        <line x1="35" y1="15" x2="35" y2="155" stroke="#3a3a50" stroke-width="1.5"/>
-        <text x="192" y="172" font-size="10" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">Time →</text>
-        <text x="10" y="85" font-size="10" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,10,85)" font-family="DM Sans,sans-serif">Real GDP</text>
-        <!-- Y* potential — gentle upward trend -->
-        <line x1="35" y1="110" x2="348" y2="75" stroke="#f76a6a" stroke-width="1.8" stroke-dasharray="6,4"/>
-        <!-- actual GDP wave — smooth bezier path -->
-        <path d="M35,118 C55,118 65,48 90,44 C115,40 122,142 148,148 C174,154 182,58 208,53 C234,48 240,140 265,143 C290,146 298,68 322,64 C336,61 344,110 348,108"
-              fill="none" stroke="#7c6af7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- labels -->
-        <text x="90" y="34" font-size="9" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">PEAK</text>
-        <circle cx="90" cy="44" r="3" fill="#f7d76a"/>
-        <text x="148" y="168" font-size="9" fill="#6aaaf7" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">TROUGH</text>
-        <circle cx="148" cy="148" r="3" fill="#6aaaf7"/>
-        <text x="66" y="80" font-size="8" fill="#f7a26a" font-family="DM Sans,sans-serif">Inflationary</text>
-        <text x="66" y="90" font-size="8" fill="#f7a26a" font-family="DM Sans,sans-serif">gap (Y&gt;Y*)</text>
-        <text x="158" y="128" font-size="8" fill="#6aaaf7" font-family="DM Sans,sans-serif">Recessionary</text>
-        <text x="158" y="138" font-size="8" fill="#6aaaf7" font-family="DM Sans,sans-serif">gap (Y&lt;Y*)</text>
-        <!-- legend bottom -->
-        <line x1="38" y1="170" x2="58" y2="170" stroke="#7c6af7" stroke-width="2.2"/>
-        <text x="62" y="174" font-size="8" fill="#7c6af7" font-family="DM Sans,sans-serif">Actual GDP</text>
-        <line x1="148" y1="170" x2="168" y2="170" stroke="#f76a6a" stroke-width="1.8" stroke-dasharray="5,3"/>
-        <text x="172" y="174" font-size="8" fill="#f76a6a" font-family="DM Sans,sans-serif">Potential Y*</text>
+      <div class="gt">Business Cycle — Actual GDP vs Potential Y*</div>
+      <svg viewBox="0 0 380 220" xmlns="http://www.w3.org/2000/svg">
+        <line x1="42" y1="192" x2="370" y2="192" stroke="#3a3a55" stroke-width="1.5"/>
+        <line x1="42" y1="14" x2="42" y2="192" stroke="#3a3a55" stroke-width="1.5"/>
+        <text x="206" y="208" font-size="10" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">Time →</text>
+        <text x="14" y="103" font-size="10" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,14,103)" font-family="DM Sans,sans-serif">Real GDP</text>
+        <line x1="42" y1="155" x2="370" y2="75" stroke="#f76a6a" stroke-width="2" stroke-dasharray="8,5"/>
+        <text x="352" y="70" font-size="11" fill="#f76a6a" font-family="DM Sans,sans-serif" font-weight="700">Y*</text>
+        <path d="M42,155 C70,140 95,90 125,75 C155,60 170,90 195,115 C220,140 238,178 268,170 C295,163 320,115 345,100 C358,93 366,88 370,87"
+              fill="none" stroke="#7c6af7" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="125" cy="75" r="5" fill="#f7d76a"/>
+        <text x="125" y="64" font-size="10" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">PEAK</text>
+        <circle cx="268" cy="170" r="5" fill="#6aaaf7"/>
+        <text x="268" y="184" font-size="10" fill="#6aaaf7" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">TROUGH</text>
+        <text x="125" y="54" font-size="9" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">Y&gt;Y* Inflation gap</text>
+        <text x="268" y="196" font-size="9" fill="#6aaaf7" text-anchor="middle" font-family="DM Sans,sans-serif">Y&lt;Y* Recession gap</text>
+        <line x1="42" y1="192" x2="62" y2="192" stroke="#7c6af7" stroke-width="2.5"/>
+        <text x="66" y="196" font-size="9" fill="#7c6af7" font-family="DM Sans,sans-serif">Actual GDP</text>
+        <line x1="160" y1="192" x2="180" y2="192" stroke="#f76a6a" stroke-width="2" stroke-dasharray="6,4"/>
+        <text x="184" y="196" font-size="9" fill="#f76a6a" font-family="DM Sans,sans-serif">Potential Y*</text>
       </svg>
+      <div class="gc2">Y always returns to Y* long-run. Short-run gaps are the business cycle.</div>
     </div>
-    <div class="ah" onclick="tAcc(this)">What is a Peak? <span class="arr">▾</span></div>
-    <div class="ab">Highest point before GDP declines. Economy is overheating — inflationary gap (Y&gt;Y*). Unemployment very low, wages rising fast. CB may need to raise rates.</div>
-    <div class="ah" onclick="tAcc(this)">What is a Trough? <span class="arr">▾</span></div>
-    <div class="ab">Lowest point before recovery. Recessionary gap (Y&lt;Y*). High unemployment, weak wages. Gov may use fiscal stimulus or CB may cut rates.</div>
-    <div class="ah" onclick="tAcc(this)">What is NAIRU? <span class="arr">▾</span></div>
-    <div class="ab">Natural Rate of Unemployment when Y=Y*. Includes frictional + structural unemployment only — zero cyclical. The healthiest achievable state. Some unemployment always exists naturally.</div>
+    <div class="ah" onclick="tAcc(this)">What is a Peak? <span class="ar">▾</span></div>
+    <div class="ab">Highest point before GDP starts declining. Economy overheating — inflationary gap (Y&gt;Y*). Unemployment very low, wages rising fast. Inflation building. CB may need to raise rates.</div>
+    <div class="ah" onclick="tAcc(this)">What is a Trough? <span class="ar">▾</span></div>
+    <div class="ab">Lowest point before recovery. Recessionary gap (Y&lt;Y*). High unemployment, weak wages, idle factories. Government may use fiscal stimulus or CB may cut rates.</div>
+    <div class="ah" onclick="tAcc(this)">What is NAIRU? <span class="ar">▾</span></div>
+    <div class="ab">Natural Rate of Unemployment when Y=Y*. Includes frictional + structural only — zero cyclical unemployment. The lowest sustainable rate without causing inflation.</div>
   </div>
 
-  <!-- AD/AS -->
-  <div class="sub" id="graphs-g2">
-    <div class="card"><div class="ct">How to read the AD/AS graph</div><p><strong>X = Real Output (Y). Y = Price Level (P).</strong><br><br><span style="color:var(--r)">●</span> AS slopes up: higher prices needed to cover rising costs.<br><span style="color:var(--b)">●</span> AD slopes down: higher prices → less real wealth → less demand.<br><span style="color:var(--g)">●</span> Y* is vertical: long-run potential — output always returns here.</p></div>
+  <!-- AD/AS pane -->
+  <div class="pane" id="graphs-1">
+    <div class="card"><div class="ct">How to read the AD/AS graph</div><p><strong>X = Real Output (Y). Y-axis = Price Level (P).</strong><br><br>AD slopes down: higher prices → less demand. AS slopes up: higher prices → more supply. Y* is vertical: long-run potential output. Where AD meets AS = equilibrium.</p></div>
     <div class="gb">
       <div class="gt">AD / AS — Normal Equilibrium</div>
-      <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
-        <line x1="40" y1="175" x2="348" y2="175" stroke="#3a3a50" stroke-width="1.5"/>
-        <line x1="40" y1="12" x2="40" y2="175" stroke="#3a3a50" stroke-width="1.5"/>
-        <text x="194" y="192" font-size="10" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">Real Output (Y) →</text>
-        <text x="13" y="93" font-size="10" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,13,93)" font-family="DM Sans,sans-serif">Price Level (P)</text>
-        <!-- AS: upward curving from bottom-left to top-right -->
-        <path d="M60,170 C95,158 130,135 165,108 C200,81 235,54 268,32 C292,17 318,12 340,11" fill="none" stroke="#f76a6a" stroke-width="2.2" stroke-linecap="round"/>
-        <text x="343" y="13" font-size="11" fill="#f76a6a" font-family="DM Sans,sans-serif" font-weight="700">AS</text>
-        <!-- AD: downward curving from top-left to bottom-right -->
-        <path d="M60,14 C90,24 128,52 165,80 C202,108 240,138 278,158 C305,170 328,175 348,177" fill="none" stroke="#6aaaf7" stroke-width="2.2" stroke-linecap="round"/>
-        <text x="343" y="183" font-size="11" fill="#6aaaf7" font-family="DM Sans,sans-serif" font-weight="700">AD</text>
+      <svg viewBox="0 0 380 220" xmlns="http://www.w3.org/2000/svg">
+        <line x1="42" y1="192" x2="370" y2="192" stroke="#3a3a55" stroke-width="1.5"/>
+        <line x1="42" y1="14" x2="42" y2="192" stroke="#3a3a55" stroke-width="1.5"/>
+        <text x="206" y="208" font-size="10" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">Real Output (Y) →</text>
+        <text x="14" y="103" font-size="10" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,14,103)" font-family="DM Sans,sans-serif">Price Level (P)</text>
+        <!-- AS: straight line from (80,188) to (340,20) -->
+        <!-- slope: (20-188)/(340-80) = -168/260 = -0.646 -->
+        <line x1="80" y1="188" x2="340" y2="20" stroke="#f76a6a" stroke-width="2.5"/>
+        <text x="344" y="18" font-size="12" fill="#f76a6a" font-family="DM Sans,sans-serif" font-weight="700">AS</text>
+        <!-- AD: straight line from (58,20) to (360,188) -->
+        <!-- slope: (188-20)/(360-58) = 168/302 = 0.556 -->
+        <line x1="58" y1="20" x2="360" y2="188" stroke="#6aaaf7" stroke-width="2.5"/>
+        <text x="354" y="198" font-size="12" fill="#6aaaf7" font-family="DM Sans,sans-serif" font-weight="700">AD</text>
         <!-- Y* vertical -->
-        <line x1="210" y1="12" x2="210" y2="175" stroke="#4ecb8d" stroke-width="1.8" stroke-dasharray="7,4"/>
-        <text x="210" y="9" font-size="10" fill="#4ecb8d" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">Y*</text>
-        <!-- Equilibrium E0 ~(188, 97) -->
-        <circle cx="188" cy="97" r="5.5" fill="#f7d76a"/>
-        <text x="197" y="93" font-size="10" fill="#f7d76a" font-family="DM Sans,sans-serif" font-weight="600">E₀</text>
-        <line x1="40" y1="97" x2="188" y2="97" stroke="#3a3a55" stroke-width="1" stroke-dasharray="3,4"/>
-        <line x1="188" y1="97" x2="188" y2="175" stroke="#3a3a55" stroke-width="1" stroke-dasharray="3,4"/>
-        <text x="34" y="101" font-size="9" fill="#f7d76a" text-anchor="end" font-family="DM Sans,sans-serif">P₀</text>
-        <text x="188" y="186" font-size="9" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₀</text>
+        <line x1="260" y1="14" x2="260" y2="192" stroke="#4ecb8d" stroke-width="2" stroke-dasharray="7,5"/>
+        <text x="260" y="10" font-size="11" fill="#4ecb8d" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">Y*</text>
+        <!-- Intersection:
+             AS: y=188-0.646(x-80)=188-0.646x+51.7=239.7-0.646x
+             AD: y=20+0.556(x-58)=20+0.556x-32.25=-12.25+0.556x
+             Equal: 239.7-0.646x = -12.25+0.556x
+             251.95 = 1.202x → x=209.6, y=-12.25+0.556*209.6=104.5 -->
+        <circle cx="210" cy="104" r="6" fill="#f7d76a"/>
+        <text x="220" y="99" font-size="11" fill="#f7d76a" font-family="DM Sans,sans-serif" font-weight="700">E₀</text>
+        <line x1="42" y1="104" x2="210" y2="104" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,4" opacity=".7"/>
+        <line x1="210" y1="104" x2="210" y2="192" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,4" opacity=".7"/>
+        <text x="36" y="108" font-size="9" fill="#f7d76a" text-anchor="end" font-family="DM Sans,sans-serif">P₀</text>
+        <text x="210" y="203" font-size="9" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₀</text>
       </svg>
+      <div class="gc2">E₀ = equilibrium where AD meets AS. Y* = long-run potential. Economy self-corrects toward Y* long-run.</div>
     </div>
-    <div class="ah" onclick="tAcc(this)">What shifts AD? <span class="arr">▾</span></div>
-    <div class="ab"><strong>AD right (expansionary):</strong> ↑G, ↓T, ↑consumer confidence, ↓interest rates, ↑exports.<br><br><strong>AD left (contractionary):</strong> CB raises interest rates, ↑T, ↓G, ↓confidence, ↓exports.</div>
-    <div class="ah" onclick="tAcc(this)">What shifts AS? <span class="arr">▾</span></div>
-    <div class="ab"><strong>AS right (good):</strong> ↓oil prices, ↓wages, better technology, ↑productivity.<br><br><strong>AS left (bad — causes stagflation):</strong> ↑oil prices, supply chain disruption, ↑wages, trade tariffs.</div>
-    <div class="ah" onclick="tAcc(this)">Why is long-run AS vertical? <span class="arr">▾</span></div>
-    <div class="ab">In the long run, the economy's real productive capacity (workers, technology, capital) doesn't change just because prices changed. Output gravitates back to Y* through wage adjustment regardless of the price level.</div>
+    <div class="ah" onclick="tAcc(this)">What shifts AD? <span class="ar">▾</span></div>
+    <div class="ab"><strong>AD right (expansionary):</strong> ↑G, ↓T, ↑consumer confidence, ↓interest rates, ↑exports.<br><br><strong>AD left (contractionary):</strong> CB raises rates, ↑T, ↓G, ↓confidence.</div>
+    <div class="ah" onclick="tAcc(this)">What shifts AS? <span class="ar">▾</span></div>
+    <div class="ab"><strong>AS right (good):</strong> ↓oil prices, ↓wages, better technology, ↑productivity.<br><br><strong>AS left (bad — stagflation):</strong> ↑oil prices, supply chain crisis, ↑wages, trade tariffs raising input costs.</div>
+    <div class="ah" onclick="tAcc(this)">Why is long-run AS vertical? <span class="ar">▾</span></div>
+    <div class="ab">In the long run, real capacity (workers, factories, technology) doesn't change just because prices changed. Y always gravitates back to Y* through wage adjustment, regardless of the price level.</div>
   </div>
 
-  <!-- STAGFLATION -->
-  <div class="sub" id="graphs-g3">
-    <div class="card"><div class="ct">⚡ Stagflation — what happens on the graph</div>
-    <ol style="padding-left:1.1rem;font-size:.86rem;color:#c0c0d8;line-height:1.8">
-      <li>Start at equilibrium E₀ (AD meets AS₀)</li>
-      <li>Negative supply shock hits (oil spike, supply chain crisis)</li>
-      <li>Firms' costs rise → AS shifts <strong>left to AS₁</strong></li>
-      <li>New equilibrium E₁: <span class="hlr">P rises AND Y falls</span></li>
-      <li>Result = <span class="hlr">Stagflation</span></li>
-    </ol></div>
+  <!-- Stagflation pane -->
+  <div class="pane" id="graphs-2">
+    <div class="card"><div class="ct">⚡ Stagflation — step by step</div>
+      <ol style="padding-left:1.1rem;font-size:.85rem;color:#c0c0d8;line-height:1.8">
+        <li>Start at equilibrium E₀ (AD meets AS₀)</li>
+        <li>Negative supply shock hits (oil spike / supply chain crisis)</li>
+        <li>Firms' production costs rise → AS shifts <strong>LEFT to AS₁</strong></li>
+        <li>New equilibrium E₁: <span class="hlr">P rises AND Y falls</span></li>
+        <li>Result = <span class="hlr">STAGFLATION</span> — the worst of both worlds</li>
+      </ol>
+    </div>
     <div class="gb">
       <div class="gt">Negative Supply Shock → Stagflation</div>
-      <svg viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg">
-        <line x1="40" y1="180" x2="348" y2="180" stroke="#3a3a50" stroke-width="1.5"/>
-        <line x1="40" y1="12" x2="40" y2="180" stroke="#3a3a50" stroke-width="1.5"/>
-        <text x="194" y="197" font-size="9" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">Real Output (Y) →</text>
-        <text x="13" y="96" font-size="9" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,13,96)" font-family="DM Sans,sans-serif">Price Level (P)</text>
-        <!-- AS₀ original -->
-        <path d="M70,175 C105,160 138,132 170,104 C202,76 234,50 262,30 C284,16 310,11 335,10" fill="none" stroke="#f76a6a" stroke-width="2.2" stroke-linecap="round"/>
-        <text x="338" y="12" font-size="10" fill="#f76a6a" font-family="DM Sans,sans-serif" font-weight="700">AS₀</text>
-        <!-- AS₁ shifted left (dashed) -->
-        <path d="M48,175 C78,158 112,128 145,100 C178,72 210,47 240,28 C262,15 290,10 315,9" fill="none" stroke="#f7a26a" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="7,4"/>
-        <text x="318" y="11" font-size="10" fill="#f7a26a" font-family="DM Sans,sans-serif" font-weight="700">AS₁</text>
+      <svg viewBox="0 0 380 230" xmlns="http://www.w3.org/2000/svg">
+        <line x1="42" y1="200" x2="368" y2="200" stroke="#3a3a55" stroke-width="1.5"/>
+        <line x1="42" y1="14" x2="42" y2="200" stroke="#3a3a55" stroke-width="1.5"/>
+        <text x="205" y="216" font-size="9" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">Real Output (Y) →</text>
+        <text x="14" y="107" font-size="9" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,14,107)" font-family="DM Sans,sans-serif">Price Level (P)</text>
+        <!-- AD: straight line (55,18) to (360,198) -->
+        <!-- slope: (198-18)/(360-55) = 180/305 = 0.59 -->
+        <line x1="55" y1="18" x2="360" y2="198" stroke="#6aaaf7" stroke-width="2.5"/>
+        <text x="354" y="207" font-size="11" fill="#6aaaf7" font-family="DM Sans,sans-serif" font-weight="700">AD</text>
+        <!-- AS₀: straight line (160,198) to (355,18) — solid red -->
+        <!-- slope: (18-198)/(355-160) = -180/195 = -0.923 -->
+        <line x1="160" y1="198" x2="355" y2="18" stroke="#f76a6a" stroke-width="2.5"/>
+        <text x="350" y="14" font-size="11" fill="#f76a6a" font-family="DM Sans,sans-serif" font-weight="700">AS₀</text>
+        <!-- AS₁: shifted LEFT 90px: (70,198) to (265,18) — dashed orange -->
+        <line x1="70" y1="198" x2="265" y2="18" stroke="#f7a26a" stroke-width="2.5" stroke-dasharray="8,4"/>
+        <text x="260" y="14" font-size="11" fill="#f7a26a" font-family="DM Sans,sans-serif" font-weight="700">AS₁</text>
         <!-- shift arrow -->
-        <text x="185" y="46" font-size="8" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">← shifts left</text>
-        <!-- AD unchanged -->
-        <path d="M55,15 C88,26 125,54 162,82 C199,110 238,142 275,162 C300,174 325,179 345,181" fill="none" stroke="#6aaaf7" stroke-width="2.2" stroke-linecap="round"/>
-        <text x="340" y="188" font-size="10" fill="#6aaaf7" font-family="DM Sans,sans-serif" font-weight="700">AD</text>
-        <!-- E₀ -->
-        <circle cx="196" cy="99" r="5" fill="#f7d76a"/>
-        <text x="204" y="95" font-size="10" fill="#f7d76a" font-family="DM Sans,sans-serif" font-weight="600">E₀</text>
-        <line x1="40" y1="99" x2="196" y2="99" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,4"/>
-        <line x1="196" y1="99" x2="196" y2="180" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,4"/>
-        <!-- E₁ higher P, lower Y -->
-        <circle cx="160" cy="120" r="5" fill="#f7a26a"/>
-        <text x="148" y="136" font-size="10" fill="#f7a26a" font-family="DM Sans,sans-serif" font-weight="600">E₁</text>
-        <line x1="40" y1="120" x2="160" y2="120" stroke="#f7a26a" stroke-width="1" stroke-dasharray="3,4"/>
-        <line x1="160" y1="120" x2="160" y2="180" stroke="#f7a26a" stroke-width="1" stroke-dasharray="3,4"/>
-        <!-- axis labels -->
-        <text x="34" y="103" font-size="8" fill="#f7d76a" text-anchor="end" font-family="DM Sans,sans-serif">P₀</text>
-        <text x="34" y="124" font-size="8" fill="#f7a26a" text-anchor="end" font-family="DM Sans,sans-serif">P₁↑</text>
-        <text x="196" y="190" font-size="8" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₀</text>
-        <text x="160" y="190" font-size="8" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₁↓</text>
-        <!-- stagflation box -->
-        <rect x="68" y="152" width="188" height="20" rx="5" fill="rgba(247,106,106,0.15)" stroke="#f76a6a" stroke-width="1"/>
-        <text x="162" y="166" font-size="9" fill="#f76a6a" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">↑ Price + ↓ Output = STAGFLATION</text>
+        <defs><marker id="arStag" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#f7a26a"/></marker></defs>
+        <line x1="325" y1="50" x2="265" y2="50" stroke="#f7a26a" stroke-width="1.8" marker-end="url(#arStag)"/>
+        <text x="328" y="46" font-size="8" fill="#f7a26a" font-family="DM Sans,sans-serif">← shifts left</text>
+        <!-- E₀: AD ∩ AS₀
+             AD: y=18+0.59(x-55)=18+0.59x-32.45 = -14.45+0.59x
+             AS₀: y=198-0.923(x-160)=198-0.923x+147.7=345.7-0.923x
+             -14.45+0.59x = 345.7-0.923x
+             1.513x = 360.15 → x=238.0
+             y = -14.45+0.59*238 = -14.45+140.4 = 125.9 ≈ 126 -->
+        <circle cx="238" cy="126" r="6" fill="#f7d76a"/>
+        <text x="248" y="121" font-size="11" fill="#f7d76a" font-family="DM Sans,sans-serif" font-weight="700">E₀</text>
+        <line x1="42" y1="126" x2="238" y2="126" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,3" opacity=".65"/>
+        <line x1="238" y1="126" x2="238" y2="200" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,3" opacity=".65"/>
+        <text x="36" y="130" font-size="9" fill="#f7d76a" text-anchor="end" font-family="DM Sans,sans-serif">P₀</text>
+        <text x="238" y="211" font-size="9" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₀</text>
+        <!-- E₁: AD ∩ AS₁
+             AS₁ same slope, shifted left 90px: y=345.7-0.923(x-(160-90)) = 345.7-0.923(x-70)=345.7-0.923x+64.6=410.3-0.923x
+             AD: y=-14.45+0.59x
+             -14.45+0.59x = 410.3-0.923x
+             1.513x = 424.75 → x=280.7... wait that moves right not left.
+             AS shifted LEFT means x values shift left by 90. So same x range but curve is to left.
+             Let me recalc: AS₁ passes (70,198) to (265,18).
+             slope = (18-198)/(265-70) = -180/195 = -0.923 (same slope as AS₀)
+             y=198-0.923(x-70) = 198-0.923x+64.6 = 262.6-0.923x
+             AD: y=-14.45+0.59x
+             -14.45+0.59x = 262.6-0.923x
+             1.513x = 277.05 → x=183.1
+             y = -14.45+0.59*183.1 = -14.45+108 = 93.5 ≈ 94 -->
+        <circle cx="183" cy="94" r="6" fill="#f7a26a"/>
+        <text x="162" y="86" font-size="11" fill="#f7a26a" font-family="DM Sans,sans-serif" font-weight="700">E₁</text>
+        <line x1="42" y1="94" x2="183" y2="94" stroke="#f7a26a" stroke-width="1" stroke-dasharray="3,3" opacity=".65"/>
+        <line x1="183" y1="94" x2="183" y2="200" stroke="#f7a26a" stroke-width="1" stroke-dasharray="3,3" opacity=".65"/>
+        <text x="36" y="98" font-size="9" fill="#f7a26a" text-anchor="end" font-family="DM Sans,sans-serif">P₁↑</text>
+        <text x="183" y="211" font-size="9" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₁↓</text>
+        <!-- Stagflation label -->
+        <rect x="52" y="163" width="160" height="22" rx="6" fill="rgba(247,106,106,.15)" stroke="#f76a6a" stroke-width="1.2"/>
+        <text x="132" y="178" font-size="9" fill="#f76a6a" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">↑ Price + ↓ Output = STAGFLATION</text>
       </svg>
-      <div class="gc2">AS₀ shifts left to AS₁ → new equilibrium E₁ has higher prices AND lower output simultaneously.</div>
+      <div class="gc2">AS₀→AS₁ (left shift) = negative supply shock. E₁ is UP-LEFT of E₀: higher P, lower Y. That's stagflation — and it's calculated precisely, not estimated.</div>
     </div>
-    <div class="ah" onclick="tAcc(this)">Why can't normal policy fix stagflation? <span class="arr">▾</span></div>
-    <div class="ab">Demand-side tools only shift AD. To fight inflation → shift AD left (raise rates) → makes recession worse. To fight recession → shift AD right (cut rates) → makes inflation worse. You cannot fix both simultaneously. This is Roubini's "stagflation trap."</div>
-    <div class="ah" onclick="tAcc(this)">Real-world examples <span class="arr">▾</span></div>
-    <div class="ab"><strong>1970s:</strong> OPEC oil embargo → oil prices quadrupled → AS shock across oil-importing countries → stagflation in US and Europe.<br><br><strong>2021–22:</strong> COVID supply chains + Russia-Ukraine war → energy prices soared. Exact context of your Roubini exam article.</div>
+    <div class="ah" onclick="tAcc(this)">Why can't normal policy fix stagflation? <span class="ar">▾</span></div>
+    <div class="ab">If CB <strong>raises rates</strong> to fight inflation → AD shifts left → Y falls even more → deeper recession. But inflation may fall.<br><br>If CB <strong>cuts rates</strong> to fight recession → AD shifts right → Y recovers → but inflation gets even worse.<br><br>Any demand-side policy fixes one problem but makes the other worse. This is Roubini's dilemma.</div>
+    <div class="ah" onclick="tAcc(this)">Real-world examples <span class="ar">▾</span></div>
+    <div class="ab"><strong>1970s Oil Crisis:</strong> OPEC quadrupled oil prices → stagflation across Western economies. Fed eventually raised rates to ~20% under Volcker (1980) — caused deep recession but broke inflation.<br><br><strong>2021–2022 COVID + Ukraine:</strong> Supply chain disruptions + Russia-Ukraine war pushed oil/gas/food prices up → stagflation returned. ECB and Fed had to hike aggressively.</div>
   </div>
 
-  <!-- MULTIPLIER -->
-  <div class="sub" id="graphs-g4">
-    <div class="card"><div class="ct">How to read this graph</div><p><strong>X = Y (income). Y = AE (planned spending).</strong><br><br>The 45° line = where Y=AE (equilibrium). The AE line has slope = MPC &lt; 1. Where they intersect = equilibrium income. When AE shifts up by ΔA, equilibrium rises by ΔY — which is much bigger. That gap is the multiplier.</p></div>
+  <!-- Multiplier pane -->
+  <div class="pane" id="graphs-3">
+    <div class="card"><div class="ct">The Multiplier</div><p>The Keynesian Cross graph shows equilibrium where the AE line crosses the 45° line (Y=AE). A government spending increase shifts AE up → bigger increase in Y.</p></div>
     <div class="gb">
-      <div class="gt">The Multiplier — Keynesian Cross</div>
-      <svg viewBox="0 0 360 190" xmlns="http://www.w3.org/2000/svg">
-        <line x1="35" y1="168" x2="345" y2="168" stroke="#3a3a50" stroke-width="1.5"/>
-        <line x1="35" y1="12" x2="35" y2="168" stroke="#3a3a50" stroke-width="1.5"/>
-        <text x="190" y="183" font-size="10" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">Y (Income) →</text>
-        <text x="10" y="90" font-size="10" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,10,90)" font-family="DM Sans,sans-serif">AE</text>
-        <!-- 45° line: from (35,168) to (305,18) — slope exactly 1 in viewBox coords -->
-        <line x1="35" y1="168" x2="305" y2="18" stroke="#2a2a45" stroke-width="1.5" stroke-dasharray="5,4"/>
-        <text x="272" y="15" font-size="8" fill="#3a3a5a" font-family="DM Sans,sans-serif">45° (Y=AE)</text>
-        <!-- AE₀: intercept at y=148 (autonomous), slope 0.62 of 45°
-             At x=35, y_svg=148. At x=315, y_svg=148-(280*0.62)=148-173... too steep.
-             Let's define: 45° slope in svg = (168-18)/(305-35) = 150/270 = 0.556 px/px
-             AE₀ slope = 0.65 * 0.556 = 0.361 px/px (MPC=0.65)
-             AE₀: y = 148 - 0.361*(x-35)
-             At x=315: y = 148 - 0.361*280 = 148-101 = 47
-             Intercept 45°: 168 - 0.556*(x-35) = 148 - 0.361*(x-35)
-             20 = (0.556-0.361)*(x-35) = 0.195*(x-35) → x-35=102.6 → x=137.6, y=168-0.556*102.6=168-57=111 -->
-        <line x1="35" y1="148" x2="315" y2="47" stroke="#7c6af7" stroke-width="2.2" stroke-linecap="round"/>
-        <text x="318" y="48" font-size="10" fill="#7c6af7" font-family="DM Sans,sans-serif" font-weight="700">AE₀</text>
-        <!-- AE₁: autonomous shifted up 20px → intercept at y=128
-             AE₁: y = 128 - 0.361*(x-35)
-             Intercept 45°: 168 - 0.556*(x-35) = 128 - 0.361*(x-35)
-             40 = 0.195*(x-35) → x-35=205 → x=240, y=168-0.556*205=168-114=54 -->
-        <line x1="35" y1="128" x2="315" y2="27" stroke="#f7a26a" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="7,4"/>
-        <text x="318" y="28" font-size="10" fill="#f7a26a" font-family="DM Sans,sans-serif" font-weight="700">AE₁</text>
-        <!-- E₀ at (137.6, 111) -->
-        <circle cx="138" cy="111" r="5" fill="#7c6af7"/>
-        <!-- E₁ at (240, 54) -->
-        <circle cx="240" cy="54" r="5" fill="#4ecb8d"/>
-        <!-- vertical dashes to x-axis -->
-        <line x1="138" y1="111" x2="138" y2="168" stroke="#7c6af7" stroke-width="1" stroke-dasharray="3,4"/>
-        <line x1="240" y1="54" x2="240" y2="168" stroke="#4ecb8d" stroke-width="1" stroke-dasharray="3,4"/>
-        <text x="138" y="179" font-size="9" fill="#7c6af7" text-anchor="middle" font-family="DM Sans,sans-serif">Y₀</text>
-        <text x="240" y="179" font-size="9" fill="#4ecb8d" text-anchor="middle" font-family="DM Sans,sans-serif">Y₁</text>
+      <div class="gt">Keynesian Cross — Equilibrium &amp; Multiplier Effect</div>
+      <svg viewBox="0 0 380 220" xmlns="http://www.w3.org/2000/svg">
+        <line x1="42" y1="192" x2="370" y2="192" stroke="#3a3a55" stroke-width="1.5"/>
+        <line x1="42" y1="14" x2="42" y2="192" stroke="#3a3a55" stroke-width="1.5"/>
+        <text x="206" y="208" font-size="10" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">National Income (Y) →</text>
+        <text x="14" y="103" font-size="10" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,14,103)" font-family="DM Sans,sans-serif">AE →</text>
+        <!-- 45° line: from (42,192) going up-right. At x=234, y=0. So (42,192) to (234,0) -->
+        <line x1="42" y1="192" x2="234" y2="0" stroke="#4ecb8d" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="230" y="10" font-size="10" fill="#4ecb8d" font-family="DM Sans,sans-serif">45°(Y=AE)</text>
+        <!-- AE₀: slope z=0.55, y-intercept at x=42 → y=152 (autonomous spending)
+             At 45°: y=192-(x-42). AE0: y=152-0.55(x-42)=152-0.55x+23.1=175.1-0.55x
+             Equal: 192-(x-42) = 175.1-0.55x → 234-x = 175.1-0.55x → 58.9=0.45x → x=130.9, y=192-130.9+42=103.1 -->
+        <line x1="42" y1="152" x2="320" y2="18" stroke="#7c6af7" stroke-width="2.2"/>
+        <text x="316" y="15" font-size="10" fill="#7c6af7" font-family="DM Sans,sans-serif" font-weight="700">AE₀</text>
+        <!-- AE₁: shifted up 22px: y-intercept at y=130
+             234-x = 153.1-0.55x → 80.9=0.45x → x=179.8, y=192-179.8+42=54.2 -->
+        <line x1="42" y1="130" x2="310" y2="2" stroke="#f7a26a" stroke-width="2" stroke-dasharray="6,3"/>
+        <text x="306" y="0" font-size="10" fill="#f7a26a" font-family="DM Sans,sans-serif" font-weight="700">AE₁</text>
+        <!-- E₀ at (131, 103) -->
+        <circle cx="131" cy="103" r="6" fill="#f7d76a"/>
+        <text x="141" y="99" font-size="10" fill="#f7d76a" font-family="DM Sans,sans-serif" font-weight="700">E₀</text>
+        <line x1="42" y1="103" x2="131" y2="103" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,4" opacity=".6"/>
+        <line x1="131" y1="103" x2="131" y2="192" stroke="#f7d76a" stroke-width="1" stroke-dasharray="3,4" opacity=".6"/>
+        <text x="131" y="203" font-size="9" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₀</text>
+        <!-- E₁ at (180, 54) -->
+        <circle cx="180" cy="54" r="6" fill="#f7a26a"/>
+        <text x="190" y="50" font-size="10" fill="#f7a26a" font-family="DM Sans,sans-serif" font-weight="700">E₁</text>
+        <line x1="42" y1="54" x2="180" y2="54" stroke="#f7a26a" stroke-width="1" stroke-dasharray="3,4" opacity=".6"/>
+        <line x1="180" y1="54" x2="180" y2="192" stroke="#f7a26a" stroke-width="1" stroke-dasharray="3,4" opacity=".6"/>
+        <text x="180" y="203" font-size="9" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">Y₁</text>
         <!-- ΔA bracket left -->
-        <line x1="52" y1="148" x2="52" y2="128" stroke="#f7d76a" stroke-width="1.8"/>
-        <line x1="48" y1="148" x2="56" y2="148" stroke="#f7d76a" stroke-width="1.2"/>
-        <line x1="48" y1="128" x2="56" y2="128" stroke="#f7d76a" stroke-width="1.2"/>
-        <text x="58" y="141" font-size="8" fill="#f7d76a" font-family="DM Sans,sans-serif">ΔA</text>
+        <line x1="34" y1="130" x2="34" y2="152" stroke="#f7d76a" stroke-width="1.5"/>
+        <line x1="31" y1="130" x2="37" y2="130" stroke="#f7d76a" stroke-width="1.5"/>
+        <line x1="31" y1="152" x2="37" y2="152" stroke="#f7d76a" stroke-width="1.5"/>
+        <text x="22" y="142" font-size="8" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif">ΔA</text>
         <!-- ΔY bracket bottom -->
-        <line x1="138" y1="160" x2="240" y2="160" stroke="#4ecb8d" stroke-width="1.8"/>
-        <line x1="138" y1="156" x2="138" y2="164" stroke="#4ecb8d" stroke-width="1.2"/>
-        <line x1="240" y1="156" x2="240" y2="164" stroke="#4ecb8d" stroke-width="1.2"/>
-        <text x="189" y="156" font-size="8" fill="#4ecb8d" text-anchor="middle" font-family="DM Sans,sans-serif">ΔY (much larger!)</text>
+        <line x1="131" y1="199" x2="180" y2="199" stroke="#f7a26a" stroke-width="1.5"/>
+        <line x1="131" y1="196" x2="131" y2="202" stroke="#f7a26a" stroke-width="1.5"/>
+        <line x1="180" y1="196" x2="180" y2="202" stroke="#f7a26a" stroke-width="1.5"/>
+        <text x="155" y="212" font-size="8" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">ΔY (bigger than ΔA!)</text>
       </svg>
-      <div class="gc2">Small upward shift ΔA in AE → much larger rise ΔY in equilibrium income. The ratio ΔY/ΔA = the multiplier.</div>
+      <div class="gc2">Small ΔA (AE shifts up) → much bigger ΔY. Multiplier = ΔY ÷ ΔA = 1/(1−z). Each $1 of autonomous spending creates multiple $ of GDP.</div>
     </div>
-    <div class="ah" onclick="tAcc(this)">What reduces the multiplier? <span class="arr">▾</span></div>
-    <div class="ab">Three "leakages" each round:<ul><li><strong>Saving:</strong> Income not spent (MPS = 1−MPC)</li><li><strong>Taxes:</strong> Gov takes a share before re-spending</li><li><strong>Imports:</strong> Spending on foreign goods doesn't circulate domestically</li></ul>Higher taxes or import-dependency = smaller multiplier = less effective fiscal policy.</div>
-    <div class="ah" onclick="tAcc(this)">Paradox of Thrift <span class="arr">▾</span></div>
-    <div class="ab">If everyone saves more simultaneously → AE shifts down → GDP falls → incomes fall. Individual prudence = collective harm in the short run. That's why governments spend more during recessions even as households cut back.</div>
+    <div class="ah" onclick="tAcc(this)">Why is ΔY bigger than ΔA? <span class="ar">▾</span></div>
+    <div class="ab">Round 1: Gov spends $100. Round 2: That $100 becomes income, person spends $62 (z=0.62). Round 3: That $62 is income, next person spends $38.44. It keeps going. Total = $100 × 1/(1−0.62) = $263.</div>
+    <div class="ah" onclick="tAcc(this)">What reduces the multiplier? <span class="ar">▾</span></div>
+    <div class="ab"><strong>Leakages</strong> — money that exits the circular flow:<br>• <strong>Saving:</strong> MPS = 1 − MPC. Money saved doesn't circulate.<br>• <strong>Taxes:</strong> Reduces disposable income available to spend.<br>• <strong>Imports:</strong> Money spent on foreign goods leaks out of domestic economy.</div>
   </div>
 </div>
 
-<!-- ═══ EXAM ═══ -->
+<!-- ══════════ EXAM ══════════ -->
 <div class="page" id="pg-exam">
-  <div style="padding:18px 0 14px">
-    <div class="badge">Model Answers</div>
-    <h2 style="font-family:'Syne',sans-serif;font-size:1.45rem;font-weight:800;margin-top:7px">Your 5 Questions — Answered</h2>
-    <p style="color:var(--mu);font-size:.86rem;margin-top:5px">Tap each question to see the model answer.</p>
-  </div>
-  <div class="card" style="background:rgba(247,162,106,.08);border-color:rgba(247,162,106,.3);margin-bottom:18px">
-    <div class="ct" style="color:var(--o);font-size:.75rem">THE ROUBINI QUOTE (your exam context)</div>
-    <p style="font-style:italic;font-size:.82rem;color:#b0b0cc">"Central banks are in both a stagflation trap and a debt trap. They are damned if they do and damned if they don't. If they increase interest rates enough to bring inflation down to 2%, they will cause a severe economic hard landing. And if they don't – attempting instead to protect growth and jobs – they will be left increasingly far behind the curve, leading to a de-anchoring of inflation expectations and a wage-price spiral."</p>
+  <div style="margin-bottom:14px">
+    <p style="font-size:.82rem;color:var(--mu)">Based on 2024 exam pattern. Your exam likely uses an article (similar to Roubini's stagflation piece) and asks you to analyse it. These are the core questions to master.</p>
   </div>
 
-  <div class="an"><div class="anh" onclick="tAns(this)"><div><div style="font-size:.68rem;color:var(--ac);font-weight:700;margin-bottom:3px">Q1</div><div class="anq">What is stagflation? What shock causes it?</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><div class="anp">5 pts</div><div style="color:var(--ac)">▾</div></div></div>
-  <div class="anb"><p><strong>Definition:</strong> Stagflation = stagnation + inflation. Simultaneous (1) high/rising inflation, (2) low/negative growth, (3) high unemployment.</p><p><strong>Why unusual:</strong> Normal demand shocks move P and Y in the same direction. Stagflation moves them in opposite directions — prices up, output down.</p><p><strong>Cause — Negative Supply Shock:</strong> Something that raises firms' costs economy-wide, shifting AS upward/leftward. Examples: oil price spike (OPEC 1973, Russia-Ukraine 2022), supply chain disruption (COVID), trade tariffs on inputs.</p><p><strong>On the AD/AS graph:</strong> AS shifts left → new equilibrium has BOTH higher P (inflation) AND lower Y (recession). Demand-side policy alone cannot fix both.</p></div></div>
+  <div class="an">
+    <div class="anh" onclick="tAns(this)">
+      <div class="anq">Q1 — What is stagflation? What type of shock causes it?</div>
+      <div class="anp">Definition Q</div>
+    </div>
+    <div class="anb">
+      <p><strong>Definition:</strong> Stagflation = stagnation + inflation simultaneously. It means: (1) rising or high inflation, (2) falling or stagnant output (negative/low GDP growth), and (3) rising unemployment — ALL at the same time.</p>
+      <p><strong>Why unusual:</strong> In normal cycles, inflation and output move in the SAME direction. When demand rises, both output and prices rise. When demand falls, both fall. Stagflation is unusual because prices RISE while output FALLS — they move in OPPOSITE directions.</p>
+      <p><strong>Cause — Negative Supply Shock:</strong> Something raises production costs for firms across the entire economy. Examples: oil price spike (OPEC 1973, Russia-Ukraine 2022), global supply chain disruptions (COVID-19), trade tariffs raising input costs.</p>
+      <p><strong>Mechanism:</strong> Firms' costs rise → they must raise prices AND cut production → AS curve shifts LEFT → new equilibrium has HIGHER P and LOWER Y simultaneously.</p>
+      <p><strong>AD/AS graph:</strong> AS₀ → AS₁ (leftward shift). New equilibrium E₁ is up-left of E₀: higher price P₁, lower output Y₁. AD curve is unchanged.</p>
+    </div>
+  </div>
 
-  <div class="an"><div class="anh" onclick="tAns(this)"><div><div style="font-size:.68rem;color:var(--ac);font-weight:700;margin-bottom:3px">Q2</div><div class="anq">CB response to reduce inflation to 2% — explain the transmission mechanism</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><div class="anp">5 pts</div><div style="color:var(--ac)">▾</div></div></div>
-  <div class="anb"><p><strong>Policy:</strong> Contractionary monetary policy — raise the overnight interest rate target.</p><p><strong>Transmission mechanism step by step:</strong></p><ol><li><strong>CB raises overnight rate</strong> → commercial bank borrowing costs rise immediately</li><li><strong>All market rates follow</strong> — mortgages, business loans, credit cards rise within days</li><li><strong>↓ Investment (I):</strong> Firms postpone/cancel capital projects</li><li><strong>↓ Consumption (C):</strong> Households cut mortgage-financed and credit purchases</li><li><strong>Open-economy channel:</strong> Higher rates attract foreign capital → currency appreciates → exports expensive → NX falls</li><li><strong>AD shifts left:</strong> Combined fall in I + C + NX</li><li><strong>Y falls below Y*:</strong> Recessionary gap opens, unemployment rises</li><li><strong>Labour market slackens:</strong> Lower wage demands → lower costs → inflation falls toward 2%</li></ol></div></div>
+  <div class="an">
+    <div class="anh" onclick="tAns(this)">
+      <div class="anq">Q2 — How does the CB reduce inflation to 2%? Explain the transmission mechanism.</div>
+      <div class="anp">Mechanism Q</div>
+    </div>
+    <div class="anb">
+      <p><strong>Policy:</strong> Contractionary monetary policy — CB raises the overnight interest rate.</p>
+      <p><strong>Full mechanism (8 steps):</strong></p>
+      <ol>
+        <li>CB raises overnight target rate</li>
+        <li>All market rates follow: mortgages, business loans, credit cards</li>
+        <li>Investment falls: firms cancel/postpone capital projects (too costly)</li>
+        <li>Consumption falls: households face higher mortgage payments, less credit</li>
+        <li>Open economy: higher rates attract foreign capital → currency appreciates → exports become expensive abroad → net exports (NX) fall</li>
+        <li>AD shifts LEFT: I↓ + C↓ + NX↓ = less aggregate spending</li>
+        <li>Y falls below Y*: recessionary gap opens, unemployment rises</li>
+        <li>Labour market slack → wages fall → firm costs fall → prices fall → inflation returns to 2% ✓</li>
+      </ol>
+      <p><strong>Key caveat:</strong> There are long lags. Effects are felt 12–18 months after the decision. This makes timing very difficult.</p>
+    </div>
+  </div>
 
-  <div class="an"><div class="anh" onclick="tAns(this)"><div><div style="font-size:.68rem;color:var(--ac);font-weight:700;margin-bottom:3px">Q3</div><div class="anq">What does "behind the curve" mean?</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><div class="anp">5 pts</div><div style="color:var(--ac)">▾</div></div></div>
-  <div class="anb"><p><strong>Core meaning:</strong> The CB was too slow to raise rates, allowing inflation to become entrenched. Its policy rate is below where it needs to be to control inflation.</p><p><strong>The de-anchoring mechanism:</strong></p><ul><li>CB delays hiking → inflation keeps rising</li><li>People stop believing the 2% target will hold</li><li>Workers demand higher wages to protect real wages</li><li>Firms raise prices to cover higher labour costs</li><li>Workers demand even more → <strong>wage-price spiral</strong></li><li>Now the CB needs even bigger hikes than if it had acted early — causing more pain</li></ul><p><strong>Analogy:</strong> Like chasing a moving bus — the longer you wait to run, the faster you need to sprint, and the harder the fall.</p></div></div>
+  <div class="an">
+    <div class="anh" onclick="tAns(this)">
+      <div class="anq">Q3 — What does "behind the curve" mean? Why is it dangerous?</div>
+      <div class="anp">Concept Q</div>
+    </div>
+    <div class="anb">
+      <p><strong>Definition:</strong> "Behind the curve" = the CB was too slow to raise rates. By the time it acts, inflation is already well above target and entrenched in expectations.</p>
+      <p><strong>Why it's dangerous — 3 mechanisms:</strong></p>
+      <ol>
+        <li><strong>De-anchoring of expectations:</strong> If people stop believing the CB will deliver 2% inflation, they build higher expected inflation into wages and contracts. This becomes self-fulfilling — expected inflation drives actual inflation.</li>
+        <li><strong>Wage-price spiral:</strong> Workers see prices rising → demand higher wages → firms face higher costs → raise prices further → workers demand even higher wages. Once started, very hard to stop without causing a deep recession.</li>
+        <li><strong>Loss of credibility:</strong> CB credibility is what allows it to influence expectations cheaply. Once lost, restoring it requires far more painful rate hikes. Historical proof: Fed under Volcker (1980) had to raise rates to 20% to break the 1970s inflation — causing the deepest US recession since the Great Depression.</li>
+      </ol>
+      <p><strong>Implication:</strong> Early, pre-emptive action is always less costly than delayed, reactive action. The longer you wait, the bigger the hike needed, and the bigger the recession caused.</p>
+    </div>
+  </div>
 
-  <div class="an"><div class="anh" onclick="tAns(this)"><div><div style="font-size:.68rem;color:var(--ac);font-weight:700;margin-bottom:3px">Q4</div><div class="anq">Why do rate hikes cause economic AND financial crash?</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><div class="anp">5 pts</div><div style="color:var(--ac)">▾</div></div></div>
-  <div class="anb"><p><strong>Economic crash (via Q2 transmission mechanism):</strong> Sharp rate hikes → deep contraction in I, C, NX → AD collapses → severe recession → mass unemployment. The more delayed the hike, the more aggressive it must be, the deeper the recession.</p><p><strong>Financial crash — the debt trap:</strong></p><ul><li>Years of ultra-low rates → massive debt accumulation (private and public)</li><li>Sharp rate rises → debt servicing costs explode for leveraged borrowers</li><li><strong>Private sector:</strong> Over-indebted firms → cash flow crunch → defaults → bank losses</li><li><strong>Public sector:</strong> High-debt governments → interest payments surge → fiscal crisis</li><li><strong>Asset prices crash:</strong> Bonds fall (inverse of rates), property collapses</li><li><strong>Vicious cycle:</strong> Financial turmoil → credit crunch → deeper recession → more defaults → more turmoil</li></ul></div></div>
+  <div class="an">
+    <div class="anh" onclick="tAns(this)">
+      <div class="anq">Q4 — Why do sharp rate hikes cause both economic AND financial crash?</div>
+      <div class="anp">Analysis Q</div>
+    </div>
+    <div class="anb">
+      <p><strong>Economic crash</strong> (via transmission mechanism):</p>
+      <p>Sharp rate hikes → severe fall in I, C, NX → AD collapses → deep recession → unemployment soars. This is the standard economic channel.</p>
+      <p><strong>Financial crash — the Debt Trap:</strong></p>
+      <p>Years of ultra-low interest rates (2009–2021) encouraged households, firms, and governments to take on massive debt. When rates were low, debt was easy to service. Sharp rate hikes change everything:</p>
+      <ol>
+        <li>Debt servicing costs explode (variable rate debt reprices immediately)</li>
+        <li>Over-leveraged firms cannot pay → defaults begin</li>
+        <li>Bank losses accumulate → banks restrict lending (credit crunch)</li>
+        <li>Less credit → even less spending → recession deepens</li>
+        <li>More defaults → more bank losses → deeper credit crunch → vicious cycle</li>
+      </ol>
+      <p><strong>Roubini's argument:</strong> The combination of high private AND public debt means sharp hikes that would have been manageable in the 1980s are now capable of triggering a financial crisis on top of the economic recession — a "double whammy."</p>
+    </div>
+  </div>
 
-  <div class="an"><div class="anh" onclick="tAns(this)"><div><div style="font-size:.68rem;color:var(--ac);font-weight:700;margin-bottom:3px">Q5</div><div class="anq">Why does NOT hiking lead to permanently higher inflation?</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><div class="anp">5 pts</div><div style="color:var(--ac)">▾</div></div></div>
-  <div class="anb"><p><strong>Three mechanisms work together:</strong></p><p><strong>1. De-anchoring of expectations:</strong> If CB doesn't act, people stop believing the 2% target. They build higher expected inflation into wages and contracts. Expected inflation → actual inflation (self-fulfilling prophecy).</p><p><strong>2. Wage-price spiral:</strong> Rising prices → workers demand higher wages → firms raise prices → workers demand more → repeat. Very hard to stop once started without causing recession.</p><p><strong>3. Loss of CB credibility:</strong> Credibility is the anchor for expectations. Once lost, restoring it requires a much more painful disinflation — like Volcker's 20% rates in 1980 which caused a deep recession.</p><p><strong>Historical lesson:</strong> The 1970s showed that delay embeds inflation permanently. The cure becomes far more painful than early action would have been.</p></div></div>
+  <div class="an">
+    <div class="anh" onclick="tAns(this)">
+      <div class="anq">Q5 — Why does NOT raising rates lead to permanently higher inflation?</div>
+      <div class="anp">Analysis Q</div>
+    </div>
+    <div class="anb">
+      <p><strong>Three compounding mechanisms:</strong></p>
+      <ol>
+        <li><strong>De-anchoring of inflation expectations:</strong> The CB's 2% target works only because people believe it. If the CB doesn't act → inflation stays high → people update their expectations upward → they build 5–8% inflation into wage negotiations and long-term contracts → actual inflation stays permanently elevated. A credible threat to act is itself disinflationary.</li>
+        <li><strong>Wage-price spiral:</strong> Rising prices → workers demand higher nominal wages to protect real purchasing power → higher wages = higher firm costs → firms raise prices → workers demand more. Without intervention, this spiral is self-sustaining and accelerates over time.</li>
+        <li><strong>Long-run money neutrality:</strong> Loose monetary policy (not hiking) is effectively printing money. In the long run, this only raises the price level — it does NOT increase real output. Real GDP returns to Y* regardless. So the CB just permanently buys a higher price level with no long-run output gain.</li>
+      </ol>
+      <p><strong>Conclusion:</strong> Not hiking avoids short-run recession pain but accepts permanently higher structural inflation, which is harder to eradicate and requires even more painful treatment later. There is no free lunch.</p>
+    </div>
+  </div>
+
+  <div class="an">
+    <div class="anh" onclick="tAns(this)">
+      <div class="anq">Q6 — MCQ: What is the multiplier and how do you calculate it?</div>
+      <div class="anp">Calculation Q</div>
+    </div>
+    <div class="anb">
+      <p><strong>Formula:</strong> Multiplier = 1 ÷ (1 − z), where z = MPC×(1−t) − m</p>
+      <p><strong>Example:</strong> MPC=0.8, t=0.1, m=0.1<br>z = 0.8×0.9 − 0.1 = 0.72 − 0.1 = 0.62<br>Multiplier = 1 ÷ 0.38 = <strong>2.63</strong></p>
+      <p><strong>Meaning:</strong> Every $1 of government spending increases GDP by $2.63.</p>
+      <p><strong>What reduces it:</strong> Higher taxes (t↑), higher savings (MPC↓), higher imports (m↑) — all leakages from the circular flow.</p>
+    </div>
+  </div>
+
+  <div class="an">
+    <div class="anh" onclick="tAns(this)">
+      <div class="anq">Q7 — MCQ: What is the money multiplier and how does fractional reserve banking work?</div>
+      <div class="anp">Calculation Q</div>
+    </div>
+    <div class="anb">
+      <p><strong>Formula:</strong> Money Multiplier = 1 ÷ reserve ratio (v)</p>
+      <p><strong>Example:</strong> v = 20%: Multiplier = 1÷0.2 = 5. A $1000 deposit creates $5000 of total money in the banking system.</p>
+      <p><strong>How it works:</strong> Bank keeps $200 (20%), lends $800 → deposited elsewhere → keeps $160, lends $640 → … Total = $1000 × 5 = $5000.</p>
+      <p><strong>Key insight:</strong> Most money in modern economies is not printed by the CB — it's created by commercial banks when they make loans.</p>
+    </div>
+  </div>
+
+  <div class="an">
+    <div class="anh" onclick="tAns(this)">
+      <div class="anq">Q8 — MCQ: How do fiscal policy lags make it hard to stabilise the economy?</div>
+      <div class="anp">Concept Q</div>
+    </div>
+    <div class="anb">
+      <p>Fiscal policy (changing G and T) works in theory, but three lags make precise timing nearly impossible:</p>
+      <ol>
+        <li><strong>Decision lag:</strong> Parliament/government must debate and vote on spending changes. This can take months — especially in a political crisis.</li>
+        <li><strong>Execution lag:</strong> Once approved, the spending takes time to actually happen. A new road or hospital doesn't get built overnight.</li>
+        <li><strong>Effect lag:</strong> Even once money is flowing, the multiplier effect ripples through the economy over many quarters.</li>
+      </ol>
+      <p><strong>The problem:</strong> By the time fiscal stimulus is fully felt, the recession may already be over — and now the stimulus is causing an inflationary gap instead. This is why fiscal policy is better for large, long downturns (like the 2008 crisis) than for fine-tuning short-run fluctuations.</p>
+      <p><strong>Monetary policy is faster</strong> — a CB rate decision takes effect in financial markets within hours and the real economy within 6–12 months — which is why it's the primary short-run stabilisation tool.</p>
+    </div>
+  </div>
 </div>
 
-<!-- ═══ QUIZ ═══ -->
+<!-- ══════════ QUIZ ══════════ -->
 <div class="page" id="pg-quiz">
-  <div style="padding:16px 0 12px"><h2 style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800">Test Yourself</h2><p style="color:var(--mu);font-size:.86rem;margin-top:3px">15 questions from your course</p></div>
-  <div class="qpb"><div class="qpbi" id="qpbi"></div></div>
-  <div id="qsc" style="display:none"><div class="sc"><div class="sb" id="qsn">0/15</div><div style="color:var(--mu);font-size:.88rem">Questions correct</div></div><button class="btn" onclick="rQ()">Try Again</button></div>
-  <div id="qqs"></div>
-  <div id="qsub"><button class="btn" onclick="sQ()">Check My Answers</button></div>
+  <div id="quiz-container"></div>
 </div>
 
-<!-- NAV -->
-<nav class="nav">
-  <button class="ni on" onclick="go('pg-home')" id="n0"><span>🏠</span>Home</button>
-  <button class="ni" onclick="go('pg-learn')" id="n1"><span>📖</span>Learn</button>
-  <button class="ni" onclick="go('pg-graphs')" id="n2"><span>📊</span>Graphs</button>
-  <button class="ni" onclick="go('pg-exam')" id="n3"><span>🎯</span>Exam</button>
-  <button class="ni" onclick="go('pg-quiz')" id="n4"><span>✅</span>Quiz</button>
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <button class="nb on" id="nb-home" onclick="goPage('pg-home')"><span class="ic">🏠</span>Home</button>
+  <button class="nb" id="nb-learn" onclick="goPage('pg-learn')"><span class="ic">📖</span>Learn</button>
+  <button class="nb" id="nb-graphs" onclick="goPage('pg-graphs')"><span class="ic">📊</span>Graphs</button>
+  <button class="nb" id="nb-exam" onclick="goPage('pg-exam')"><span class="ic">📝</span>Exam</button>
+  <button class="nb" id="nb-quiz" onclick="goPage('pg-quiz')"><span class="ic">✅</span>Quiz</button>
 </nav>
 
 <script>
-// NAVIGATION
-const PG=['pg-home','pg-learn','pg-graphs','pg-exam','pg-quiz'];
-const NV=['n0','n1','n2','n3','n4'];
-function go(id){
-  PG.forEach(p=>document.getElementById(p).classList.remove('active'));
-  NV.forEach(n=>document.getElementById(n).classList.remove('on'));
-  document.getElementById(id).classList.add('active');
-  const i=PG.indexOf(id);if(i>=0)document.getElementById(NV[i]).classList.add('on');
+// ── NAVIGATION ────────────────────────────────────────────────────────────
+function goPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  const map={'pg-home':'nb-home','pg-learn':'nb-learn','pg-graphs':'nb-graphs','pg-exam':'nb-exam','pg-quiz':'nb-quiz'};
+  if(map[id]) document.getElementById(map[id]).classList.add('on');
   window.scrollTo(0,0);
 }
-function tab(page,sub,el){
-  document.querySelectorAll('#pg-'+page+' .sub').forEach(s=>s.classList.remove('on'));
-  document.getElementById(page+'-'+sub).classList.add('on');
-  document.querySelectorAll('#pg-'+page+' .pill').forEach(p=>p.classList.remove('on'));
-  if(el)el.classList.add('on');
+function goTab(group,idx){
+  const tabs=document.querySelectorAll('#'+group+'-tabs .tab');
+  const panes=document.querySelectorAll('[id^="'+group+'-"]');
+  tabs.forEach((t,i)=>t.classList.toggle('on',i===idx));
+  panes.forEach((p,i)=>{if(p.id!==group+'-tabs')p.classList.toggle('on',parseInt(p.id.replace(group+'-',''))===idx);});
+  window.scrollTo(0,0);
 }
-function tAcc(h){h.classList.toggle('op');h.nextElementSibling.classList.toggle('op');}
-function tAns(h){const b=h.nextElementSibling;b.classList.toggle('op');const a=h.querySelector('div:last-child div:last-child');if(a)a.style.transform=b.classList.contains('op')?'rotate(180deg)':'';}
+function tAcc(el){
+  el.classList.toggle('op');
+  const ab=el.nextElementSibling;
+  ab.classList.toggle('op');
+}
+function tAns(el){
+  const b=el.nextElementSibling;
+  b.classList.toggle('op');
+}
 
-// QUIZ
-const QS=[
-  {q:"Stagflation is caused by:",o:["An expansionary demand shock","A negative supply shock (e.g. oil price spike)","The central bank printing too much money","A fall in consumer confidence"],a:1,e:"Only a negative supply shock (AS shifts left) produces high inflation AND recession simultaneously. Demand shocks move P and Y in the same direction."},
-  {q:"Transfer payments like pensions are:",o:["Included in G (government spending)","Included in C (consumption)","NOT directly included in GDP","Included in I (investment)"],a:2,e:"Transfer payments don't represent purchase of newly produced output — they're redistribution. G only includes actual government purchases of goods & services."},
-  {q:"A negative supply shock in AD/AS causes:",o:["P↑ and Y↑","P↓ and Y↑","P↑ and Y↓ — stagflation","P↓ and Y↓"],a:2,e:"AS shifts left → higher price level AND lower output simultaneously. This is the defining feature of stagflation."},
-  {q:"If z = 0.75, the multiplier is:",o:["0.75","1.33","4","2.5"],a:2,e:"Multiplier = 1/(1−z) = 1/(1−0.75) = 1/0.25 = 4. Every $1 of extra spending leads to $4 of total GDP increase."},
-  {q:"'Behind the curve' means:",o:["The CB raised rates too aggressively","The CB was too slow to raise rates, allowing inflation to entrench","The CB followed the wrong inflation target","The CB ran out of policy tools"],a:1,e:"Behind the curve = CB delayed rate hikes. Inflation rose while rates stayed low. Now bigger hikes with more economic pain are needed to catch up."},
-  {q:"Higher interest rates reduce inflation by:",o:["Government automatically cutting spending","↑Rates → ↓borrowing → ↓I & ↓C → AD shifts left → ↓Y → ↑unemployment → ↓wages → ↓inflation","Automatically contracting the money supply","Making exports immediately fall"],a:1,e:"The transmission chain: ↑rates → ↑borrowing costs → ↓investment & consumption → ↓AD → ↓output → ↑unemployment → ↓wage pressure → ↓inflation. Plus open-economy: currency appreciates → ↓NX."},
-  {q:"Roubini's 'financial crash' argument is based on:",o:["Stock markets always fall when rates rise","High debt levels meaning rate hikes cause severe debt distress, defaults and financial turmoil","The central bank becoming insolvent","Exchange rate collapse"],a:1,e:"The debt trap: years of low rates → massive debt. Sharp hikes → debt servicing explodes → defaults → credit crunch → vicious cycle deepening recession."},
-  {q:"NOT hiking rates leads to permanently higher inflation because:",o:["The economy grows too fast","Expectations de-anchor: people stop believing the 2% target, build inflation into wages — wage-price spiral — and CB loses credibility","Imports automatically rise","Government prints more money"],a:1,e:"Three mechanisms: (1) De-anchored expectations — self-fulfilling. (2) Wage-price spiral. (3) Loss of CB credibility — very hard to restore without an even more painful disinflation later."},
-  {q:"A recessionary gap means:",o:["Y > Y* — inflationary pressure","Y < Y* — high unemployment, downward wage pressure","Budget deficit is too large","Inflation is above 2%"],a:1,e:"Recessionary gap: actual Y BELOW potential Y*. Cyclical unemployment exists, labour market is slack, wages face downward pressure."},
-  {q:"Reserve ratio v=20%, starting deposit $100. Total deposits created =",o:["$100","$200","$500","$2,000"],a:2,e:"Money multiplier = 1/v = 1/0.20 = 5. Total deposits = 5 × $100 = $500. Each bank lends 80% of each deposit, creating a chain."},
-  {q:"The Paradox of Thrift says:",o:["Saving is always good for the economy","If everyone saves more simultaneously, GDP falls — individual prudence becomes collective harm","Government should save more in recessions","Higher saving always leads to immediate higher investment"],a:1,e:"When all households save more → C falls → AE drops → GDP falls → incomes fall. What's rational for one person is harmful for the whole economy in the short run."},
-  {q:"Real interest rate =",o:["Nominal × inflation","Nominal + inflation","Nominal − inflation","Nominal ÷ inflation"],a:2,e:"Fisher equation: real rate ≈ nominal rate − inflation. If nominal=6%, inflation=4%, real rate=2%. This is the actual purchasing-power cost of borrowing."},
-  {q:"In the long run, doubling the money supply:",o:["Permanently doubles real GDP","Roughly doubles the price level but not real output","Permanently halves the interest rate","Permanently halves unemployment"],a:1,e:"Long-run money neutrality: extra money only inflates prices. Y returns to Y* through wage adjustment regardless. CBs focus on inflation, not money supply levels."},
-  {q:"Fiscal policy means:",o:["Central bank interest rate decisions","Government use of G and T to influence the economy","Exchange rate management","Banking sector regulation"],a:1,e:"Fiscal policy = government tools: spending (G) and taxes (T). Expansionary: ↑G or ↓T. Contractionary: ↓G or ↑T. Distinct from monetary policy (CB rate decisions)."},
-  {q:"The central bank's dilemma in stagflation is that:",o:["It cannot change interest rates","Raising rates fights inflation but worsens recession; cutting rates fights recession but worsens inflation — no good option exists","Fiscal policy always overrides monetary policy","Exchange rates make all policies ineffective"],a:1,e:"Roubini's core argument. Stagflation requires OPPOSITE solutions for its two problems. Raise rates → worse recession. Cut rates → worse inflation. Damned if you do, damned if you don't."}
+// ── PDF PRINT ─────────────────────────────────────────────────────────────
+function dlPDF(){
+  var html = `<!DOCTYPE html><html><head><title>Macro Cheat Sheet</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial,sans-serif;font-size:9.5px;color:#111;background:#fff;padding:8px;}
+h1{font-size:14px;font-weight:900;text-align:center;background:#1F3864;color:#fff;padding:5px;margin-bottom:7px;}
+h2{font-size:10.5px;font-weight:700;background:#2E5FA3;color:#fff;padding:3px 7px;margin:5px 0 3px;}
+h3{font-size:9.5px;font-weight:700;color:#1F3864;margin:3px 0 2px;border-bottom:1px solid #ddd;padding-bottom:1px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:6px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:6px;}
+.box{border:1px solid #ccc;border-radius:3px;padding:5px;}
+.red{border-color:#C00000;background:#fff8f8;}
+.blue{border-color:#2E5FA3;background:#f5f8ff;}
+.green{border-color:#375623;background:#f5fff8;}
+.yellow{border-color:#B8860B;background:#fffdf0;}
+.orange{border-color:#E26B0A;background:#fff5ee;}
+.formula{background:#EEF2FF;border:1px solid #2E5FA3;border-left:3px solid #2E5FA3;padding:3px 6px;font-family:monospace;font-size:9px;margin:2px 0;text-align:center;}
+ul{padding-left:11px;}li{margin:1px 0;line-height:1.35;}
+.trap{background:#FFE4E4;border-left:3px solid #C00000;padding:2px 6px;margin:2px 0;font-size:9px;}
+.step{display:flex;gap:3px;align-items:baseline;margin:1px 0;}
+.snum{background:#2E5FA3;color:#fff;border-radius:50%;width:13px;height:13px;min-width:13px;display:inline-flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:700;}
+.snum.g{background:#375623;}
+b.r{color:#C00000;}b.g{color:#375623;}b.o{color:#E26B0A;}b.b{color:#1F3864;}
+.div{border-top:2px solid #1F3864;margin:6px 0;}
+.tag{display:inline-block;background:#E8F0FE;color:#2E5FA3;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:4px;}
+table{width:100%;border-collapse:collapse;font-size:8.5px;margin:2px 0;}
+th{background:#EEE;padding:3px 5px;border:1px solid #ccc;font-weight:700;}
+td{padding:3px 5px;border:1px solid #ddd;}
+</style></head><body>
+<h1>EDHEC MBA MACROECONOMICS — EXAM CHEAT SHEET &nbsp;·&nbsp; Prof. Mayssun El-Attar &nbsp;·&nbsp; Open Book &nbsp;·&nbsp; Friday March 6</h1>
+<div class="grid2">
+<div>
+<h2>DAY 1 — KEY VARIABLES</h2>
+<div class="box blue">
+<h3>GDP = C + I + G + NX</h3>
+<ul><li><b>C</b> — Households (~60%)</li><li><b>I</b> — Business investment (NOT stocks)</li><li><b>G</b> — Gov't purchases (NOT pensions/welfare)</li><li><b>NX</b> = Exports − Imports</li></ul>
+<div class="trap">⚠️ Pensions/welfare NOT in GDP — no new production</div>
+<div class="formula">Real GDP = Nominal GDP / GDP Deflator × 100</div>
+<div class="formula">Real Rate = Nominal Rate − Inflation</div>
+</div>
+<div class="box" style="margin-top:4px">
+<h3>Output Gaps</h3>
+<ul><li><b class="r">Y &lt; Y*</b> → Recessionary gap → high unemployment → CB cuts</li>
+<li><b class="g">Y &gt; Y*</b> → Inflationary gap → overheating → CB hikes</li>
+<li>Y* = potential output = "speed limit" of economy</li></ul>
+</div>
+<div class="box" style="margin-top:4px">
+<h3>Unemployment</h3>
+<div class="formula">Rate = Unemployed / Labour Force × 100</div>
+<table><tr><th>Type</th><th>Cause</th><th>Fix?</th></tr>
+<tr><td>Frictional</td><td>Job searching</td><td>No — normal</td></tr>
+<tr><td>Structural</td><td>Skills mismatch</td><td>Retraining</td></tr>
+<tr><td><b class="r">Cyclical</b></td><td>Recession</td><td>Yes — stimulus</td></tr></table>
+<p style="margin-top:3px"><b>NAIRU</b> = unemployment at Y=Y*. Frictional+structural only.</p>
+</div>
+</div>
+<div>
+<h2>DAY 2 — AE MODEL &amp; AD/AS</h2>
+<div class="box blue">
+<h3>AE Model — Keynesian Cross</h3>
+<div class="formula">Y = AE at equilibrium &nbsp;|&nbsp; AE = C + I + G + NX</div>
+<div class="formula">C = a + MPC(1−t)Y &nbsp;|&nbsp; z = MPC(1−t) − m</div>
+<div class="formula">Multiplier = 1/(1−z)</div>
+<ul><li>z=0.62 → Mult=<b class="g">2.63</b> &nbsp;|&nbsp; z=0.75 → Mult=<b class="g">4.0</b></li>
+<li>Leakages (↓ multiplier): saving (MPS), taxes (t), imports (m)</li>
+<li><b>Paradox of Thrift:</b> everyone saves → GDP falls</li></ul>
+</div>
+<div class="box" style="margin-top:4px">
+<h3>AD/AS Shocks</h3>
+<table><tr><th>Shock</th><th>Curve</th><th>P</th><th>Y</th></tr>
+<tr><td>↑G, ↓rates, ↑confidence</td><td>AD right</td><td>↑</td><td>↑</td></tr>
+<tr><td>↑rates, ↓G</td><td>AD left</td><td>↓</td><td>↓</td></tr>
+<tr><td><b class="r">↑Oil/supply shock</b></td><td><b class="r">AS left</b></td><td><b class="r">↑</b></td><td><b class="r">↓ STAGFLATION</b></td></tr>
+<tr><td>Better technology</td><td>AS right</td><td>↓</td><td>↑</td></tr></table>
+</div>
+<div class="box" style="margin-top:4px">
+<h3>Fiscal Policy Lags</h3>
+<ul><li>Decision lag → Execution lag → Effect lag</li>
+<li>Impossible to fine-tune — works after 6–18 months</li></ul>
+</div>
+</div>
+</div>
+<div class="div"></div>
+<h2>DAY 3 — MONEY &amp; MONETARY POLICY</h2>
+<div class="grid2">
+<div class="box blue">
+<h3>Money Creation</h3>
+<div class="formula">Money Multiplier = 1/v (v = reserve ratio)</div>
+<p>v=20% → ×5 &nbsp;|&nbsp; v=10% → ×10</p>
+<p>$1000 deposit, v=20%: keeps $200, lends $800 → total $5000 created</p>
+<h3 style="margin-top:4px">Monetary Transmission Mechanism <span class="tag">Q2 ANSWER</span></h3>
+<div class="step"><span class="snum">1</span> CB ↑ overnight rate</div>
+<div class="step"><span class="snum">2</span> All market rates ↑ (mortgages, loans)</div>
+<div class="step"><span class="snum">3</span> ↓ Investment (firms cancel projects)</div>
+<div class="step"><span class="snum">4</span> ↓ Consumption (mortgages cost more)</div>
+<div class="step"><span class="snum">5</span> ↑ Currency → ↓ NX (open economy)</div>
+<div class="step"><span class="snum">6</span> AD shifts LEFT</div>
+<div class="step"><span class="snum">7</span> Y &lt; Y*, unemployment ↑</div>
+<div class="step"><span class="snum g">8</span> Wages↓ → costs↓ → prices↓ → inflation → 2% ✅</div>
+</div>
+<div>
+<div class="box red">
+<h3>Stagflation — Roubini's Dilemma <span class="tag" style="background:#FFE4E4;color:#C00000">Q1–Q5</span></h3>
+<p><b>Definition:</b> ↑Inflation + ↓Output + ↑Unemployment simultaneously</p>
+<p><b>Cause:</b> Negative supply shock → AS shifts LEFT</p>
+<p><b>On AD/AS:</b> P↑ AND Y↓ at same time (opposite directions!)</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px">
+<div style="background:#ffe8e8;padding:4px;border-radius:3px">
+<b class="r">IF CB RAISES RATES:</b><br>→ Recession deepens<br>→ Debt crisis / defaults<br>→ Financial crash<br><b class="g">✓ Inflation falls</b><br><b class="r">✗ Economic crash</b>
+</div>
+<div style="background:#fff3e0;padding:4px;border-radius:3px">
+<b class="o">IF CB DOES NOT HIKE:</b><br>→ Inflation keeps rising<br>→ Expectations de-anchor<br>→ Wage-price spiral<br><b class="g">✓ No crash short-term</b><br><b class="r">✗ Permanent inflation</b>
+</div>
+</div>
+<p style="margin-top:4px;text-align:center;font-style:italic;color:#555">"Damned if they do, damned if they don't" — Roubini</p>
+</div>
+<div class="box yellow" style="margin-top:4px">
+<h3>MCQ Traps — Never Get These Wrong</h3>
+<ul>
+<li>Pensions/welfare <b class="r">NOT in GDP</b></li>
+<li>Stagflation = <b class="r">AS left</b> (NOT AD)</li>
+<li>I = capital spending (<b class="r">NOT stocks/bonds</b>)</li>
+<li>Long-run: money is <b class="r">neutral</b> (only raises P)</li>
+<li>Recessionary gap = Y <b class="r">&lt;</b> Y* (below potential)</li>
+<li>NAIRU = frictional + structural <b class="r">only</b></li>
+<li>Real rate = Nominal <b class="r">minus</b> inflation</li>
+<li>Multiplier &lt; 1/(1−MPC) because of taxes &amp; imports</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="div"></div>
+<h2>MODEL ANSWER FRAMEWORKS</h2>
+<div class="grid3">
+<div class="box"><h3>Q1 — What is stagflation?</h3><ul><li>Define: stagnation + inflation simultaneously</li><li>Cause: negative SUPPLY shock (NOT demand)</li><li>AS shifts LEFT → P↑ AND Y↓ at same time</li><li>Unusual: P &amp; Y move OPPOSITE directions</li><li>Examples: oil spike, COVID supply chains</li></ul></div>
+<div class="box"><h3>Q2 — CB transmission mechanism</h3><ul><li>↑overnight rate → ↑all rates</li><li>↓I (firms cancel projects)</li><li>↓C (mortgages cost more)</li><li>↑currency → ↓NX (open economy)</li><li>AD shifts left → Y&lt;Y*</li><li>Wages↓ → costs↓ → inflation → 2%</li></ul></div>
+<div class="box"><h3>Q3 — "Behind the curve"</h3><ul><li>CB too slow to raise rates</li><li>Inflation entrenched before action</li><li>Expectations de-anchor (no faith in 2%)</li><li>Wage-price spiral starts</li><li>Later = bigger hike = bigger recession</li><li>Volcker 1980: 20% rates to fix 70s inflation</li></ul></div>
+<div class="box"><h3>Q4 — Rate hikes = crash</h3><ul><li>Economic: ↑rates→↓I,C,NX→recession</li><li>Financial: decades of low rates = huge debt</li><li>Sharp hike → debt costs explode</li><li>Firms default → bank losses</li><li>Credit crunch → deeper recession</li><li>Vicious cycle: recession + financial spiral</li></ul></div>
+<div class="box"><h3>Q5 — No hike = permanent inflation</h3><ul><li>De-anchor expectations (no 2% belief)</li><li>Wage-price spiral self-sustains</li><li>Long-run: loose money only raises P</li><li>Real output returns to Y* anyway</li><li>Early action always &lt; painful than late</li></ul></div>
+<div class="box yellow"><h3>Calculator Quick Reference</h3>
+<div class="formula">Solve Y=AE: Y=1400+0.8Y → Y=7000</div>
+<div class="formula">z=MPC(1-t)-m=0.8(0.9)-0.1=0.62</div>
+<div class="formula">Mult=1/(1-0.62)=2.63</div>
+<div class="formula">ΔY=Mult×ΔG: 2.63×100=263</div>
+<div class="formula">Money Mult=1/v: 1/0.2=5</div>
+<div class="formula">Real rate=8%-6%=2%</div>
+</div>
+</div>
+</body></html>`;
+  var w = window.open('', '_blank');
+  if(!w){ alert('Please allow pop-ups for this page, then try again.'); return; }
+  w.document.write(html);
+  w.document.close();
+  setTimeout(function(){ w.print(); }, 800);
+}
+
+// ── QUIZ ──────────────────────────────────────────────────────────────────
+var qs=[
+  {q:"Transfer payments like pensions and welfare ARE counted in GDP under G (government spending). True or False?",opts:["True","False"],ans:1,exp:"FALSE. Transfer payments are NOT in GDP. They just move money from taxpayers to recipients — no new good or service is produced. Only actual government purchases (hiring a teacher, building a road) count as G."},
+  {q:"What is Y* (Potential Output)?",opts:["Current real GDP","GDP adjusted for inflation","What the economy COULD produce at full employment","The highest GDP ever recorded"],ans:2,exp:"Y* is what the economy would produce if all resources were employed at normal utilization. It's the economy's 'speed limit' — actual GDP oscillates around it."},
+  {q:"If Y < Y*, what kind of gap exists and what should policy do?",opts:["Inflationary gap — raise rates","Recessionary gap — cut rates or increase spending","Inflationary gap — cut spending","Recessionary gap — raise taxes"],ans:1,exp:"Y < Y* = recessionary gap. Output below potential means high unemployment. Policy should STIMULATE: CB cuts rates (monetary) and/or government raises spending (fiscal)."},
+  {q:"The economy produces 200 widgets at $5 each = $1000 nominal GDP. Next year, same 200 widgets at $8 each. What is real GDP?",opts:["$1600 (current prices)","$1000 (base year prices)","$800","$200"],ans:1,exp:"Real GDP uses BASE YEAR prices. Same quantity produced → same real GDP = $1000. The $1600 is nominal GDP — it went up just because of inflation, not more production."},
+  {q:"What does MPC = 0.8 mean?",opts:["80% of income is saved","Out of each extra $1 of income, 80 cents is spent","8% inflation rate","80% of workers are employed"],ans:1,exp:"MPC = Marginal Propensity to Consume. MPC=0.8 means for every extra $1 earned, you spend $0.80 and save $0.20. This is the key driver of the spending multiplier."},
+  {q:"z = 0.75. What is the multiplier?",opts:["0.75","1.75","4.0","2.5"],ans:2,exp:"Multiplier = 1/(1-z) = 1/(1-0.75) = 1/0.25 = 4.0. So every $1 of government spending creates $4 of GDP. Higher z = steeper AE line = bigger multiplier."},
+  {q:"What is the Paradox of Thrift?",opts:["Saving is always good for the economy","When everyone saves more, total GDP falls because spending drops","Governments should save during recessions","Higher taxes always reduce inflation"],ans:1,exp:"If ALL households save more simultaneously, total spending falls → firms produce less → GDP falls → everyone's income falls. Individual saving is rational but collectively it hurts the economy. This justifies government spending during recessions."},
+  {q:"Stagflation is caused by which type of shock?",opts:["Demand shock — AD shifts right","Demand shock — AD shifts left","Supply shock — AS shifts LEFT","Supply shock — AS shifts right"],ans:2,exp:"Stagflation = negative supply shock → AS shifts LEFT. This simultaneously raises P (prices) and lowers Y (output). AD shocks always move P and Y in the same direction — so they can't cause stagflation."},
+  {q:"On an AD/AS graph, stagflation moves the equilibrium to which position?",opts:["Right and up (higher Y, higher P)","Left and up (lower Y, higher P)","Left and down (lower Y, lower P)","Right and down (higher Y, lower P)"],ans:1,exp:"AS shifts left → new equilibrium is UP-LEFT: HIGHER price level AND LOWER output. This is the defining feature of stagflation — the two variables move in OPPOSITE directions."},
+  {q:"In the monetary transmission mechanism, WHICH comes first?",opts:["AD shifts left","Wages fall","CB raises overnight rate","Currency appreciates"],ans:2,exp:"The chain starts when the CB raises the overnight rate. Everything else follows from that decision: market rates rise → I and C fall → AD shifts left → Y falls → unemployment rises → wages fall → inflation falls."},
+  {q:"NAIRU means the unemployment rate when...",opts:["Y is at its lowest ever","Y = Y* (full employment output)","Inflation is exactly 2%","All workers are employed"],ans:1,exp:"NAIRU = Non-Accelerating Inflation Rate of Unemployment. It's the unemployment rate when Y=Y*. Only frictional and structural unemployment exist (no cyclical). This is the 'natural' floor — going below it causes inflation to accelerate."},
+  {q:"The money multiplier = 10. What is the reserve ratio?",opts:["10%","20%","5%","1%"],ans:0,exp:"Money Multiplier = 1/v. So 10 = 1/v → v = 1/10 = 10%. Banks keep 10% of deposits as reserves and lend out 90%, creating a ×10 multiplier on the money supply."},
+  {q:"Nominal interest rate = 9%, inflation = 4%. What is the real interest rate?",opts:["13%","5%","4.5%","36%"],ans:1,exp:"Real rate = Nominal − Inflation = 9% − 4% = 5%. This is what actually matters for investment decisions — it's the real cost of borrowing after inflation erodes the debt."},
+  {q:"What does 'behind the curve' mean for a Central Bank?",opts:["CB acted too early, causing recession","CB rate is above the neutral rate","CB was too slow to raise rates — inflation already entrenched","CB cut rates too much"],ans:2,exp:"'Behind the curve' = CB reacted too slowly. By the time it raises rates, inflation is already high and expectations have de-anchored. Now it needs even bigger rate hikes to restore credibility — causing deeper recession. Early action is always less costly."},
+  {q:"Why can't a CB simply print money to permanently boost real output?",opts:["Printing money is illegal","Long-run money neutrality: more money only raises prices, not real output","The government controls money supply","Printing money always reduces inflation"],ans:1,exp:"Long-run money neutrality: in the long run, real output Y always returns to Y* regardless of money supply. Printing money just raises the price level. There's no permanent free lunch from loose monetary policy."}
 ];
-const sel={};
-function bQ(){
-  const c=document.getElementById('qqs');c.innerHTML='';
-  QS.forEach((q,i)=>{
-    const d=document.createElement('div');d.className='qc';
-    d.innerHTML=`<div class="qt">${i+1}. ${q.q}</div><div class="qos">${q.o.map((o,j)=>`<button class="qo" onclick="pQ(${i},${j})" id="qo${i}_${j}">${o}</button>`).join('')}</div><div class="qe" id="qe${i}"><strong>Explanation:</strong> ${q.e}</div>`;
-    c.appendChild(d);
-  });
+var qi=0,sc=0;
+function initQuiz(){
+  var c=document.getElementById('quiz-container');
+  if(qi>=qs.length){c.innerHTML='<div class="sc"><div class="sb">'+sc+'/'+qs.length+'</div><p style="color:var(--mu);margin-top:6px">Score: '+(Math.round(sc/qs.length*100))+'%</p><button class="btn" onclick="qi=0;sc=0;initQuiz()">Retake Quiz</button></div>';return;}
+  var q=qs[qi];
+  var pct=Math.round(qi/qs.length*100);
+  c.innerHTML='<div class="qpb"><div class="qpbi" style="width:'+pct+'%"></div></div>'+
+    '<p style="font-size:.75rem;color:var(--mu);margin-bottom:12px">Question '+(qi+1)+' of '+qs.length+'</p>'+
+    '<div class="qc"><div class="qt">'+q.q+'</div>'+
+    '<div class="qos">'+q.opts.map((o,i)=>'<button class="qo" onclick="ansQ('+i+')">'+o+'</button>').join('')+'</div>'+
+    '<div class="qe" id="qexp"></div></div>';
 }
-function pQ(qi,oi){
-  sel[qi]=oi;
-  for(let j=0;j<4;j++){const e=document.getElementById(`qo${qi}_${j}`);if(e){e.style.background=j===oi?'rgba(124,106,247,.2)':'';e.style.borderColor=j===oi?'#7c6af7':''}}
-  document.getElementById('qpbi').style.width=(Object.keys(sel).length/QS.length*100)+'%';
+function ansQ(i){
+  var q=qs[qi];
+  var btns=document.querySelectorAll('.qo');
+  btns.forEach((b,j)=>{b.disabled=true;if(j===q.ans)b.classList.add('ok');else if(j===i&&i!==q.ans)b.classList.add('no');});
+  var exp=document.getElementById('qexp');
+  exp.textContent=q.exp;
+  exp.classList.add('op');
+  if(i===q.ans)sc++;
+  setTimeout(()=>{qi++;initQuiz();},2200);
 }
-function sQ(){
-  let sc=0;
-  QS.forEach((q,i)=>{
-    const u=sel[i];
-    for(let j=0;j<4;j++){const e=document.getElementById(`qo${i}_${j}`);if(!e)return;e.style.background='';e.style.borderColor='';e.classList.remove('ok','no');if(j===q.a)e.classList.add('ok');else if(j===u&&u!==q.a)e.classList.add('no');e.onclick=null;e.style.cursor='default';}
-    document.getElementById('qe'+i).classList.add('op');
-    if(u===q.a)sc++;
-  });
-  document.getElementById('qsn').textContent=sc+'/'+QS.length;
-  document.getElementById('qsc').style.display='block';
-  document.getElementById('qsub').style.display='none';
-  window.scrollTo(0,0);
-}
-function rQ(){
-  for(const k in sel)delete sel[k];
-  document.getElementById('qsc').style.display='none';
-  document.getElementById('qsub').style.display='block';
-  document.getElementById('qpbi').style.width='0%';
-  bQ();
-}
-bQ();
+function sQ(){initQuiz();}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded',function(){initQuiz();});
 </script>
 </body>
 </html>

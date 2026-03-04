@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Macroeconomics — EDHEC MBA Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --cream: #f5f0e8;
+    --gold: #c8a84b;
+    --red: #c0392b;
+    --blue: #1a3a5c;
+    --green: #1a5c3a;
+    --mid: #5a5a5a;
+    --border: #d0c8b8;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background: var(--cream); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; }
+
+  /* NAV */
+  nav {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    position: sticky; top:0; z-index:100;
+  }
+  nav .logo { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--gold); white-space:nowrap; }
+  nav .tabs { display:flex; gap:0.5rem; flex-wrap:wrap; }
+  nav .tab {
+    padding: 0.4rem 0.9rem;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #aaa;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  nav .tab:hover { color: var(--cream); border-color: #555; }
+  nav .tab.active { color: var(--ink); background: var(--gold); border-color: var(--gold); }
+
+  /* SECTIONS */
+  .section { display:none; max-width:900px; margin:0 auto; padding:3rem 2rem; }
+  .section.active { display:block; }
+
+  h1 { font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:900; line-height:1.1; margin-bottom:0.5rem; }
+  h2 { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; margin:2.5rem 0 1rem; color:var(--blue); }
+  h3 { font-family:'IBM Plex Sans',sans-serif; font-size:1.1rem; font-weight:600; margin:1.5rem 0 0.5rem; color:var(--ink); }
+  p { line-height:1.75; margin-bottom:1rem; color:#333; }
+  ul,ol { padding-left:1.5rem; margin-bottom:1rem; }
+  li { line-height:1.75; color:#333; margin-bottom:0.25rem; }
+
+  .subtitle { color:var(--mid); font-size:1rem; margin-bottom:2rem; font-style:italic; }
+  .exam-badge {
+    display:inline-block;
+    background:var(--red);
+    color:white;
+    padding:0.4rem 1rem;
+    font-size:0.75rem;
+    font-weight:600;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    border-radius:3px;
+    margin-bottom:2rem;
+  }
+
+  /* CONCEPT CARDS */
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .card.blue { border-left-color: var(--blue); }
+  .card.red { border-left-color: var(--red); }
+  .card.green { border-left-color: var(--green); }
+
+  .card-label {
+    font-size:0.7rem;
+    font-weight:600;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:0.5rem;
+  }
+  .card.blue .card-label { color:var(--blue); }
+  .card.red .card-label { color:var(--red); }
+  .card.green .card-label { color:var(--green); }
+
+  .card h3 { margin-top:0; }
+
+  /* FORMULA BOX */
+  .formula {
+    background: var(--ink);
+    color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 1rem 1.5rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+
+  /* GRAPH CONTAINERS */
+  .graph-wrap {
+    background:white;
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:1rem;
+    margin:1.5rem 0;
+    text-align:center;
+  }
+  .graph-caption { font-size:0.82rem; color:var(--mid); margin-top:0.75rem; font-style:italic; }
+
+  canvas { max-width:100%; height:auto; }
+
+  /* COMPARISON TABLE */
+  table { width:100%; border-collapse:collapse; margin:1.5rem 0; font-size:0.9rem; }
+  th { background:var(--ink); color:var(--cream); padding:0.75rem 1rem; text-align:left; font-weight:500; }
+  td { padding:0.7rem 1rem; border-bottom:1px solid var(--border); }
+  tr:nth-child(even) td { background:#faf7f2; }
+
+  /* EXAM ANSWER TEMPLATE */
+  .answer-template {
+    background: #fff9f0;
+    border:1px solid #e8d8b0;
+    border-radius:4px;
+    padding:1.5rem;
+    margin:1rem 0;
+  }
+  .answer-template h4 { color:var(--red); font-size:0.9rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.75rem; }
+
+  /* QUIZ */
+  .quiz-q {
+    background:white;
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:1.5rem;
+    margin-bottom:1rem;
+  }
+  .quiz-q p { font-weight:500; margin-bottom:1rem; }
+  .quiz-options { display:grid; gap:0.5rem; }
+  .quiz-opt {
+    padding:0.7rem 1rem;
+    border:1px solid var(--border);
+    border-radius:3px;
+    cursor:pointer;
+    font-size:0.9rem;
+    transition:all 0.15s;
+    background:white;
+    text-align:left;
+  }
+  .quiz-opt:hover { background:#f5f0e8; }
+  .quiz-opt.correct { background:#d4edda; border-color:#28a745; color:#155724; }
+  .quiz-opt.wrong { background:#f8d7da; border-color:#dc3545; color:#721c24; }
+  .quiz-explain { margin-top:1rem; padding:1rem; background:#f5f0e8; border-radius:3px; font-size:0.88rem; display:none; }
+  .quiz-score { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--blue); }
+
+  /* DIAGRAMS via SVG */
+  svg { overflow:visible; }
+  .diagram-label { font-size:11px; font-family:'IBM Plex Sans',sans-serif; }
+
+  /* HIGHLIGHT */
+  .hl { background:rgba(200,168,75,0.2); padding:0.1em 0.3em; border-radius:2px; font-weight:600; }
+  .warn { color:var(--red); font-weight:600; }
+
+  /* NAV ARROW */
+  .nav-btns { display:flex; gap:1rem; margin-top:3rem; }
+  .nav-btn {
+    padding:0.7rem 1.5rem;
+    background:var(--ink);
+    color:var(--cream);
+    border:none;
+    border-radius:3px;
+    cursor:pointer;
+    font-size:0.85rem;
+    font-weight:500;
+    letter-spacing:0.05em;
+    transition:background 0.2s;
+  }
+  .nav-btn:hover { background:var(--blue); }
+
+  @media(max-width:600px) {
+    h1{font-size:2rem}
+    .section{padding:2rem 1rem}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">📚 EDHEC Macro</div>
+  <div class="tabs">
+    <div class="tab active" onclick="show('overview')">Overview</div>
+    <div class="tab" onclick="show('day1')">Day 1: Measurement</div>
+    <div class="tab" onclick="show('day2')">Day 2: Theory & Fiscal</div>
+    <div class="tab" onclick="show('day3')">Day 3: Money & Monetary</div>
+    <div class="tab" onclick="show('exam')">🎯 Exam Prep</div>
+    <div class="tab" onclick="show('quiz')">Quiz</div>
+  </div>
+</nav>
+
+<!-- ===== OVERVIEW ===== -->
+<div class="section active" id="overview">
+  <div class="exam-badge">EDHEC Global MBA · Macroeconomics Final Exam</div>
+  <h1>Everything you need<br>to ace Friday's exam.</h1>
+  <p class="subtitle">Based on your actual lecture slides (Days 1–3) and your 2024 final exam paper.</p>
+
+  <div class="card red">
+    <div class="card-label">⚠️ Your Exam — 5 Questions, 25 Points</div>
+    <h3>Topic: Stagflation & Interest Rates (Roubini, 2022)</h3>
+    <ol>
+      <li><strong>Q1 (5pts):</strong> What is stagflation? What shock causes it?</li>
+      <li><strong>Q2 (5pts):</strong> CB response to bring inflation to 2% — monetary policy transmission mechanism</li>
+      <li><strong>Q3 (5pts):</strong> What does "behind the curve" mean?</li>
+      <li><strong>Q4 (5pts):</strong> Why does rate hikes lead to economic & financial crash?</li>
+      <li><strong>Q5 (5pts):</strong> Why does NOT hiking lead to permanently higher inflation?</li>
+    </ol>
+  </div>
+
+  <h2>Course Map</h2>
+  <table>
+    <tr><th>Day</th><th>Topic</th><th>Key Concepts</th></tr>
+    <tr><td>Day 1</td><td>Key Macro Variables</td><td>GDP, unemployment, inflation, CPI, real vs nominal, interest rates, exchange rates</td></tr>
+    <tr><td>Day 2</td><td>Short-Run Macro Theory & Fiscal Policy</td><td>AE model, multiplier, AD/AS, output gaps, fiscal stabilization</td></tr>
+    <tr><td>Day 3</td><td>Money & Monetary Policy</td><td>Money creation, transmission mechanism, inflation targeting, stagflation</td></tr>
+  </table>
+
+  <div class="nav-btns">
+    <button class="nav-btn" onclick="show('day1')">Start Learning → Day 1</button>
+  </div>
+</div>
+
+<!-- ===== DAY 1 ===== -->
+<div class="section" id="day1">
+  <h1>Day 1</h1>
+  <p class="subtitle">Key Macroeconomic Variables & National Accounting</p>
+
+  <h2>1. GDP — The Big Number</h2>
+
+  <div class="card">
+    <div class="card-label">Core Definition</div>
+    <h3>Gross Domestic Product (GDP)</h3>
+    <p>GDP = the total market value of all <strong>final</strong> goods and services produced within a country's borders in a given period. It equals the sum of <em>value added</em> at every stage of production — this avoids double counting.</p>
+    <div class="formula">
+Value Added = Revenue − Cost of Intermediate Inputs
+GDP = Sum of all Value Added in the Economy
+    </div>
+  </div>
+
+  <div class="card blue">
+    <div class="card-label">3 Ways to Measure GDP — All Give the Same Answer</div>
+    <h3>The Three Approaches</h3>
+    <ol>
+      <li><strong>Expenditure approach:</strong> GDP = C + I + G + NX<br><span style="color:var(--mid);font-size:0.9rem">Consumption + Investment + Gov't Purchases + Net Exports</span></li>
+      <li><strong>Income approach:</strong> GDP = Net Domestic Income + Indirect Taxes + Depreciation</li>
+      <li><strong>Value Added approach:</strong> Sum up each firm's contribution</li>
+    </ol>
+    <p style="margin-top:0.5rem">Because of the circular flow: <span class="hl">Production = Income = Expenditure</span></p>
+  </div>
+
+  <h3>GDP Components Explained</h3>
+  <table>
+    <tr><th>Component</th><th>Symbol</th><th>Includes</th><th>Excludes</th></tr>
+    <tr><td>Consumption</td><td>C</td><td>Household spending on goods & services</td><td>—</td></tr>
+    <tr><td>Investment</td><td>I</td><td>Business equipment, inventories, residential construction</td><td>Financial investments (stocks/bonds)</td></tr>
+    <tr><td>Gov't Purchases</td><td>G</td><td>Gov't goods & services, military</td><td><strong>Transfer payments</strong> (pensions, welfare)</td></tr>
+    <tr><td>Net Exports</td><td>NX = X − IM</td><td>Exports of domestic goods</td><td>Imports (subtract these)</td></tr>
+  </table>
+
+  <div class="card green">
+    <div class="card-label">Important Distinction</div>
+    <h3>GDP vs. GNP</h3>
+    <p><strong>GDP</strong> = output produced <em>within</em> a country's borders (location-based)</p>
+    <p><strong>GNP</strong> = output produced by a country's <em>residents</em>, regardless of location</p>
+    <p><em>Example: Toyota factory in Canada → counted in Canada's GDP but NOT in Canada's GNP (profits go to Japanese owners)</em></p>
+  </div>
+
+  <h2>2. Real vs. Nominal</h2>
+  <div class="card">
+    <div class="card-label">Crucial Distinction</div>
+    <p><strong>Nominal GDP:</strong> Measured in <em>current</em> prices. Goes up even if only prices rose (no real growth).</p>
+    <p><strong>Real GDP:</strong> Measured in <em>constant base-year</em> prices. Only rises if actual output increases. This is what matters for living standards.</p>
+    <div class="formula">
+Real GDP Growth = Nominal GDP Growth − Inflation
+    </div>
+  </div>
+
+  <h2>3. The Business Cycle</h2>
+
+  <div class="graph-wrap">
+    <svg width="600" height="220" viewBox="0 0 600 220">
+      <!-- axes -->
+      <line x1="40" y1="180" x2="580" y2="180" stroke="#333" stroke-width="1.5"/>
+      <line x1="40" y1="20" x2="40" y2="180" stroke="#333" stroke-width="1.5"/>
+      <!-- potential output line -->
+      <line x1="40" y1="100" x2="580" y2="80" stroke="#c0392b" stroke-width="2" stroke-dasharray="6,4"/>
+      <!-- actual GDP wave -->
+      <path d="M40,130 C100,130 120,50 180,55 C240,60 260,150 320,160 C380,170 400,70 460,60 C510,52 540,140 580,130"
+            fill="none" stroke="#1a3a5c" stroke-width="2.5"/>
+      <!-- labels -->
+      <text x="590" y="80" font-size="11" fill="#c0392b">Potential Y*</text>
+      <text x="590" y="132" font-size="11" fill="#1a3a5c">Actual Y</text>
+      <text x="25" y="15" font-size="11" fill="#333">GDP</text>
+      <text x="580" y="195" font-size="11" fill="#333">Time</text>
+      <!-- phase labels -->
+      <text x="155" y="42" font-size="10" fill="#1a5c3a" font-weight="600">PEAK</text>
+      <text x="300" y="178" font-size="10" fill="#c0392b" font-weight="600">TROUGH</text>
+      <text x="60" y="148" font-size="9" fill="#555">Recession</text>
+      <text x="200" y="90" font-size="9" fill="#555">Recovery</text>
+      <text x="370" y="50" font-size="10" fill="#1a5c3a" font-weight="600">PEAK</text>
+      <!-- output gap arrows -->
+      <line x1="320" y1="135" x2="320" y2="168" stroke="#c0392b" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="325" y="155" font-size="9" fill="#c0392b">Recessionary</text>
+      <text x="325" y="165" font-size="9" fill="#c0392b">Gap: Y &lt; Y*</text>
+    </svg>
+    <div class="graph-caption">The Business Cycle: Actual GDP fluctuates around Potential GDP (Y*). Gaps matter for policy.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Output Gaps</div>
+    <ul>
+      <li><strong>Recessionary gap:</strong> Y &lt; Y* → unemployment above NAIRU, downward pressure on wages/prices</li>
+      <li><strong>Inflationary gap:</strong> Y &gt; Y* → tight labour markets, upward pressure on wages/prices → risk of inflation</li>
+    </ul>
+  </div>
+
+  <h2>4. Unemployment</h2>
+
+  <div class="formula">
+Unemployment Rate = (# Unemployed / # in Labour Force) × 100
+
+Labour Force = Employed + Unemployed
+  </div>
+
+  <table>
+    <tr><th>Type</th><th>Cause</th><th>Example</th></tr>
+    <tr><td>Frictional</td><td>Normal job search time</td><td>Graduate looking for first job</td></tr>
+    <tr><td>Structural</td><td>Skill mismatch / industry shift</td><td>Coal miner in a green economy</td></tr>
+    <tr><td>Cyclical</td><td>Recession — insufficient demand</td><td>Factory worker laid off in downturn</td></tr>
+  </table>
+
+  <div class="card green">
+    <div class="card-label">Key Term</div>
+    <h3>NAIRU = Natural Rate of Unemployment</h3>
+    <p>The unemployment rate when Y = Y*. Includes frictional + structural, but NOT cyclical. Zero cyclical unemployment is the goal, not zero unemployment.</p>
+  </div>
+
+  <h2>5. Inflation & Interest Rates</h2>
+
+  <div class="card">
+    <div class="card-label">CPI Formula</div>
+    <div class="formula">
+CPI = (ΣP_t × Q_0) / (ΣP_0 × Q_0) × 100
+
+Where Q_0 = base year quantities, P_t = current prices, P_0 = base year prices
+    </div>
+    <p>Inflation rate = % change in CPI from one period to the next.</p>
+  </div>
+
+  <div class="card blue">
+    <div class="card-label">Real vs Nominal Interest Rate</div>
+    <div class="formula">
+Fisher Equation:
+Real Interest Rate ≈ Nominal Interest Rate − Inflation Rate
+r ≈ i − π
+    </div>
+    <p>The <em>real</em> rate is what matters for borrowing decisions — it reflects actual purchasing power cost of debt.</p>
+  </div>
+
+  <h2>6. Exchange Rates & Balance of Payments</h2>
+  <div class="card">
+    <p><strong>Exchange rate:</strong> # of domestic currency units to buy 1 unit of foreign currency.</p>
+    <p><strong>Depreciation</strong> = domestic currency worth less (exchange rate rises). Improves exports, hurts imports.</p>
+    <p><strong>Appreciation</strong> = domestic currency worth more. Hurts exports, helps imports.</p>
+    <div class="formula">
+Balance of Payments: CA + KA = 0
+(Current Account + Capital Account = 0 — always!)
+    </div>
+    <p>A current account deficit (imports &gt; exports) means you're borrowing from the world → capital account surplus.</p>
+  </div>
+
+  <div class="nav-btns">
+    <button class="nav-btn" onclick="show('day2')">Next → Day 2: Theory & Fiscal</button>
+  </div>
+</div>
+
+<!-- ===== DAY 2 ===== -->
+<div class="section" id="day2">
+  <h1>Day 2</h1>
+  <p class="subtitle">Short-Run Macro Theory, AD/AS Model & Fiscal Policy</p>
+
+  <h2>1. The AE Model (Keynesian Cross)</h2>
+
+  <div class="card">
+    <div class="card-label">Core Idea</div>
+    <p>In the short run, output is <strong>demand-determined</strong>. Firms produce whatever is demanded. Equilibrium occurs when what people <em>want</em> to spend equals what is actually produced.</p>
+    <div class="formula">
+Equilibrium: Y = AE(Y)
+
+AE = C + I + G + (X − IM)
+    </div>
+  </div>
+
+  <div class="card blue">
+    <div class="card-label">Consumption Function</div>
+    <div class="formula">
+C = a + b × YD
+
+where:
+  a = autonomous consumption (spending even at zero income)
+  b = MPC (Marginal Propensity to Consume) = ΔC/ΔYD
+  YD = Disposable Income = Y − T
+  0 < b < 1
+    </div>
+    <p>MPC tells us: for every extra $1 of income, how much goes to consumption. The rest goes to saving: <strong>MPS = 1 − MPC</strong></p>
+  </div>
+
+  <div class="card green">
+    <div class="card-label">Full AE Function (with government & trade)</div>
+    <div class="formula">
+AE = [a + I + G + X] + [b(1−t) − m] × Y
+        ↑ Autonomous           ↑ Induced (slope = z)
+
+where:
+  t = net tax rate (T = tY)
+  m = marginal propensity to import (IM = mY)
+  z = b(1−t) − m  ← slope of AE function
+    </div>
+  </div>
+
+  <h2>2. The Multiplier</h2>
+
+  <div class="graph-wrap">
+    <svg width="500" height="300" viewBox="0 0 500 300">
+      <!-- axes -->
+      <line x1="50" y1="260" x2="460" y2="260" stroke="#333" stroke-width="1.5"/>
+      <line x1="50" y1="20" x2="50" y2="260" stroke="#333" stroke-width="1.5"/>
+      <!-- 45-degree line -->
+      <line x1="50" y1="260" x2="460" y2="260-410" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="50" y1="260" x2="430" y2="30" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <!-- AE line original -->
+      <line x1="50" y1="200" x2="430" y2="90" stroke="#1a3a5c" stroke-width="2.5"/>
+      <!-- AE line shifted -->
+      <line x1="50" y1="170" x2="430" y2="60" stroke="#c8a84b" stroke-width="2.5" stroke-dasharray="5,3"/>
+      <!-- equilibrium points -->
+      <circle cx="200" cy="165" r="5" fill="#1a3a5c"/>
+      <circle cx="270" cy="120" r="5" fill="#c8a84b"/>
+      <!-- vertical dashed lines -->
+      <line x1="200" y1="165" x2="200" y2="260" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="270" y1="120" x2="270" y2="260" stroke="#c8a84b" stroke-width="1" stroke-dasharray="3,3"/>
+      <!-- labels -->
+      <text x="435" y="95" font-size="11" fill="#1a3a5c" font-weight="600">AE₀</text>
+      <text x="435" y="65" font-size="11" fill="#c8a84b" font-weight="600">AE₁</text>
+      <text x="430" y="35" font-size="11" fill="#888">Y=AE (45°)</text>
+      <text x="195" y="275" font-size="10" fill="#1a3a5c">Y₀</text>
+      <text x="265" y="275" font-size="10" fill="#c8a84b">Y₁</text>
+      <text x="200" y="248" font-size="9" fill="#555">←  ΔY = Multiplier × ΔA  →</text>
+      <text x="25" y="20" font-size="11" fill="#333">AE</text>
+      <text x="460" y="265" font-size="11" fill="#333">Y</text>
+      <!-- shift arrow -->
+      <text x="60" y="182" font-size="9" fill="#c8a84b">ΔA ↑</text>
+    </svg>
+    <div class="graph-caption">Keynesian Cross: A rise in autonomous spending (ΔA) shifts AE up. Equilibrium income rises by more than ΔA — the multiplier effect.</div>
+  </div>
+
+  <div class="card red">
+    <div class="card-label">The Simple Multiplier</div>
+    <div class="formula">
+Simple Multiplier = 1 / (1 − z)
+
+where z = marginal propensity to spend = b(1−t) − m
+
+Example: if z = 0.62 → Multiplier = 1/(1−0.62) = 2.63
+
+An extra $1 of government spending → GDP rises by $2.63
+    </div>
+    <p>The multiplier works because spending becomes someone else's income, which becomes more spending. Each "round" adds less (because some leaks into saving, taxes, imports).</p>
+  </div>
+
+  <h2>3. The AD/AS Model</h2>
+
+  <div class="graph-wrap">
+    <svg width="500" height="320" viewBox="0 0 500 320">
+      <!-- axes -->
+      <line x1="50" y1="280" x2="470" y2="280" stroke="#333" stroke-width="1.5"/>
+      <line x1="50" y1="20" x2="50" y2="280" stroke="#333" stroke-width="1.5"/>
+      <!-- AS curve (upward sloping, convex) -->
+      <path d="M80,270 Q200,250 300,160 Q380,90 420,30" fill="none" stroke="#c0392b" stroke-width="2.5"/>
+      <!-- AD curve (downward sloping) -->
+      <path d="M80,30 Q200,100 320,180 Q400,230 440,270" fill="none" stroke="#1a3a5c" stroke-width="2.5"/>
+      <!-- Y* vertical line -->
+      <line x1="280" y1="40" x2="280" y2="280" stroke="#1a5c3a" stroke-width="2" stroke-dasharray="6,4"/>
+      <!-- Equilibrium point -->
+      <circle cx="280" cy="172" r="6" fill="#c8a84b"/>
+      <!-- labels -->
+      <text x="425" y="25" font-size="12" fill="#c0392b" font-weight="700">AS</text>
+      <text x="445" y="268" font-size="12" fill="#1a3a5c" font-weight="700">AD</text>
+      <text x="275" y="35" font-size="11" fill="#1a5c3a" font-weight="700">Y*</text>
+      <text x="285" y="168" font-size="10" fill="#c8a84b" font-weight="600">E₀</text>
+      <text x="30" y="20" font-size="11" fill="#333">P</text>
+      <text x="470" y="285" font-size="11" fill="#333">Y</text>
+      <!-- P0 label -->
+      <line x1="45" y1="172" x2="280" y2="172" stroke="#888" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="28" y="176" font-size="10" fill="#888">P₀</text>
+    </svg>
+    <div class="graph-caption">AD/AS Model: Equilibrium at E₀ where AD meets AS. Y* is potential output (long-run AS is vertical at Y*).</div>
+  </div>
+
+  <table>
+    <tr><th>Shock Type</th><th>Cause</th><th>Effect on P</th><th>Effect on Y</th></tr>
+    <tr><td>Expansionary AD shock</td><td>↑G, ↑I, ↑C, ↑X</td><td>↑</td><td>↑</td></tr>
+    <tr><td>Contractionary AD shock</td><td>↓G, ↓I, ↓C, ↓X</td><td>↓</td><td>↓</td></tr>
+    <tr><td>Expansionary AS shock</td><td>↓input costs, better tech</td><td>↓</td><td>↑</td></tr>
+    <tr><td>Contractionary AS shock</td><td>↑oil prices, ↑wages</td><td>↑</td><td>↓</td></tr>
+  </table>
+
+  <div class="card red">
+    <div class="card-label">⭐ KEY EXAM CONCEPT — STAGFLATION</div>
+    <h3>What is Stagflation?</h3>
+    <p>Stagflation = <strong>Stagnation + Inflation</strong>. A situation where the economy simultaneously experiences:</p>
+    <ul>
+      <li>High / rising inflation (↑P)</li>
+      <li>Low growth or recession (↓Y)</li>
+      <li>High unemployment</li>
+    </ul>
+    <p style="margin-top:0.75rem"><strong>Cause:</strong> A <span class="hl">negative supply shock</span> — something that raises firms' costs (e.g., oil price spike, supply chain disruption). This shifts the AS curve <em>upward/leftward</em>, simultaneously pushing prices up AND output down.</p>
+    <div class="formula">
+Negative Supply Shock → AS shifts LEFT/UP
+→ P rises AND Y falls → STAGFLATION
+    </div>
+  </div>
+
+  <h2>4. Short-Run to Long-Run Adjustment</h2>
+
+  <div class="card">
+    <div class="card-label">The Adjustment Process</div>
+    <table style="margin-top:0.5rem">
+      <tr><th>Situation</th><th>What Happens</th><th>Long-Run Result</th></tr>
+      <tr><td>Y &gt; Y* (Inflationary gap)</td><td>Labour tight → wages rise → AS shifts up</td><td>Y returns to Y*, P higher</td></tr>
+      <tr><td>Y &lt; Y* (Recessionary gap)</td><td>Labour slack → wages fall (slowly) → AS shifts down</td><td>Y returns to Y*, P lower</td></tr>
+    </table>
+    <p style="margin-top:0.75rem"><strong>Key insight:</strong> Wages are <em>sticky downward</em> — they rise fast in booms but fall slowly in recessions. This is why recessionary gaps persist and fiscal/monetary policy may be needed.</p>
+  </div>
+
+  <h2>5. Fiscal Policy</h2>
+
+  <div class="card green">
+    <div class="card-label">Definition</div>
+    <h3>Fiscal Policy = Using G and T to influence Y</h3>
+    <ul>
+      <li><strong>Expansionary:</strong> ↑G or ↓T → shift AD right → close recessionary gap</li>
+      <li><strong>Contractionary:</strong> ↓G or ↑T → shift AD left → close inflationary gap</li>
+    </ul>
+    <p style="margin-top:0.75rem"><strong>Paradox of Thrift:</strong> If everyone saves more simultaneously, aggregate demand falls → GDP falls → everyone ends up worse off. Good for individuals, bad for the economy in the short run.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Limitations of Fiscal Policy</div>
+    <ul>
+      <li><strong>Decision lag:</strong> Time to recognize the problem and decide what to do</li>
+      <li><strong>Execution lag:</strong> Time to implement the policy</li>
+      <li><strong>Effect lag:</strong> Time for the policy to actually affect the economy</li>
+      <li>By the time it works, the economy may have already recovered → could cause inflationary gap</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <button class="nav-btn" onclick="show('day1')">← Day 1</button>
+    <button class="nav-btn" onclick="show('day3')">Next → Day 3: Money & Monetary</button>
+  </div>
+</div>
+
+<!-- ===== DAY 3 ===== -->
+<div class="section" id="day3">
+  <h1>Day 3</h1>
+  <p class="subtitle">Money, Banking & Monetary Policy</p>
+
+  <h2>1. What is Money?</h2>
+
+  <div class="card">
+    <p>Money serves 3 functions:</p>
+    <ol>
+      <li><strong>Medium of exchange:</strong> Accepted for goods/services → eliminates barter</li>
+      <li><strong>Unit of account:</strong> Common measure of value</li>
+      <li><strong>Store of value:</strong> Preserves purchasing power over time (works when inflation is low)</li>
+    </ol>
+    <p style="margin-top:0.75rem"><strong>Fiat money:</strong> No intrinsic value — backed by government decree. Modern currencies are fiat money.</p>
+  </div>
+
+  <h2>2. Money Creation by Banks</h2>
+
+  <div class="card blue">
+    <div class="card-label">Fractional Reserve Banking</div>
+    <p>Banks hold only a <em>fraction</em> of deposits as reserves and lend the rest. This creates new money.</p>
+    <div class="formula">
+Money Multiplier = 1/v  (no cash drain)
+                = 1/(c+v)  (with cash drain)
+
+where:
+  v = reserve ratio (fraction of deposits kept as reserves)
+  c = currency-deposit ratio
+
+Example: v = 20% → $100 deposit → $500 total deposits created
+$100 × (1/0.20) = $500
+    </div>
+  </div>
+
+  <h2>3. The Monetary Transmission Mechanism</h2>
+
+  <div class="card red">
+    <div class="card-label">⭐ KEY EXAM CONCEPT — Transmission Mechanism</div>
+    <h3>How Central Bank Rate Changes Affect the Economy</h3>
+  </div>
+
+  <div class="graph-wrap">
+    <svg width="560" height="100" viewBox="0 0 560 100">
+      <!-- boxes -->
+      <rect x="5" y="25" width="100" height="50" rx="4" fill="#1a3a5c"/>
+      <text x="55" y="47" font-size="9" fill="white" text-anchor="middle">Central Bank</text>
+      <text x="55" y="60" font-size="9" fill="white" text-anchor="middle">↑ Interest Rate</text>
+      <text x="55" y="73" font-size="9" fill="#c8a84b" text-anchor="middle">(e.g. to fight inflation)</text>
+
+      <rect x="120" y="25" width="100" height="50" rx="4" fill="#1a3a5c" fill-opacity="0.85"/>
+      <text x="170" y="47" font-size="9" fill="white" text-anchor="middle">Borrowing</text>
+      <text x="170" y="60" font-size="9" fill="white" text-anchor="middle">becomes costly</text>
+      <text x="170" y="73" font-size="9" fill="#c8a84b" text-anchor="middle">↓ Investment & C</text>
+
+      <rect x="235" y="25" width="100" height="50" rx="4" fill="#1a3a5c" fill-opacity="0.7"/>
+      <text x="285" y="47" font-size="9" fill="white" text-anchor="middle">AD shifts left</text>
+      <text x="285" y="60" font-size="9" fill="white" text-anchor="middle">↓ Output (Y)</text>
+      <text x="285" y="73" font-size="9" fill="#c8a84b" text-anchor="middle">↑ Unemployment</text>
+
+      <rect x="350" y="25" width="100" height="50" rx="4" fill="#1a3a5c" fill-opacity="0.55"/>
+      <text x="400" y="47" font-size="9" fill="white" text-anchor="middle">↑ Unemployment</text>
+      <text x="400" y="60" font-size="9" fill="white" text-anchor="middle">→ ↓ Wage pressure</text>
+      <text x="400" y="73" font-size="9" fill="#c8a84b" text-anchor="middle">→ ↓ Inflation</text>
+
+      <rect x="465" y="25" width="88" height="50" rx="4" fill="#1a5c3a"/>
+      <text x="509" y="50" font-size="9" fill="white" text-anchor="middle">Inflation</text>
+      <text x="509" y="63" font-size="9" fill="white" text-anchor="middle">returns to 2%</text>
+
+      <!-- arrows -->
+      <line x1="105" y1="50" x2="118" y2="50" stroke="#c8a84b" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <line x1="220" y1="50" x2="233" y2="50" stroke="#c8a84b" stroke-width="2"/>
+      <line x1="335" y1="50" x2="348" y2="50" stroke="#c8a84b" stroke-width="2"/>
+      <line x1="450" y1="50" x2="463" y2="50" stroke="#c8a84b" stroke-width="2"/>
+      <defs>
+        <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#c8a84b"/>
+        </marker>
+      </defs>
+    </svg>
+    <div class="graph-caption">Contractionary Monetary Policy Transmission: Higher rates → lower investment & consumption → lower AD → lower output → lower inflation</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Open Economy Addition</div>
+    <p>When interest rates rise, foreign investors bring money in (seeking higher returns) → domestic currency <strong>appreciates</strong> → exports become more expensive for foreigners → <strong>net exports fall</strong> → additional downward pressure on AD.</p>
+    <div class="formula">
+↑i → foreign capital inflow → currency appreciates → ↓NX → ↓AD
+    </div>
+  </div>
+
+  <h2>4. Inflation Targeting</h2>
+
+  <div class="card green">
+    <div class="card-label">Modern Central Bank Framework</div>
+    <p>Most central banks (Fed, ECB, Bank of Canada) target <strong>2% inflation</strong>.</p>
+    <ul>
+      <li>If output gap is positive (Y &gt; Y*): inflation tends to rise → CB raises rates (contractionary)</li>
+      <li>If output gap is negative (Y &lt; Y*): inflation tends to fall → CB cuts rates (expansionary)</li>
+    </ul>
+    <p style="margin-top:0.75rem">The CB monitors the <strong>output gap</strong> as an indicator of future inflation pressure.</p>
+  </div>
+
+  <h2>5. Long-Run Money Neutrality</h2>
+
+  <div class="card">
+    <p>In the <strong>long run</strong>, changes in money supply do not affect real variables (real GDP, real wages, unemployment). They only affect the price level.</p>
+    <p>Evidence: Countries with faster money growth → higher inflation (but not necessarily higher real growth).</p>
+    <div class="formula">
+Long Run: ↑Money Supply → ↑P (proportionally), no change in Y
+Short Run: ↑Money Supply → ↑AD → ↑Y and ↑P (both)
+    </div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="nav-btn" onclick="show('day2')">← Day 2</button>
+    <button class="nav-btn" onclick="show('exam')">Next → 🎯 Exam Prep</button>
+  </div>
+</div>
+
+<!-- ===== EXAM PREP ===== -->
+<div class="section" id="exam">
+  <h1>🎯 Exam Prep</h1>
+  <p class="subtitle">Your actual exam questions with model answers</p>
+
+  <div class="card red">
+    <div class="card-label">Context — The Roubini Quote (2022)</div>
+    <p><em>"Central banks are in both a stagflation trap and a debt trap. They are damned if they do and damned if they don't. If they increase interest rates enough to bring inflation down to 2%, they will cause a severe economic hard landing. And if they don't – attempting instead to protect growth and jobs – they will be left increasingly far behind the curve, leading to a de-anchoring of inflation expectations and a wage-price spiral."</em></p>
+  </div>
+
+  <!-- Q1 -->
+  <h2>Q1 (5pts): What is stagflation? What shock causes it?</h2>
+
+  <div class="answer-template">
+    <h4>📝 Model Answer Framework</h4>
+    <p><strong>Definition:</strong> Stagflation is the simultaneous occurrence of high (or rising) inflation and economic stagnation (low or negative growth + high unemployment). The term combines "stagnation" and "inflation."</p>
+    <p><strong>Shock:</strong> A <em>negative supply shock</em> — something that increases production costs for firms economy-wide. This shifts the AS curve <strong>upward and to the left</strong>.</p>
+    <p><strong>Examples of negative supply shocks:</strong> An oil price spike (1970s OPEC crisis), a global supply chain disruption (COVID-19), rising input prices due to trade tariffs.</p>
+    <p><strong>AD/AS explanation:</strong> When AS shifts left, two things happen simultaneously: the price level rises (inflation) AND equilibrium output falls (recession). This is unique — normal demand shocks move P and Y in the same direction, but supply shocks move them in opposite directions.</p>
+    <p><strong>Why Roubini used this term (2022):</strong> Post-COVID supply disruptions + energy price spike from Russia-Ukraine war created exactly these conditions: rising prices + slowing growth.</p>
+  </div>
+
+  <!-- Q2 -->
+  <h2>Q2 (5pts): CB response to reduce inflation to 2% — Transmission mechanism</h2>
+
+  <div class="answer-template">
+    <h4>📝 Model Answer Framework</h4>
+    <p><strong>Policy:</strong> Contractionary monetary policy — the central bank raises its target for the overnight interest rate.</p>
+    <p><strong>Transmission mechanism (step by step):</strong></p>
+    <ol>
+      <li><strong>CB raises overnight rate</strong> → other short-term rates follow immediately → longer-term rates adjust too (mortgage rates, corporate borrowing rates)</li>
+      <li><strong>Higher borrowing cost → ↓ Investment (I) and ↓ Consumption (C)</strong>: Firms cancel or postpone projects; households cut back on credit-financed spending</li>
+      <li><strong>→ AE shifts down → AD shifts left</strong>: Equilibrium GDP falls</li>
+      <li><strong>Open-economy channel:</strong> Higher domestic rates attract foreign capital → CAD appreciates → exports become expensive → NX falls → additional leftward shift in AD</li>
+      <li><strong>Y falls below Y*</strong> → recessionary gap opens → labour market loosens → wage demands fall → firms' costs fall → AS shifts downward → inflation falls</li>
+      <li><strong>Result:</strong> Lower inflation, but at the cost of higher unemployment and lower output</li>
+    </ol>
+  </div>
+
+  <!-- Q3 -->
+  <h2>Q3 (5pts): What does "behind the curve" mean?</h2>
+
+  <div class="answer-template">
+    <h4>📝 Model Answer Framework</h4>
+    <p><strong>Core meaning:</strong> "Behind the curve" means the central bank has been too slow to raise interest rates, allowing inflation to become entrenched before acting. The CB's policy rate is <em>below</em> where it needs to be to control inflation.</p>
+    <p><strong>Full explanation:</strong></p>
+    <ul>
+      <li>If the CB hesitates and doesn't raise rates (to avoid hurting growth), inflation continues rising</li>
+      <li>As inflation persists, <strong>inflation expectations become de-anchored</strong>: households and firms begin expecting high inflation to continue</li>
+      <li>Workers demand higher wages to compensate → firms face higher costs → they raise prices → a <strong>wage-price spiral</strong> begins</li>
+      <li>Once expectations become unanchored, controlling inflation requires <em>even larger</em> rate increases than would have been needed if the CB had acted earlier</li>
+    </ul>
+    <p><strong>Roubini's point:</strong> By protecting growth and jobs in the short run (not hiking), the CB falls further and further "behind" — the inflation problem gets worse, not better. Eventually it will need to act even more aggressively.</p>
+  </div>
+
+  <!-- Q4 -->
+  <h2>Q4 (5pts): Why does CB rate hikes cause economic AND financial crash?</h2>
+
+  <div class="answer-template">
+    <h4>📝 Model Answer Framework</h4>
+    <p><strong>Economic crash mechanism (from Q2):</strong></p>
+    <ul>
+      <li>Sharply higher interest rates → severe contraction in investment and consumption → AD collapses → deep recession → mass unemployment</li>
+      <li>This is the "hard landing" — the more delayed the hike, the more aggressive it must be, and the more damaging</li>
+    </ul>
+    <p><strong>Financial crash mechanism (Roubini's addition):</strong></p>
+    <ul>
+      <li>After years of low rates, governments, households, and firms accumulated <strong>very high levels of debt</strong></li>
+      <li>When rates rise sharply, debt servicing costs rise dramatically — highly leveraged borrowers face distress</li>
+      <li><strong>Private sector:</strong> Firms with floating-rate debt → cash flow crunch → defaults → bank losses</li>
+      <li><strong>Public sector:</strong> Governments with high debt → interest payments explode → fiscal pressure → possible sovereign debt crises</li>
+      <li><strong>Financial turmoil intensifies the recession</strong> (vicious cycle): Financial instability → credit crunch → less lending → less investment → deeper recession → more defaults → more financial instability</li>
+    </ul>
+    <p><strong>Bottom line:</strong> The CB faces a dilemma — hiking enough to kill inflation causes a recession <em>and</em> a financial crisis because of the debt overhang built up during low-rate years.</p>
+  </div>
+
+  <!-- Q5 -->
+  <h2>Q5 (5pts): Why does NOT hiking lead to permanently higher inflation?</h2>
+
+  <div class="answer-template">
+    <h4>📝 Model Answer Framework</h4>
+    <p><strong>Three mechanisms:</strong></p>
+    <p><strong>1. De-anchoring of inflation expectations:</strong></p>
+    <ul>
+      <li>If the CB doesn't act credibly, people stop believing the 2% target will be maintained</li>
+      <li>Workers and firms build higher inflation into their contracts and pricing decisions</li>
+      <li>This creates self-fulfilling inflation: expected inflation → actual inflation</li>
+    </ul>
+    <p><strong>2. Wage-price spiral:</strong></p>
+    <ul>
+      <li>Workers see prices rising → demand higher wages → firms' costs rise → firms raise prices → further inflation → workers demand even higher wages… spiral continues</li>
+    </ul>
+    <p><strong>3. Loss of CB credibility:</strong></p>
+    <ul>
+      <li>Central bank credibility is crucial for keeping inflation expectations anchored</li>
+      <li>If the CB is seen as unwilling to fight inflation, agents update their beliefs about the long-run inflation rate upward</li>
+      <li>Once credibility is lost, regaining it requires a very painful disinflation (like Volcker shock in the early 1980s, which caused deep recession)</li>
+    </ul>
+    <p><strong>Historical lesson:</strong> The 1970s showed that delaying action against inflation embedded it deeply. The cure (Volcker's massive rate hikes) was more painful than the disease would have been if treated earlier.</p>
+  </div>
+
+  <div class="nav-btns">
+    <button class="nav-btn" onclick="show('quiz')">Test yourself → Quiz</button>
+  </div>
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div class="section" id="quiz">
+  <h1>Self-Test Quiz</h1>
+  <p class="subtitle">15 questions drawn from your course material</p>
+  <div id="quiz-score-box" style="display:none; margin-bottom:2rem;">
+    <div class="card green">
+      <div class="card-label">Your Score</div>
+      <div class="quiz-score" id="score-display"></div>
+      <button class="nav-btn" style="margin-top:1rem" onclick="resetQuiz()">Try Again</button>
+    </div>
+  </div>
+  <div id="quiz-body"></div>
+  <div id="quiz-submit" style="margin-top:1.5rem">
+    <button class="nav-btn" onclick="submitQuiz()">Check My Answers</button>
+  </div>
+</div>
+
+<script>
+const TABS = ['overview','day1','day2','day3','exam','quiz'];
+function show(id) {
+  TABS.forEach(t => {
+    document.getElementById(t).classList.toggle('active', t===id);
+  });
+  document.querySelectorAll('.tab').forEach((el,i) => {
+    el.classList.toggle('active', TABS[i]===id);
+  });
+  window.scrollTo(0,0);
+}
+
+// QUIZ DATA
+const questions = [
+  {
+    q: "Which of the following is NOT included in GDP?",
+    opts: ["Government purchases of military equipment","Household spending on groceries","Transfer payments (pension benefits)","Business investment in new machinery"],
+    ans: 2,
+    explain: "Transfer payments (pensions, welfare) are not purchases of currently produced goods/services. They don't represent production — they're a redistribution of income. Government purchases (G) exclude transfer payments."
+  },
+  {
+    q: "Stagflation is best described as:",
+    opts: ["High unemployment with low inflation","High inflation combined with economic stagnation and high unemployment","Rapid economic growth with rising prices","A recessionary gap combined with deflation"],
+    ans: 1,
+    explain: "Stagflation = stagnation + inflation. It's the simultaneous occurrence of high/rising inflation AND low growth + high unemployment. It's caused by negative supply shocks."
+  },
+  {
+    q: "A negative supply shock (e.g., oil price spike) in the AD/AS model leads to:",
+    opts: ["AD shifts right; P rises, Y rises","AS shifts left; P rises, Y falls","AD shifts left; P falls, Y falls","AS shifts right; P falls, Y rises"],
+    ans: 1,
+    explain: "A negative supply shock raises firms' costs, shifting AS upward/leftward. This simultaneously raises the price level (inflation) and reduces output (recession) — the defining feature of stagflation."
+  },
+  {
+    q: "If MPC = 0.8, tax rate t = 0.1, and marginal propensity to import m = 0.05, what is the slope of the AE function (z)?",
+    opts: ["0.80","0.72","0.67","0.62"],
+    ans: 2,
+    explain: "z = b(1−t) − m = 0.8(1−0.1) − 0.05 = 0.8 × 0.9 − 0.05 = 0.72 − 0.05 = 0.67. The tax rate and import propensity both reduce the multiplier."
+  },
+  {
+    q: "What does 'being behind the curve' mean for a central bank?",
+    opts: ["The CB has raised rates too aggressively","The CB has been too slow to raise rates, allowing inflation to become entrenched","The CB's inflation target is too low","The CB has insufficient foreign exchange reserves"],
+    ans: 1,
+    explain: "Being 'behind the curve' means the CB delayed rate hikes, so inflation rises and expectations become de-anchored. The CB is 'behind' what the situation requires. The longer it waits, the bigger the eventual hike needed."
+  },
+  {
+    q: "The monetary policy transmission mechanism works through:",
+    opts: ["Government changing tax rates","Central bank changing the overnight rate → other rates change → investment & consumption change → AD shifts","Changes in government spending multiplied by the AE multiplier","Automatic stabilizers built into the tax system"],
+    ans: 1,
+    explain: "The transmission mechanism: CB changes overnight rate → other market interest rates adjust → firms' borrowing costs change → investment changes → consumption changes → AD shifts → output and inflation change."
+  },
+  {
+    q: "GDP = C + I + G + NX. Which of these is TRUE about 'G'?",
+    opts: ["G includes all government spending including welfare payments","G excludes transfer payments like pensions and unemployment benefits","G is measured in real terms automatically","G always equals tax revenue"],
+    ans: 1,
+    explain: "Government Purchases (G) includes only direct purchases of goods and services (military, civil servants, infrastructure). Transfer payments (pensions, welfare, employment insurance) are NOT in G because they don't represent purchase of currently produced output."
+  },
+  {
+    q: "In the long run, after an expansionary monetary policy shock, what happens?",
+    opts: ["Output permanently rises above Y*","Output returns to Y* but at a higher price level (money neutrality)","Output returns to Y* at the same price level","The interest rate stays permanently lower"],
+    ans: 1,
+    explain: "Long-run money neutrality: in the long run, extra money supply only affects the price level, not real output. Y returns to Y* through the adjustment process (rising wages shift AS up), but at a higher P."
+  },
+  {
+    q: "What is the simple multiplier if the marginal propensity to spend (z) = 0.75?",
+    opts: ["0.75","1.33","4","2.5"],
+    ans: 2,
+    explain: "Simple Multiplier = 1/(1−z) = 1/(1−0.75) = 1/0.25 = 4. A $1 increase in autonomous spending increases equilibrium GDP by $4."
+  },
+  {
+    q: "A recessionary gap means:",
+    opts: ["Y > Y*, inflationary pressure builds","Y < Y*, cyclical unemployment exists, downward wage pressure","Inflation is above the 2% target","The budget deficit is too large"],
+    ans: 1,
+    explain: "Recessionary gap: Y < Y*. Actual output is below potential → cyclical unemployment exists → labour market slack → downward pressure on wages. If wages fall (slowly), AS shifts down, closing the gap."
+  },
+  {
+    q: "Roubini says not hiking rates leads to a 'wage-price spiral'. This means:",
+    opts: ["Wages and prices alternately fall in a deflationary loop","Workers demand higher wages due to rising prices; firms raise prices further to cover higher wage costs; repeat","A situation where only wages rise but not prices","The government mandates wage and price controls simultaneously"],
+    ans: 1,
+    explain: "Wage-price spiral: Rising prices → workers demand higher nominal wages to maintain real wages → firms face higher labour costs → firms raise prices → workers demand even higher wages → prices rise further. Self-reinforcing cycle of inflation."
+  },
+  {
+    q: "The Paradox of Thrift states that:",
+    opts: ["Saving is always good for the economy","An increase in desired saving by all households simultaneously can reduce GDP in the short run","More saving always leads to more investment in the short run","Frugality is never beneficial for individuals"],
+    ans: 1,
+    explain: "Paradox of Thrift: If everyone saves more at once → C falls → AE falls → GDP falls → incomes fall → people may end up saving less than intended. Individual virtue (saving) becomes collective vice (recession) in the short run."
+  },
+  {
+    q: "Real interest rate = ?",
+    opts: ["Nominal interest rate × inflation rate","Nominal interest rate − inflation rate","Nominal interest rate + inflation rate","Nominal interest rate / inflation rate"],
+    ans: 1,
+    explain: "Fisher equation: real rate ≈ nominal rate − inflation. If nominal rate is 6% and inflation is 4%, the real rate is 2%. The real rate reflects actual purchasing power cost of borrowing."
+  },
+  {
+    q: "With a reserve ratio of 10% and no cash drain, if the central bank injects $200 into the banking system, total deposits will increase by:",
+    opts: ["$200","$1,000","$2,000","$20"],
+    ans: 2,
+    explain: "Money multiplier = 1/v = 1/0.10 = 10. Total deposit creation = 10 × $200 = $2,000. Each bank lends out 90% of each new deposit, which becomes another bank's deposit, and so on."
+  },
+  {
+    q: "Why does Roubini argue that raising rates could also cause a FINANCIAL (not just economic) crash?",
+    opts: ["Banks will refuse to transmit higher rates","High public and private debt levels mean rising rates cause severe debt distress, defaults, and financial market turmoil that deepens the recession","Higher rates always strengthen the currency too much","The stock market automatically crashes when rates rise 1%"],
+    ans: 1,
+    explain: "The debt trap: Years of low rates led to high private and public debt. When rates rise sharply, debt servicing costs explode → overleveraged firms and governments face distress → defaults → bank losses → credit crunch → recession deepens → vicious cycle. The financial system amplifies the economic downturn."
+  }
+];
+
+function buildQuiz() {
+  const body = document.getElementById('quiz-body');
+  body.innerHTML = '';
+  questions.forEach((q,i) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-q';
+    div.id = 'qq'+i;
+    div.innerHTML = `<p>${i+1}. ${q.q}</p>
+      <div class="quiz-options">
+        ${q.opts.map((o,j)=>`<button class="quiz-opt" onclick="select(${i},${j})" id="opt-${i}-${j}">${o}</button>`).join('')}
+      </div>
+      <div class="quiz-explain" id="exp-${i}"><strong>Explanation:</strong> ${q.explain}</div>`;
+    body.appendChild(div);
+  });
+}
+
+const selected = {};
+function select(q, opt) {
+  selected[q] = opt;
+  for(let j=0;j<4;j++) {
+    const el = document.getElementById(`opt-${q}-${j}`);
+    if(el) el.style.background = j===opt ? '#e0d5c0' : 'white';
+  }
+}
+
+function submitQuiz() {
+  let score = 0;
+  questions.forEach((q,i) => {
+    const correct = q.ans;
+    const user = selected[i];
+    for(let j=0;j<q.opts.length;j++) {
+      const el = document.getElementById(`opt-${i}-${j}`);
+      if(!el) continue;
+      el.classList.remove('correct','wrong');
+      if(j===correct) el.classList.add('correct');
+      else if(j===user && user!==correct) el.classList.add('wrong');
+      el.onclick = null;
+    }
+    document.getElementById(`exp-${i}`).style.display='block';
+    if(user===correct) score++;
+  });
+  document.getElementById('quiz-submit').style.display='none';
+  const box = document.getElementById('quiz-score-box');
+  box.style.display='block';
+  document.getElementById('score-display').textContent = `${score} / ${questions.length} correct`;
+  window.scrollTo(0,0);
+}
+
+function resetQuiz() {
+  Object.keys(selected).forEach(k=>delete selected[k]);
+  buildQuiz();
+  document.getElementById('quiz-submit').style.display='block';
+  document.getElementById('quiz-score-box').style.display='none';
+}
+
+buildQuiz();
+</script>
+
+</body>
+</html>

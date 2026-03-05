@@ -49,7 +49,7 @@ nav{position:fixed;bottom:0;left:0;right:0;background:#12121a;border-top:1px sol
 /* INLINE GRAPH (in learn tab) */
 .ig{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:10px;margin:10px 0;}
 .ig .gt{margin-bottom:7px;}
-.ig svg{width:100%;height:auto;display:block;}
+.ig svg{width:100%;height:auto;display:block;overflow:visible;}
 .ig-cap{font-size:.75rem;color:var(--mu);text-align:center;margin-top:7px;line-height:1.5;}
 /* DEFINITION CALLOUT */
 .def{background:rgba(124,106,247,.08);border-left:3px solid var(--ac);border-radius:0 10px 10px 0;padding:10px 13px;margin:9px 0;}
@@ -153,15 +153,16 @@ h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,7vw,2.8rem);font-weight:
   </div>
 
   <button class="btn" onclick="goPage('pg-learn')">Start Learning →</button>
-  <button class="dl-btn" onclick="dlPDF()">📄 Download &amp; Print Cheat Sheet</button>
+  
 </div>
 
 <!-- ══════════ LEARN ══════════ -->
 <div class="page" id="pg-learn">
   <div class="tabs" id="learn-tabs">
-    <div class="tab on" onclick="goTab('learn',0)">Day 1: Basics</div>
-    <div class="tab" onclick="goTab('learn',1)">Day 2: Models</div>
-    <div class="tab" onclick="goTab('learn',2)">Day 3: Money</div>
+    <div class="tab on" onclick="goTab('learn',0)">Basics</div>
+    <div class="tab" onclick="goTab('learn',1)">Models</div>
+    <div class="tab" onclick="goTab('learn',2)">Money</div>
+    <div class="tab" onclick="goTab('learn',3)">Long-Run</div>
   </div>
 
   <!-- ── DAY 1 ── -->
@@ -228,36 +229,38 @@ h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,7vw,2.8rem);font-weight:
 
     <div class="ig">
       <div class="gt">📊 The Business Cycle</div>
-      <svg viewBox="0 0 340 175" xmlns="http://www.w3.org/2000/svg">
-        <line x1="28" y1="148" x2="328" y2="148" stroke="#2e2e3e" stroke-width="1.5"/>
-        <line x1="28" y1="10" x2="28" y2="148" stroke="#2e2e3e" stroke-width="1.5"/>
-        <text x="178" y="163" font-size="9" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">Time →</text>
-        <text x="12" y="80" font-size="8" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,12,80)" font-family="DM Sans,sans-serif">Real GDP</text>
+      <svg viewBox="0 0 340 185" xmlns="http://www.w3.org/2000/svg">
+        <!-- axes -->
+        <line x1="28" y1="155" x2="328" y2="155" stroke="#2e2e3e" stroke-width="1.5"/>
+        <line x1="28" y1="10" x2="28" y2="155" stroke="#2e2e3e" stroke-width="1.5"/>
+        <text x="178" y="170" font-size="9" fill="#6a6a8a" text-anchor="middle" font-family="DM Sans,sans-serif">Time →</text>
+        <text x="12" y="83" font-size="8" fill="#6a6a8a" text-anchor="middle" transform="rotate(-90,12,83)" font-family="DM Sans,sans-serif">Real GDP</text>
         <!-- Y* potential (gently rising dashed) -->
-        <line x1="28" y1="112" x2="328" y2="68" stroke="#f76a6a" stroke-width="1.8" stroke-dasharray="6,4"/>
-        <text x="314" y="63" font-size="9" fill="#f76a6a" font-family="DM Sans,sans-serif" font-weight="700">Y*</text>
-        <!-- Actual GDP wave -->
-        <path d="M28,112 C55,100 75,60 105,48 C132,37 148,65 168,85 C188,105 202,138 230,132 C255,126 278,82 303,72 C315,68 324,66 328,65"
+        <line x1="28" y1="118" x2="328" y2="74" stroke="#f76a6a" stroke-width="1.8" stroke-dasharray="6,4"/>
+        <text x="315" y="70" font-size="9" fill="#f76a6a" font-family="DM Sans,sans-serif" font-weight="700">Y*</text>
+        <!-- Actual GDP wave: PEAK=top(small y), TROUGH=bottom(large y) -->
+        <path d="M28,118 C55,106 75,62 105,50 C132,38 148,70 168,90 C188,112 202,146 230,140 C255,134 278,88 303,78 C315,73 324,71 328,70"
               fill="none" stroke="#7c6af7" stroke-width="2.2" stroke-linecap="round"/>
-        <!-- Peak dot -->
-        <circle cx="105" cy="48" r="5" fill="#f7d76a"/>
-        <text x="105" y="38" font-size="9" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">PEAK</text>
-        <text x="105" y="28" font-size="8" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">Y &gt; Y* → inflation↑</text>
-        <!-- Trough dot -->
-        <circle cx="230" cy="132" r="5" fill="#6aaaf7"/>
-        <text x="230" y="146" font-size="9" fill="#6aaaf7" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">TROUGH</text>
-        <text x="230" y="157" font-size="8" fill="#6aaaf7" text-anchor="middle" font-family="DM Sans,sans-serif">Y &lt; Y* → unemploy↑</text>
-        <!-- Inflationary gap arrow -->
-        <line x1="105" y1="50" x2="105" y2="72" stroke="#f7a26a" stroke-width="1.2" stroke-dasharray="2,2"/>
-        <text x="113" y="64" font-size="7.5" fill="#f7a26a" font-family="DM Sans,sans-serif">Inflationary gap</text>
-        <!-- Recessionary gap arrow -->
-        <line x1="230" y1="130" x2="230" y2="112" stroke="#6aaaf7" stroke-width="1.2" stroke-dasharray="2,2"/>
-        <text x="238" y="118" font-size="7.5" fill="#6aaaf7" font-family="DM Sans,sans-serif">Recessionary gap</text>
+        <!-- PEAK at cy=50: HIGH on graph = small y ✓ -->
+        <circle cx="105" cy="50" r="5" fill="#f7d76a"/>
+        <text x="105" y="41" font-size="9" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">PEAK</text>
+        <text x="105" y="31" font-size="7.5" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">Y &gt; Y* → Inflation ↑</text>
+        <!-- Inflationary gap line from peak to Y* -->
+        <line x1="105" y1="55" x2="105" y2="88" stroke="#f7a26a" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="115" y="78" font-size="7" fill="#f7a26a" font-family="DM Sans,sans-serif">Inflationary gap</text>
+        <!-- TROUGH at cy=140: LOW on graph = large y ✓ -->
+        <circle cx="230" cy="140" r="5" fill="#6aaaf7"/>
+        <!-- TROUGH label RIGHT of dot (avoids overlap with recessionary gap text) -->
+        <text x="248" y="144" font-size="9" fill="#6aaaf7" text-anchor="start" font-family="DM Sans,sans-serif" font-weight="700">TROUGH</text>
+        <text x="248" y="154" font-size="7.5" fill="#6aaaf7" text-anchor="start" font-family="DM Sans,sans-serif">Y &lt; Y* → Unemp ↑</text>
+        <!-- Recessionary gap line from trough to Y* -->
+        <line x1="230" y1="135" x2="230" y2="114" stroke="#6aaaf7" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="160" y="128" font-size="7" fill="#6aaaf7" font-family="DM Sans,sans-serif">Recessionary gap</text>
         <!-- Legend -->
         <line x1="32" y1="18" x2="50" y2="18" stroke="#7c6af7" stroke-width="2"/>
         <text x="54" y="22" font-size="8" fill="#7c6af7" font-family="DM Sans,sans-serif">Actual GDP</text>
-        <line x1="120" y1="18" x2="138" y2="18" stroke="#f76a6a" stroke-width="1.5" stroke-dasharray="5,3"/>
-        <text x="142" y="22" font-size="8" fill="#f76a6a" font-family="DM Sans,sans-serif">Potential Y*</text>
+        <line x1="126" y1="18" x2="144" y2="18" stroke="#f76a6a" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="148" y="22" font-size="8" fill="#f76a6a" font-family="DM Sans,sans-serif">Potential Y*</text>
       </svg>
       <div class="ig-cap">The economy always oscillates around Y*. At the peak (Y&gt;Y*) inflation is the risk. At the trough (Y&lt;Y*) unemployment is the problem. Policy tries to smooth these swings.</div>
     </div>
@@ -656,6 +659,108 @@ h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,7vw,2.8rem);font-weight:
       <p>In the long run, printing more money only raises prices — it does NOT increase real output. Real output always returns to Y* regardless of how much money is printed. This is why CBs don't just print their way out of every problem.</p>
     </div>
 
+    <button class="btn" onclick="goTab('learn',3)">Next: Long-Run Economics →</button>
+  </div>
+
+  <!-- ── SESSION 6 ── -->
+  <div class="pane" id="learn-3">
+
+    <div class="sh"><div class="sn">1</div><h2>From Short-Run to Long-Run</h2></div>
+
+    <div class="card ac">
+      <div class="ct">🔑 The Core Insight of Session 6</div>
+      <p>Everything in Days 1–3 described <strong>short-run</strong> responses — how Y and P move when AD or AS shifts. Session 6 asks: <em>what happens next?</em> The economy has a self-correcting mechanism through wages. And in the very long run, what determines how big Y* itself can grow?</p>
+    </div>
+
+    <div class="sh"><div class="sn">2</div><h2>The Wage Adjustment Mechanism — How Gaps Close Naturally</h2></div>
+
+    <div class="card gc">
+      <div class="ct">Closing an Inflationary Gap (Y &gt; Y*)</div>
+      <p>When the economy overheats, the labour market gets tight. Workers have bargaining power and negotiate higher wages. Higher wages = higher firm costs = AS shifts <strong>LEFT</strong>. This reduces output back toward Y*. The gap closes — but it comes at the cost of higher prices.</p>
+      <p style="margin-top:6px;font-size:.82rem;color:#b0d0b0">This is why CBs get nervous when Y &gt; Y*: without action, the adjustment process will push prices up before closing the gap.</p>
+    </div>
+
+    <div class="card bc">
+      <div class="ct">Closing a Recessionary Gap (Y &lt; Y*)</div>
+      <p>In a recession, unemployment is high. Workers have less bargaining power, wages get cut. Lower wages = lower firm costs = AS shifts <strong>RIGHT</strong>. Output rises back toward Y*. The gap closes — but it takes time and causes significant hardship.</p>
+      <p style="margin-top:6px;font-size:.82rem;color:#b0b8d0">The more flexible the labour market, the faster adjustment happens. Strong unions or rigid wages slow it down.</p>
+    </div>
+
+    <div class="warn">⚠️ <strong>Exam key:</strong> The professor said it's OK to draw <em>multiple graphs</em> — one showing the initial shock, another showing the wage adjustment. This is a strong exam technique: Shock → New equilibrium → Wage adjustment → Return to Y*.</div>
+
+    <div class="sh"><div class="sn">3</div><h2>Fiscal Policy Revisited — What G Can and Cannot Do</h2></div>
+
+    <div class="def">
+      <div class="dl">Key insight</div>
+      <div class="dt">An increase in G temporarily raises real GDP — but not permanently</div>
+      <div class="dd">G↑ shifts AD right → output rises above Y* → adjustment process brings it back. Long-run real GDP is the SAME. But the composition of GDP changes: more G, less C, I, and NX.</div>
+    </div>
+
+    <div class="card rc">
+      <div class="ct">⚠️ Crowding Out — The Hidden Cost of Government Spending</div>
+      <p>When the government borrows to fund spending, it competes with the private sector for loanable funds. This can push up interest rates → firms borrow less → private investment (I) falls. So G↑ may partially or fully crowd out private I.</p>
+      <p style="margin-top:6px">End result: GDP composition shifts from private (C+I+NX) toward government (G) — but the total may not grow as much as the multiplier alone suggests.</p>
+    </div>
+
+    <div class="card yc">
+      <div class="ct">⚠️ Fiscal Space — Why Not Every Government Can Spend</div>
+      <p>Fiscal policy only works if the government can actually borrow. If debt/GDP is already very high, markets may refuse to lend (or demand very high interest rates). Two dangerous alternatives:</p>
+      <ul>
+        <li style="margin-top:4px"><strong>Austerity:</strong> Cut spending during a recession → AD shifts further left → makes recession worse (Canada pre-WWII mistake)</li>
+        <li style="margin-top:4px"><strong>Debt monetization:</strong> CB prints money to fund government debt → MORE money chasing SAME output → rapid inflation (Argentina). <span class="hlr">Extremely dangerous.</span></li>
+      </ul>
+    </div>
+
+    <div class="card gc">
+      <div class="ct">Historical Lessons</div>
+      <ul>
+        <li><strong>2008 Global Crisis:</strong> Coordinated international fiscal stimulus (G↑ across many countries) → strong recoveries. Right call.</li>
+        <li style="margin-top:4px"><strong>Canada 1930s:</strong> PM cut spending during Depression → moved AD further left → made it far worse. Wrong call.</li>
+        <li style="margin-top:4px"><strong>WWII recovery:</strong> Massive government spending (G) → AD right → pulled economies out of depression.</li>
+        <li style="margin-top:4px"><strong>Rule of thumb:</strong> In recession: spend. Interest rates are low. Borrow now, repay when output recovers.</li>
+      </ul>
+    </div>
+
+    <div class="sh"><div class="sn">4</div><h2>Long-Run Growth — What Determines Y* Itself?</h2></div>
+
+    <div class="card ac">
+      <div class="ct">Why Y* Grows Over Time</div>
+      <p>In the very long run, the only way to permanently increase living standards is to increase the economy's productive capacity — Y* itself. This comes from four sources:</p>
+    </div>
+
+    <div class="tw"><table>
+      <tr><th>Driver</th><th>What it means</th><th>Policy implication</th></tr>
+      <tr><td><strong>↑ Labour</strong></td><td>More workers (population growth, immigration)</td><td>Immigration policy, labour force participation</td></tr>
+      <tr><td><strong>↑ Skills</strong></td><td>Better-educated, more productive workers</td><td>Education spending, training programs</td></tr>
+      <tr><td><strong>↑ Technology</strong></td><td>Better tools and methods → more output per worker</td><td>R&amp;D investment, innovation policy</td></tr>
+      <tr><td><strong>↑ Capital</strong></td><td>More machines, infrastructure, equipment</td><td>Investment incentives, infrastructure spending</td></tr>
+    </table></div>
+
+    <div class="card rc">
+      <div class="ct">⚠️ Why You Can't Print Your Way to Growth</div>
+      <p>Increasing demand (AD) or printing money does NOT move Y*. If you print money and inject demand without the underlying capacity (workers, skills, tech, capital), you just get <strong>inflation</strong> — more money chasing the same amount of output.</p>
+      <p style="margin-top:6px">This is why developing economies can't just "spend their way" to prosperity. And why any country — developed or not — that tries to monetize debt risks runaway inflation.</p>
+    </div>
+
+    <div class="sh"><div class="sn">5</div><h2>The AE Model and What Shifts It</h2></div>
+
+    <div class="card">
+      <div class="ct">How Different Shocks Affect the AE Model (Session 6 review)</div>
+      <div class="tw" style="margin-top:8px"><table>
+        <tr><th>Shock</th><th>What changes in AE</th><th>Effect</th></tr>
+        <tr><td>↑ Interest rates (CB hikes)</td><td>C↓, I↓ (autonomous parts fall)</td><td>AE shifts DOWN → Y falls</td></tr>
+        <tr><td>↓ Tax rate (t falls)</td><td>AE slope steeper (z = MPC×(1−t)−m)</td><td>Multiplier bigger → Y rises</td></tr>
+        <tr><td>Tariffs on exports</td><td>X falls → autonomous constant falls</td><td>AE shifts DOWN → Y falls</td></tr>
+        <tr><td>↑ Gov spending (G↑)</td><td>Autonomous constant rises</td><td>AE shifts UP → Y rises (multiplier)</td></tr>
+        <tr><td>Price level rises (P↑)</td><td>C↓ (real wealth), X↓ (expensive abroad)</td><td>AE shifts DOWN → traces AD curve</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card ac">
+      <div class="ct">📐 How AD is Derived from AE</div>
+      <p>Start at price level P₀ → find AE equilibrium → that gives Y₀. Now raise prices to P₁ → consumption falls (less real wealth), exports fall (goods more expensive abroad) → AE shifts DOWN → new equilibrium Y₁ &lt; Y₀. Plot P vs Y: you get the <strong>downward-sloping AD curve</strong>. This is where AD comes from.</p>
+    </div>
+
     <button class="btn" onclick="goPage('pg-exam')">Go to Exam Answers →</button>
   </div>
 </div>
@@ -683,12 +788,18 @@ h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,7vw,2.8rem);font-weight:
         <text x="352" y="70" font-size="11" fill="#f76a6a" font-family="DM Sans,sans-serif" font-weight="700">Y*</text>
         <path d="M42,155 C70,140 95,90 125,75 C155,60 170,90 195,115 C220,140 238,178 268,170 C295,163 320,115 345,100 C358,93 366,88 370,87"
               fill="none" stroke="#7c6af7" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- PEAK: cy=75 = small y = HIGH on graph = HIGH GDP ✓ -->
         <circle cx="125" cy="75" r="5" fill="#f7d76a"/>
         <text x="125" y="64" font-size="10" fill="#f7d76a" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">PEAK</text>
+        <text x="125" y="53" font-size="9" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">Y&gt;Y* → Inflation gap</text>
+        <line x1="125" y1="80" x2="125" y2="108" stroke="#f7a26a" stroke-width="1" stroke-dasharray="2,2"/>
+        <!-- TROUGH: cy=170 = large y = LOW on graph = LOW GDP ✓ -->
         <circle cx="268" cy="170" r="5" fill="#6aaaf7"/>
-        <text x="268" y="184" font-size="10" fill="#6aaaf7" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700">TROUGH</text>
-        <text x="125" y="54" font-size="9" fill="#f7a26a" text-anchor="middle" font-family="DM Sans,sans-serif">Y&gt;Y* Inflation gap</text>
-        <text x="268" y="196" font-size="9" fill="#6aaaf7" text-anchor="middle" font-family="DM Sans,sans-serif">Y&lt;Y* Recession gap</text>
+        <!-- TROUGH label to the RIGHT so it doesn't crowd the recessionary gap text -->
+        <text x="276" y="174" font-size="10" fill="#6aaaf7" text-anchor="start" font-family="DM Sans,sans-serif" font-weight="700">TROUGH</text>
+        <text x="276" y="185" font-size="9" fill="#6aaaf7" text-anchor="start" font-family="DM Sans,sans-serif">Y&lt;Y* → Recession</text>
+        <line x1="268" y1="165" x2="268" y2="140" stroke="#6aaaf7" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="190" y="155" font-size="9" fill="#6aaaf7" text-anchor="middle" font-family="DM Sans,sans-serif">Recessionary gap</text>
         <line x1="42" y1="192" x2="62" y2="192" stroke="#7c6af7" stroke-width="2.5"/>
         <text x="66" y="196" font-size="9" fill="#7c6af7" font-family="DM Sans,sans-serif">Actual GDP</text>
         <line x1="160" y1="192" x2="180" y2="192" stroke="#f76a6a" stroke-width="2" stroke-dasharray="6,4"/>
@@ -1001,18 +1112,18 @@ h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,7vw,2.8rem);font-weight:
 
   <div class="an">
     <div class="anh" onclick="tAns(this)">
-      <div class="anq">Q8 — MCQ: How do fiscal policy lags make it hard to stabilise the economy?</div>
-      <div class="anp">Concept Q</div>
+      <div class="anq">Q8 — Bonus: Is supply &amp; demand part of macroeconomics?</div>
+      <div class="anp">Context Q</div>
     </div>
     <div class="anb">
-      <p>Fiscal policy (changing G and T) works in theory, but three lags make precise timing nearly impossible:</p>
-      <ol>
-        <li><strong>Decision lag:</strong> Parliament/government must debate and vote on spending changes. This can take months — especially in a political crisis.</li>
-        <li><strong>Execution lag:</strong> Once approved, the spending takes time to actually happen. A new road or hospital doesn't get built overnight.</li>
-        <li><strong>Effect lag:</strong> Even once money is flowing, the multiplier effect ripples through the economy over many quarters.</li>
-      </ol>
-      <p><strong>The problem:</strong> By the time fiscal stimulus is fully felt, the recession may already be over — and now the stimulus is causing an inflationary gap instead. This is why fiscal policy is better for large, long downturns (like the 2008 crisis) than for fine-tuning short-run fluctuations.</p>
-      <p><strong>Monetary policy is faster</strong> — a CB rate decision takes effect in financial markets within hours and the real economy within 6–12 months — which is why it's the primary short-run stabilisation tool.</p>
+      <p><strong>Micro vs Macro:</strong> Standard supply &amp; demand (price of one good, one market) is <strong>microeconomics</strong> — not directly part of your macro course.</p>
+      <p><strong>BUT — the macro versions:</strong></p>
+      <ul>
+        <li><strong>AD/AS</strong> = the macro equivalent. AD = aggregate demand for the whole economy. AS = aggregate supply of the whole economy. Same logic — slopes, equilibrium, shifts — but applied to the entire economy's price level and output.</li>
+        <li><strong>Labour market:</strong> Supply and demand for labour determines wages and NAIRU — this IS part of macro (connects to unemployment and the transmission mechanism).</li>
+        <li><strong>Money market:</strong> Supply and demand for money determines interest rates — this IS part of monetary policy.</li>
+      </ul>
+      <p><strong>Short answer:</strong> Individual supply &amp; demand won't appear in your exam. AD/AS is your version of it — and that IS the exam.</p>
     </div>
   </div>
 </div>
@@ -1059,161 +1170,7 @@ function tAns(el){
 }
 
 // ── PDF PRINT ─────────────────────────────────────────────────────────────
-function dlPDF(){
-  var html = `<!DOCTYPE html><html><head><title>Macro Cheat Sheet</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:Arial,sans-serif;font-size:9.5px;color:#111;background:#fff;padding:8px;}
-h1{font-size:14px;font-weight:900;text-align:center;background:#1F3864;color:#fff;padding:5px;margin-bottom:7px;}
-h2{font-size:10.5px;font-weight:700;background:#2E5FA3;color:#fff;padding:3px 7px;margin:5px 0 3px;}
-h3{font-size:9.5px;font-weight:700;color:#1F3864;margin:3px 0 2px;border-bottom:1px solid #ddd;padding-bottom:1px;}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:6px;}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:6px;}
-.box{border:1px solid #ccc;border-radius:3px;padding:5px;}
-.red{border-color:#C00000;background:#fff8f8;}
-.blue{border-color:#2E5FA3;background:#f5f8ff;}
-.green{border-color:#375623;background:#f5fff8;}
-.yellow{border-color:#B8860B;background:#fffdf0;}
-.orange{border-color:#E26B0A;background:#fff5ee;}
-.formula{background:#EEF2FF;border:1px solid #2E5FA3;border-left:3px solid #2E5FA3;padding:3px 6px;font-family:monospace;font-size:9px;margin:2px 0;text-align:center;}
-ul{padding-left:11px;}li{margin:1px 0;line-height:1.35;}
-.trap{background:#FFE4E4;border-left:3px solid #C00000;padding:2px 6px;margin:2px 0;font-size:9px;}
-.step{display:flex;gap:3px;align-items:baseline;margin:1px 0;}
-.snum{background:#2E5FA3;color:#fff;border-radius:50%;width:13px;height:13px;min-width:13px;display:inline-flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:700;}
-.snum.g{background:#375623;}
-b.r{color:#C00000;}b.g{color:#375623;}b.o{color:#E26B0A;}b.b{color:#1F3864;}
-.div{border-top:2px solid #1F3864;margin:6px 0;}
-.tag{display:inline-block;background:#E8F0FE;color:#2E5FA3;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:4px;}
-table{width:100%;border-collapse:collapse;font-size:8.5px;margin:2px 0;}
-th{background:#EEE;padding:3px 5px;border:1px solid #ccc;font-weight:700;}
-td{padding:3px 5px;border:1px solid #ddd;}
-</style></head><body>
-<h1>EDHEC MBA MACROECONOMICS — EXAM CHEAT SHEET &nbsp;·&nbsp; Prof. Mayssun El-Attar &nbsp;·&nbsp; Open Book &nbsp;·&nbsp; Friday March 6</h1>
-<div class="grid2">
-<div>
-<h2>DAY 1 — KEY VARIABLES</h2>
-<div class="box blue">
-<h3>GDP = C + I + G + NX</h3>
-<ul><li><b>C</b> — Households (~60%)</li><li><b>I</b> — Business investment (NOT stocks)</li><li><b>G</b> — Gov't purchases (NOT pensions/welfare)</li><li><b>NX</b> = Exports − Imports</li></ul>
-<div class="trap">⚠️ Pensions/welfare NOT in GDP — no new production</div>
-<div class="formula">Real GDP = Nominal GDP / GDP Deflator × 100</div>
-<div class="formula">Real Rate = Nominal Rate − Inflation</div>
-</div>
-<div class="box" style="margin-top:4px">
-<h3>Output Gaps</h3>
-<ul><li><b class="r">Y &lt; Y*</b> → Recessionary gap → high unemployment → CB cuts</li>
-<li><b class="g">Y &gt; Y*</b> → Inflationary gap → overheating → CB hikes</li>
-<li>Y* = potential output = "speed limit" of economy</li></ul>
-</div>
-<div class="box" style="margin-top:4px">
-<h3>Unemployment</h3>
-<div class="formula">Rate = Unemployed / Labour Force × 100</div>
-<table><tr><th>Type</th><th>Cause</th><th>Fix?</th></tr>
-<tr><td>Frictional</td><td>Job searching</td><td>No — normal</td></tr>
-<tr><td>Structural</td><td>Skills mismatch</td><td>Retraining</td></tr>
-<tr><td><b class="r">Cyclical</b></td><td>Recession</td><td>Yes — stimulus</td></tr></table>
-<p style="margin-top:3px"><b>NAIRU</b> = unemployment at Y=Y*. Frictional+structural only.</p>
-</div>
-</div>
-<div>
-<h2>DAY 2 — AE MODEL &amp; AD/AS</h2>
-<div class="box blue">
-<h3>AE Model — Keynesian Cross</h3>
-<div class="formula">Y = AE at equilibrium &nbsp;|&nbsp; AE = C + I + G + NX</div>
-<div class="formula">C = a + MPC(1−t)Y &nbsp;|&nbsp; z = MPC(1−t) − m</div>
-<div class="formula">Multiplier = 1/(1−z)</div>
-<ul><li>z=0.62 → Mult=<b class="g">2.63</b> &nbsp;|&nbsp; z=0.75 → Mult=<b class="g">4.0</b></li>
-<li>Leakages (↓ multiplier): saving (MPS), taxes (t), imports (m)</li>
-<li><b>Paradox of Thrift:</b> everyone saves → GDP falls</li></ul>
-</div>
-<div class="box" style="margin-top:4px">
-<h3>AD/AS Shocks</h3>
-<table><tr><th>Shock</th><th>Curve</th><th>P</th><th>Y</th></tr>
-<tr><td>↑G, ↓rates, ↑confidence</td><td>AD right</td><td>↑</td><td>↑</td></tr>
-<tr><td>↑rates, ↓G</td><td>AD left</td><td>↓</td><td>↓</td></tr>
-<tr><td><b class="r">↑Oil/supply shock</b></td><td><b class="r">AS left</b></td><td><b class="r">↑</b></td><td><b class="r">↓ STAGFLATION</b></td></tr>
-<tr><td>Better technology</td><td>AS right</td><td>↓</td><td>↑</td></tr></table>
-</div>
-<div class="box" style="margin-top:4px">
-<h3>Fiscal Policy Lags</h3>
-<ul><li>Decision lag → Execution lag → Effect lag</li>
-<li>Impossible to fine-tune — works after 6–18 months</li></ul>
-</div>
-</div>
-</div>
-<div class="div"></div>
-<h2>DAY 3 — MONEY &amp; MONETARY POLICY</h2>
-<div class="grid2">
-<div class="box blue">
-<h3>Money Creation</h3>
-<div class="formula">Money Multiplier = 1/v (v = reserve ratio)</div>
-<p>v=20% → ×5 &nbsp;|&nbsp; v=10% → ×10</p>
-<p>$1000 deposit, v=20%: keeps $200, lends $800 → total $5000 created</p>
-<h3 style="margin-top:4px">Monetary Transmission Mechanism <span class="tag">Q2 ANSWER</span></h3>
-<div class="step"><span class="snum">1</span> CB ↑ overnight rate</div>
-<div class="step"><span class="snum">2</span> All market rates ↑ (mortgages, loans)</div>
-<div class="step"><span class="snum">3</span> ↓ Investment (firms cancel projects)</div>
-<div class="step"><span class="snum">4</span> ↓ Consumption (mortgages cost more)</div>
-<div class="step"><span class="snum">5</span> ↑ Currency → ↓ NX (open economy)</div>
-<div class="step"><span class="snum">6</span> AD shifts LEFT</div>
-<div class="step"><span class="snum">7</span> Y &lt; Y*, unemployment ↑</div>
-<div class="step"><span class="snum g">8</span> Wages↓ → costs↓ → prices↓ → inflation → 2% ✅</div>
-</div>
-<div>
-<div class="box red">
-<h3>Stagflation — Roubini's Dilemma <span class="tag" style="background:#FFE4E4;color:#C00000">Q1–Q5</span></h3>
-<p><b>Definition:</b> ↑Inflation + ↓Output + ↑Unemployment simultaneously</p>
-<p><b>Cause:</b> Negative supply shock → AS shifts LEFT</p>
-<p><b>On AD/AS:</b> P↑ AND Y↓ at same time (opposite directions!)</p>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px">
-<div style="background:#ffe8e8;padding:4px;border-radius:3px">
-<b class="r">IF CB RAISES RATES:</b><br>→ Recession deepens<br>→ Debt crisis / defaults<br>→ Financial crash<br><b class="g">✓ Inflation falls</b><br><b class="r">✗ Economic crash</b>
-</div>
-<div style="background:#fff3e0;padding:4px;border-radius:3px">
-<b class="o">IF CB DOES NOT HIKE:</b><br>→ Inflation keeps rising<br>→ Expectations de-anchor<br>→ Wage-price spiral<br><b class="g">✓ No crash short-term</b><br><b class="r">✗ Permanent inflation</b>
-</div>
-</div>
-<p style="margin-top:4px;text-align:center;font-style:italic;color:#555">"Damned if they do, damned if they don't" — Roubini</p>
-</div>
-<div class="box yellow" style="margin-top:4px">
-<h3>MCQ Traps — Never Get These Wrong</h3>
-<ul>
-<li>Pensions/welfare <b class="r">NOT in GDP</b></li>
-<li>Stagflation = <b class="r">AS left</b> (NOT AD)</li>
-<li>I = capital spending (<b class="r">NOT stocks/bonds</b>)</li>
-<li>Long-run: money is <b class="r">neutral</b> (only raises P)</li>
-<li>Recessionary gap = Y <b class="r">&lt;</b> Y* (below potential)</li>
-<li>NAIRU = frictional + structural <b class="r">only</b></li>
-<li>Real rate = Nominal <b class="r">minus</b> inflation</li>
-<li>Multiplier &lt; 1/(1−MPC) because of taxes &amp; imports</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="div"></div>
-<h2>MODEL ANSWER FRAMEWORKS</h2>
-<div class="grid3">
-<div class="box"><h3>Q1 — What is stagflation?</h3><ul><li>Define: stagnation + inflation simultaneously</li><li>Cause: negative SUPPLY shock (NOT demand)</li><li>AS shifts LEFT → P↑ AND Y↓ at same time</li><li>Unusual: P &amp; Y move OPPOSITE directions</li><li>Examples: oil spike, COVID supply chains</li></ul></div>
-<div class="box"><h3>Q2 — CB transmission mechanism</h3><ul><li>↑overnight rate → ↑all rates</li><li>↓I (firms cancel projects)</li><li>↓C (mortgages cost more)</li><li>↑currency → ↓NX (open economy)</li><li>AD shifts left → Y&lt;Y*</li><li>Wages↓ → costs↓ → inflation → 2%</li></ul></div>
-<div class="box"><h3>Q3 — "Behind the curve"</h3><ul><li>CB too slow to raise rates</li><li>Inflation entrenched before action</li><li>Expectations de-anchor (no faith in 2%)</li><li>Wage-price spiral starts</li><li>Later = bigger hike = bigger recession</li><li>Volcker 1980: 20% rates to fix 70s inflation</li></ul></div>
-<div class="box"><h3>Q4 — Rate hikes = crash</h3><ul><li>Economic: ↑rates→↓I,C,NX→recession</li><li>Financial: decades of low rates = huge debt</li><li>Sharp hike → debt costs explode</li><li>Firms default → bank losses</li><li>Credit crunch → deeper recession</li><li>Vicious cycle: recession + financial spiral</li></ul></div>
-<div class="box"><h3>Q5 — No hike = permanent inflation</h3><ul><li>De-anchor expectations (no 2% belief)</li><li>Wage-price spiral self-sustains</li><li>Long-run: loose money only raises P</li><li>Real output returns to Y* anyway</li><li>Early action always &lt; painful than late</li></ul></div>
-<div class="box yellow"><h3>Calculator Quick Reference</h3>
-<div class="formula">Solve Y=AE: Y=1400+0.8Y → Y=7000</div>
-<div class="formula">z=MPC(1-t)-m=0.8(0.9)-0.1=0.62</div>
-<div class="formula">Mult=1/(1-0.62)=2.63</div>
-<div class="formula">ΔY=Mult×ΔG: 2.63×100=263</div>
-<div class="formula">Money Mult=1/v: 1/0.2=5</div>
-<div class="formula">Real rate=8%-6%=2%</div>
-</div>
-</div>
-</body></html>`;
-  var w = window.open('', '_blank');
-  if(!w){ alert('Please allow pop-ups for this page, then try again.'); return; }
-  w.document.write(html);
-  w.document.close();
-  setTimeout(function(){ w.print(); }, 800);
-}
+// cheat sheet removed
 
 // ── QUIZ ──────────────────────────────────────────────────────────────────
 var qs=[
